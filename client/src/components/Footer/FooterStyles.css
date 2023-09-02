@@ -1,0 +1,83 @@
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1c2425;
+    color: white;
+    padding: 1rem;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .icon-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .icon {
+    color: #fff;
+    transition: background-size 400ms;
+  }
+  
+  .icon:hover {
+    color: rgb(53, 117, 236);
+    scale: 1.5;
+  }
+  
+  .icon:active {
+    color: rgb(53, 117, 236);
+    scale: 1.5;
+  }
+  
+  .footer-text {
+    text-align: right;
+  }
+  
+  .copyright {
+    font-size: 0.5rem;
+    text-align: center;
+  }
+  
+  .react-text {
+    color: #fac863;
+  }
+  
+  .react-icon {
+    color: #61dafb;
+    vertical-align: middle;
+    animation: rotate 3s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .footer-text {
+      padding-top: 0.5rem;
+    }
+  
+    .react-container {
+      padding: 0.5rem;
+    }
+  
+    .social-icons {
+      padding: 0.5rem;
+    }
+  }
+  
