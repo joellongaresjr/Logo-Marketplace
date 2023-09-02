@@ -1,0 +1,52 @@
+:root {
+  --spartan: 'League Spartan', sans-serif;
+  --nunito: 'Nunito', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--spartan)
+}
+
+p, ul, ol, li, button, a, label, input, textarea  {
+  font-family: var(--nunito)
+}
+
+a {
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin-top: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url("./assets/images/background.webp");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    min-height: 100vh;
+    margin-top: 4rem;
+  }
+}
+  
+
+
+
