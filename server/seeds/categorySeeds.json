@@ -1,0 +1,17 @@
+[
+    {
+      "_id": "1",
+      "name": "Snacks",
+      "description": "A wide range of delicious snacks for your cravings."
+    },
+    {
+      "_id": "2",
+      "name": "Household",
+      "description": "Essential household items for everyday living."
+    },
+    {
+      "_id": "3",
+      "name": "Clothing",
+      "description": "Stylish and comfortable clothing for all occasions."
+    }
+]
