@@ -1,48 +1,38 @@
 const typeDefs = `
-  type User {
+  type Product {
     _id: ID
-    username: String
-    email: String
-    password: String
-    thoughts: [Thought]!
+    name: String
+    description: String
+    price: Float
+    category: [Category]
+    store: Store
+    stockQuantity: Int
+    imageUrl: String
+    created_at: String
   }
 
-  type Thought {
+  type Category {
     _id: ID
-    thoughtText: String
-    thoughtAuthor: String
-    createdAt: String
-    comments: [Comment]!
+    name: String
+    description: String
+    products: [Product]
   }
 
-  type Comment {
+  type Store {
     _id: ID
-    commentText: String
-    commentAuthor: String
-    createdAt: String
-  }
-
-  type Auth {
-    token: ID!
-    user: User
+    name: String
+    location: String
+    products: [Product]
   }
 
   type Query {
-    users: [User]
-    user(username: String!): User
-    thoughts(username: String): [Thought]
-    thought(thoughtId: ID!): Thought
-    me: User
+    getProduct(id: ID!): Product
+    getProducts: [Product]!
+    getCategory(id: ID!): Category
+    getCategories: [Category]!
+    getStore(id: ID!): Store
+    getStores: [Store]!
   }
-
-  type Mutation {
-    addUser(username: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
-    addThought(thoughtText: String!): Thought
-    addComment(thoughtId: ID!, commentText: String!): Thought
-    removeThought(thoughtId: ID!): Thought
-    removeComment(thoughtId: ID!, commentId: ID!): Thought
-  }
-`;
+  `;
 
 module.exports = typeDefs;
