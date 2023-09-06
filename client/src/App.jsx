@@ -12,7 +12,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Sidebar from "./components/Sidebar/Sidebar";
-
+import 'animate.css';
 import "react-bootstrap";
 
 
@@ -40,11 +40,14 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Header />
+      <div className="d-flex">
       <Sidebar />
       <main>
         <Outlet />
       </main>
+      </div>
       <Footer />
+          
     </ApolloProvider>
   );
 }
