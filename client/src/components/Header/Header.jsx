@@ -3,7 +3,6 @@ import "./HeaderStyles.css";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
-import { IconContext } from "react-icons";
 import Logo from "../../assets/images/LOGO_MARKETPLACE.SVG"
 
 const Header = () => {
