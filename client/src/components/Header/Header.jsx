@@ -2,7 +2,7 @@ import "./HeaderStyles.css";
 
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import Logo from "../../assets/images/LOGO_MARKETPLACE.SVG"
 
@@ -18,9 +18,7 @@ const Header = () => {
     setBurgerClick(false);
   }, [pathname]);
 
-    
-//  Create Our Nav Links Here   
-    
+  
   return (
     <header>
       <div className="logo-heading">
@@ -39,7 +37,7 @@ const Header = () => {
             to="/"
             className={pathname === "/" ? "current-page" : "nav-item"}
           >
-            About Me
+            Products
           </Link>
         </li>
         <li>
@@ -47,7 +45,7 @@ const Header = () => {
             to="/projects"
             className={pathname === "/projects" ? "current-page" : "nav-item"}
           >
-            Projects
+            Stores
           </Link>
         </li>
         <li>
@@ -55,7 +53,7 @@ const Header = () => {
             to="/resume"
             className={pathname === "/resume" ? "current-page" : "nav-item"}
           >
-            Resume
+            Sign up
           </Link>
         </li>
         <li>
@@ -63,8 +61,15 @@ const Header = () => {
             to="/contact"
             className={pathname === "/contact" ? "current-page" : "nav-item"}
           >
-            Contact Me
+            Login
           </Link>
+        </li>
+        <li>
+        <Link to="/">
+          <div className="shopping-cart">
+          <FaShoppingCart size={30} style={{ color: "#3581b8" }} />
+          </div>
+        </Link>
         </li>
       </ul>
       <div className="burger" onClick={burgerToggle}>
