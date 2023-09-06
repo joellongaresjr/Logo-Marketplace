@@ -3,6 +3,8 @@ import "./HeaderStyles.css";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { IconContext } from "react-icons";
+import Logo from "../../assets/images/LOGO_MARKETPLACE.SVG"
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
@@ -21,9 +23,16 @@ const Header = () => {
     
   return (
     <header>
+      <div className="logo-heading">
+     <Link to="/">
+          <div className="logo-container">
+          <img src={Logo} alt="Logo" style={{ width: "150px", height: "150px" }} />
+          </div>
+      </Link>
       <Link to="/">
         <h1>Logo Market Place</h1>
       </Link>
+      </div>
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
         <li>
           <Link

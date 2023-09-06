@@ -19,6 +19,14 @@ header a h1 {
 
 }
 
+.logo-heading {
+display: flex;
+flex-direction: row;
+align-items: center;
+
+}
+
+
 .nav-menu {
   display: flex;
   justify-content: space-between;
