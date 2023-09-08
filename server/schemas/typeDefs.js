@@ -1,4 +1,6 @@
 const typeDefs = `
+  type User {
+    
   type Product {
     _id: ID
     name: String
@@ -17,6 +19,12 @@ const typeDefs = `
     description: String
     products: [Product]
   }
+
+  type Auth {
+    token: ID!
+    user: User
+  }
+
 
   type Store {
     _id: ID
