@@ -3,6 +3,7 @@ import "./HeaderStyles.css";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import logo from "../../assets/images/logo.svg";
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
@@ -16,29 +17,31 @@ const Header = () => {
     setBurgerClick(false);
   }, [pathname]);
 
-    
-//  Create Our Nav Links Here   
-    
   return (
     <header>
-      <Link to="/">
-        <h1>Logo Market Place</h1>
-      </Link>
+      <div className="nav-title">
+        <Link to="/">
+          <img
+            src={logo}
+            style={{ width: "4rem", height: "auto" }}
+            className="logo"
+          />
+        </Link>
+        <h1>Logo MarketPlace</h1>
+      </div>
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
         <li>
-          <Link
-            to="/"
-            className={pathname === "/" ? "current-page" : "nav-item"}
-          >
-            About Me
-          </Link>
+          <form className="nav-search">
+            <input type="text" placeholder="Search.." name="search" />
+            <button type="submit">Submit</button>
+          </form>
         </li>
         <li>
           <Link
             to="/projects"
             className={pathname === "/projects" ? "current-page" : "nav-item"}
           >
-            Projects
+            Sign In
           </Link>
         </li>
         <li>
@@ -46,7 +49,7 @@ const Header = () => {
             to="/resume"
             className={pathname === "/resume" ? "current-page" : "nav-item"}
           >
-            Resume
+            Orders
           </Link>
         </li>
         <li>
@@ -54,15 +57,15 @@ const Header = () => {
             to="/contact"
             className={pathname === "/contact" ? "current-page" : "nav-item"}
           >
-            Contact Me
+            Cart
           </Link>
         </li>
       </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
-          <FaTimes size={25} style={{ color: "#FFF" }} />
+          <FaTimes size={25} style={{ color: "#3a2e39" }} />
         ) : (
-          <FaBars size={25} style={{ color: "#FFF" }} />
+          <FaBars size={25} style={{ color: "#3a2e39" }} />
         )}
       </div>
     </header>

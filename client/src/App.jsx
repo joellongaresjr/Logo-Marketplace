@@ -30,6 +30,15 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+//Testing data
+const cardStyling = {
+  title: "Home",
+  text: "Test Text",
+  link: "#",
+  imgSrc: "holder.js/100px180",
+  altText: "alt-text",
+};
+
 function App() {
   return (
     <ApolloProvider client={client}>
