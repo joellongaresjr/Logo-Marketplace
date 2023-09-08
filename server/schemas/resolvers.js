@@ -24,16 +24,7 @@ const resolvers = {
     user: async (parent, args, context) => {
       return User.findOne({ _id: context.user._id });
     },
-    order: async (parent, args, context) => {
-      return Order.findOne({ _id: context.user._id });
-    },
-    category: async (product) => {
-      return Category.findOne({ _id: product.category });
-    },
-    store: async (product) => {
-      return Store.findOne({ _id: product.store });
-    },
-
+    
   },
 
   Mutation: {
@@ -102,7 +93,6 @@ const resolvers = {
       const store = await findOneAndDelete({ _id });
   },
   }
-  
 
 };
 
