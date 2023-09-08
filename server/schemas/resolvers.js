@@ -21,10 +21,18 @@ const resolvers = {
     getStores: async () => {
       return Store.find();
     },
+    // find user by username
     user: async (parent, args, context) => {
-      return User.findOne({ _id: context.user._id });
+      if (context.user) {
+        return User.findOne({ _id: context.user._id });
+      }
+      throw AuthenticationError('Not logged in');
     },
-    
+    // get all users
+    users: async () => {
+      return User.find();
+    }
+  
   },
 
   Mutation: {
@@ -42,11 +50,11 @@ const resolvers = {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if(!user) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw AuthenticationError;
       }
       const correctPw = await user.isCorrectPassword(password);
       if(!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw AuthenticationError;
       }
       const token = signToken(user);
       return { token, user };
@@ -60,7 +68,7 @@ const resolvers = {
         );
         return order;
         } 
-        throw new AuthenticationError('You need to be logged in!');
+        throw AuthenticationError('You need to be logged in!');
     },
     addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }) => {
       return Product.create({ name, description, price, category, store, stockQuantity, imageUrl });

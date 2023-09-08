@@ -47,9 +47,9 @@ const typeDefs = `
 
   type Query {
     user: User
+    users: [User]
     order(_id: ID!): Order
     orders: [Order]
-
     getProduct(id: ID!): Product
     getProducts: [Product]!
     getCategory(id: ID!): Category
