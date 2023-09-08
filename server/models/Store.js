@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const storeSchema = new Schema({
   name: {
@@ -15,11 +15,11 @@ const storeSchema = new Schema({
   products: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Product',
+      ref: "Product",
     },
   ],
 });
 
-const Store = model('Store', storeSchema);
+const Store = model("Store", storeSchema);
 
 module.exports = Store;

@@ -1,14 +1,14 @@
 :root {
-  --spartan: 'League Spartan', sans-serif;
-  --nunito: 'Nunito', sans-serif;
+  --open-sans: 'Open Sans', sans-serif;;
+  --source-sans: 'Source Sans 3', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--spartan)
+  font-family: var(--source-sans)
 }
 
 p, ul, ol, li, button, a, label, input, textarea  {
-  font-family: var(--nunito)
+  font-family: var(--open-sans)
 }
 
 a {
@@ -32,12 +32,6 @@ main {
   justify-content: center;
   min-height: 100vh;
   margin-top: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-  background-image: url("./assets/images/background.webp");
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 @media screen and (max-width: 768px) {

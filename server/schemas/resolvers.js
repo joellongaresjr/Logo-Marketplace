@@ -22,13 +22,31 @@ const resolvers = {
     },
   },
 
-  Product: {
-    category: async (product) => {
-      return Category.findOne({ _id: product.category });
+  Mutations: {
+    addProduct: async (parent, args) => {
+      const product = await Product.create(args);
+      return product;
     },
-    store: async (product) => {
-      return Store.findOne({ _id: product.store });
+    addCategory: async (parent, args) => {
+      const category = await Category.create(args);
+      return category;
     },
+    addStore: async (parent, args) => {
+      const store = await Store.create(args);
+      return store;
+    },
+    createUser: async (parent, args) => {
+      const user = await User.create(args);
+      return user;
+    },
+    addToCart: async (parent, { userId, productId }) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
+        { $addToSet: { cart: productId } },
+        { new: true }
+      ).populate("cart");
+      return updatedUser;
+    }
   },
 };
 
