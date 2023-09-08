@@ -17,6 +17,7 @@ header a h1 {
   color: #fff;
   padding-left: 1rem;
 
+
 }
 
 .logo-heading {
@@ -26,12 +27,18 @@ align-items: center;
 
 }
 
+.logo-heading img {
+  padding-right: 0.5rem;
+  animation : slideInLeft 1s;
+}
+
 
 .nav-menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  
 }
 
 .nav-menu li {

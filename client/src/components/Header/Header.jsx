@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
 import Logo from "../../assets/images/LOGO_MARKETPLACE.SVG"
+import 'animate.css'
+
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);

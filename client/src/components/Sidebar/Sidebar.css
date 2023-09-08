@@ -1,6 +1,14 @@
 .sidebar-container {
 
 }
+   
 
 
+svg:hover{
+    transform: scale(1.2);
+    transform: rotate(90deg);
+    transition: transform 0.5s ease;
+    cursor: pointer;
+
+}
 
