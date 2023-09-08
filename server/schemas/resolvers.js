@@ -1,4 +1,5 @@
-const { Product, Category, Store } = require('../models');
+const { Product, Category, Store, User, Order } = require('../models');
+const {signToken, AuthenticationError} = require('../utils/auth');
 
 const resolvers = {
   Query: {
@@ -20,34 +21,87 @@ const resolvers = {
     getStores: async () => {
       return Store.find();
     },
-  },
-
-  Mutations: {
-    addProduct: async (parent, args) => {
-      const product = await Product.create(args);
-      return product;
+    // find user by username
+    user: async (parent, args, context) => {
+      if (context.user) {
+        return User.findOne({ _id: context.user._id });
+      }
+      throw AuthenticationError('Not logged in');
     },
-    addCategory: async (parent, args) => {
-      const category = await Category.create(args);
-      return category;
-    },
-    addStore: async (parent, args) => {
-      const store = await Store.create(args);
-      return store;
-    },
-    createUser: async (parent, args) => {
-      const user = await User.create(args);
-      return user;
-    },
-    addToCart: async (parent, { userId, productId }) => {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: userId },
-        { $addToSet: { cart: productId } },
-        { new: true }
-      ).populate("cart");
-      return updatedUser;
+    // get all users
+    users: async () => {
+      return User.find();
     }
+  
   },
+  
+  Mutation: {
+    addUser: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
+    },
+    updateUser: async (parent, { username, email, password }) => {
+      const user = await User.update({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
+    }
+    ,
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      if(!user) {
+        throw AuthenticationError;
+      }
+      const correctPw = await user.isCorrectPassword(password);
+      if(!correctPw) {
+        throw AuthenticationError;
+      }
+      const token = signToken(user);
+      return { token, user };
+  },
+    addOrder: async (parent, { products }, context) => {
+      if (context.user) {
+        const order = await Order.create({ products });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { orders: order._id } }
+        );
+        return order;
+        } 
+        throw AuthenticationError('You need to be logged in!');
+    },
+    addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }) => {
+      return Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
+    },
+    updateProduct: async (parent, { _id, quantity }) => {
+      const decrement = Math.abs(quantity) * -1;
+      return Product.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
+    },
+    removeProduct: async (parent, { _id }, context) => {
+      const product = await findOneAndDelete({ _id });
+  },
+    addCategory: async (parent, { name, description }) => {
+      return Category.create({ name, description });
+    },
+    updateCategory: async (parent, { _id, name }) => {
+      const decrement = Math.abs(quantity) * -1;
+      return Category.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
+    },
+    removeCategory: async (parent, { _id }, context) => {
+      const category = await findOneAndDelete({ _id });
+  },
+    addStore: async (parent, { name, location }) => {
+      return Store.create({ name, location });
+    },
+    updateStore: async (parent, { _id, name }) => {
+      const decrement = Math.abs(quantity) * -1;
+      return Store.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
+    },
+    removeStore: async (parent, { _id }, context) => {
+      const store = await findOneAndDelete({ _id });
+  },
+  }
+
 };
 
 module.exports = resolvers;
