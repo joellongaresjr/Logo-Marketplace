@@ -18,7 +18,7 @@ const typeDefs = `
     name: String
     description: String
     price: Float
-    category: [Category]
+    category: Category
     store: Store
     stockQuantity: Int
     imageUrl: String

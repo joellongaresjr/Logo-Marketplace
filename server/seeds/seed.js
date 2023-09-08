@@ -10,8 +10,6 @@ db.once('open', async () => {
         await userSeeds();
         await categorySeeds();
         await storeSeeds();
-       
-        
     }
     catch (err) {
         console.log(err);
