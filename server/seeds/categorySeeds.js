@@ -17,6 +17,7 @@ const { Category } = require('../models')
     }
     const uniqueCategories = [...new Set(categories)]
 
+    console.log('CATEGORIES CREATED\n-------------------');
     for(const category of uniqueCategories) {
         await Category.create(category)
         console.log(`${category.name} created!`)

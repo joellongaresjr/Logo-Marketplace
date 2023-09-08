@@ -17,6 +17,8 @@ const storeSeeds = async () => {
             stores.push(store)
         }
             const uniqueStores = [...new Set(stores)]
+
+            console.log('STORES CREATED\n-------------------')
             for(const store of uniqueStores) {
                 await Store.create(store)
                 console.log(`${store.name} created!`)
