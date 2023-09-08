@@ -1,9 +1,25 @@
+:root {
+  --white: #fff;
+  --blue: #3581b8;
+  --mauve: #3a2e39;
+  --light-red: #f15152;
+  --peach: #f26157;
+
+  --white-rgb: 255, 255, 255;
+  --blue-rgb: 53, 129, 184;
+  --mauve-rgb: 58, 46, 57;
+  --light-red-rgb: 241, 81, 82;
+  --peach-rgb: 242, 97, 87;
+}
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1c2425;
+  background-color: var(--white);
+  border-bottom: 1px solid lightgrey;
   height: 4rem;
+  background-color: #f1eedd;
 }
 
 header a {
@@ -14,9 +30,50 @@ header a {
 header a h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--mauve);
   padding-left: 1rem;
+}
 
+.nav-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1rem;
+}
+
+.nav-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-search input {
+  border: 1px solid lightgrey;
+  border-width: 1px 0 1px 1px;
+  border-radius: 0.25rem 0 0 0.25rem;
+  padding: 0.5rem;
+  width: 20rem;
+  font-size: 0.75rem;
+  color: var(--mauve);
+  width: 100%;
+}
+
+.nav-search button {
+  background: var(--peach);
+  height: inherit;
+  font-size: 0.75rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0 0.25rem 0.25rem 0;
+  color: var(--mauve);
+  border: 1px solid var(--peach);
+  border-width: 1px 1px 1px 0;
+  width: 30%;
+}
+
+.nav-search button:hover {
+  background: var(--light-red);
+  border: 1px solid var(--light-red);
 }
 
 .nav-menu {
@@ -35,53 +92,19 @@ header a h1 {
   display: inline-block;
   margin: 0.5em, 1em;
   text-decoration: none;
-  color: #fff;
-}
-
-.nav-item{
-  background: linear-gradient(to right, rgb(53, 117, 236), rgb(0, 0, 0)),
-    linear-gradient(
-      to right,
-      rgba(250, 128, 114, 1),
-      rgba(250, 128, 114, 1),
-      rgb(0, 16, 32)
-    );
-  background-size: 100% 2px, 0 2px;
-  background-position: 100% 100%, 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size 400ms;
+  color: var(--mauve);
 }
 
 .nav-item:hover {
-  background-size: 0 2px, 100% 2px;
+  scale: 1.1;
 }
-
-.nav-item:active {
-  background-size: 0 2px, 100% 2px;
-}
-
-.current-page {
-  background: linear-gradient(
-    to right,
-    rgba(250, 128, 114, 1),
-    rgba(250, 128, 114, 1),
-    rgb(0, 16, 32)
-  );
-  background-size: 100% 2px, 0 2px;
-  background-position: 100% 100%, 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size 400ms;
-  color: #FFF;
-}
-
 
 .burger {
   display: none;
   cursor: pointer;
 }
 
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   header {
     height: 4rem;
     position: fixed;
@@ -91,7 +114,7 @@ header a h1 {
     z-index: 100;
     padding-right: 1rem;
   }
-  
+
   .nav-menu {
     flex-direction: column;
     justify-content: center;
@@ -106,16 +129,20 @@ header a h1 {
   }
 
   .nav-menu.active {
-    background: #1c2425;
+    background: #f1eedd;
     left: 0;
     transition: all 0.5s ease;
   }
 
   .nav-menu li a {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .burger {
     display: initial;
+  }
+
+  .nav-title h1 {
+    font-size: 1.5rem;
   }
 }
