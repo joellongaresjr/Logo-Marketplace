@@ -1,4 +1,5 @@
-const { Product, Category, Store } = require('../models');
+const { Product, Category, Store, User, Order } = require('../models');
+const {signToken, AuthenticationError} = require('../utils/auth');
 
 const resolvers = {
   Query: {
@@ -20,16 +21,89 @@ const resolvers = {
     getStores: async () => {
       return Store.find();
     },
-  },
-
-  Product: {
+    user: async (parent, args, context) => {
+      return User.findOne({ _id: context.user._id });
+    },
+    order: async (parent, args, context) => {
+      return Order.findOne({ _id: context.user._id });
+    },
     category: async (product) => {
       return Category.findOne({ _id: product.category });
     },
     store: async (product) => {
       return Store.findOne({ _id: product.store });
     },
+
   },
+
+  Mutation: {
+    addUser: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
+    },
+    updateUser: async (parent, { username, email, password }) => {
+      const user = await User.update({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
+    }
+    ,
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      if(!user) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+      const correctPw = await user.isCorrectPassword(password);
+      if(!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+      const token = signToken(user);
+      return { token, user };
+  },
+    addOrder: async (parent, { products }, context) => {
+      if (context.user) {
+        const order = await Order.create({ products });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { orders: order._id } }
+        );
+        return order;
+        } 
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }) => {
+      return Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
+    },
+    updateProduct: async (parent, { _id, quantity }) => {
+      const decrement = Math.abs(quantity) * -1;
+      return Product.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
+    },
+    removeProduct: async (parent, { _id }, context) => {
+      const product = await findOneAndDelete({ _id });
+  },
+    addCategory: async (parent, { name, description }) => {
+      return Category.create({ name, description });
+    },
+    updateCategory: async (parent, { _id, name }) => {
+      const decrement = Math.abs(quantity) * -1;
+      return Category.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
+    },
+    removeCategory: async (parent, { _id }, context) => {
+      const category = await findOneAndDelete({ _id });
+  },
+    addStore: async (parent, { name, location }) => {
+      return Store.create({ name, location });
+    },
+    updateStore: async (parent, { _id, name }) => {
+      const decrement = Math.abs(quantity) * -1;
+      return Store.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
+    },
+    removeStore: async (parent, { _id }, context) => {
+      const store = await findOneAndDelete({ _id });
+  },
+  }
+  
+
 };
 
 module.exports = resolvers;
