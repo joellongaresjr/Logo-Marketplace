@@ -1,14 +1,11 @@
 const { faker } = require("@faker-js/faker");
-const db = require("../config/connection");
 const { Store } = require("../models");
 
-const storeSeeds = async () => {
+const storeSeeds = async (amount) => {
   try {
-    await db.dropCollection("stores");
-
     const stores = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < amount; i++) {
       const store = await Store.create({
         name: faker.company.name(),
         location: faker.location.city(),

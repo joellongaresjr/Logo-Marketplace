@@ -1,13 +1,10 @@
 const { faker } = require("@faker-js/faker");
-const db = require("../config/connection");
 const { Category } = require("../models");
 
-const categorySeeds = async () => {
-  await db.dropCollection("categories");
-
+const categorySeeds = async (amount) => {
   const categories = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < amount; i++) {
     const category = await Category.create({
       name: faker.commerce.department(),
     });
