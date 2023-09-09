@@ -26,10 +26,9 @@ const typeDefs = `
   }
 
   type Category {
-    _id: ID
+    _id: ID!
     name: String!
     description: String!
-    products: [Product]
   }
 
   type Auth {

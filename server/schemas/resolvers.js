@@ -7,9 +7,17 @@ const resolvers = {
       return Product.findOne({ _id: id });
     },
     getProducts: async () => {
-      const products = await Product.find().populate('category');
-      const randomIndex = Math.floor(Math.random() * products.length);
-      return [products[randomIndex]]; 
+      try {
+        const products = await Product.find().populate('category');
+        
+        // Log product details (optional)
+        console.log('Products:', products);
+        
+        return products;
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error; // Rethrow the error to handle it at the GraphQL layer
+      }
     },
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });
