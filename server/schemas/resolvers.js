@@ -13,13 +13,13 @@ const resolvers = {
       return Category.findOne({ _id: id });
     },
     getCategories: async () => {
-      return Category.find();
+      return Category.find().populate('products');
     },
     getStore: async (parent, { id }) => {
       return Store.findOne({ _id: id });
     },
     getStores: async () => {
-      return Store.find();
+      return Store.find().populate('products');
     },
     // find user by username
     user: async (parent, args, context) => {
@@ -71,7 +71,25 @@ const resolvers = {
         throw AuthenticationError('You need to be logged in!');
     },
     addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }) => {
-      return Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
+      const newProduct = Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
+      console.log(store);
+      console.log(category);
+      //update by id of category and store
+      await Category.findByIdAndUpdate(
+         category,
+        { $push: { products: newProduct } }
+      );
+      
+      
+      await Store.findByIdAndUpdate(
+        store,
+        { $push: { products: newProduct } }
+      );
+
+
+
+      return newProduct;
+
     },
     updateProduct: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;

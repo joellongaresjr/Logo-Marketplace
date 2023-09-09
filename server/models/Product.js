@@ -1,11 +1,12 @@
 const { Schema, model } = require("mongoose");
 
+
+
 const productSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
-      get: (name) => capitalize(name).trim(),
     },
     description: {
       type: String,
