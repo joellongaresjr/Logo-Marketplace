@@ -7,6 +7,8 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./utils/store";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -30,23 +32,16 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-//Testing data
-const cardStyling = {
-  title: "Home",
-  text: "Test Text",
-  link: "#",
-  imgSrc: "holder.js/100px180",
-  altText: "alt-text",
-};
-
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
+      <Provider store={store}>
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </Provider>
     </ApolloProvider>
   );
 }

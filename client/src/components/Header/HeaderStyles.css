@@ -16,10 +16,10 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--white);
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid black;
   height: 4rem;
-  background-color: #f1eedd;
+  background-color: #0B4F6C;
+  color: white;
 }
 
 header a {
@@ -92,7 +92,7 @@ header a h1 {
   display: inline-block;
   margin: 0.5em, 1em;
   text-decoration: none;
-  color: var(--mauve);
+  color: white;
 }
 
 .nav-item:hover {

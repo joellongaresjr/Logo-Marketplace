@@ -1,10 +1,12 @@
 .footer-container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color: #1c2425;
-    color: white;
+    background-color: #0B4F6C;
     padding: 1rem;
+    border-top: 1px solid black;
+    color: #FBFBFF;
   }
   
   .social-icons {

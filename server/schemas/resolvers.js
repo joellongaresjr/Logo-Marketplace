@@ -7,31 +7,25 @@ const resolvers = {
       return Product.findOne({ _id: id });
     },
     getProducts: async () => {
-      try {
-        const products = await Product.find().populate('category');
-        
-        // Log product details (optional)
-        console.log('Products:', products);
-        
-        return products;
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        throw error; // Rethrow the error to handle it at the GraphQL layer
-      }
+      return Product.find().populate('category').populate('store');
     },
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });
     },
     getCategories: async () => {
-      return Category.find();
+      const categories = await Category.find();
+      return categories;
     },
     getStore: async (parent, { id }) => {
       return Store.findOne({ _id: id });
     },
+   
+
     getStores: async () => {
-      return Store.find();
+      const stores = await Store.find();
+      return stores;
     },
-    // find user by username
+  
     user: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id });
@@ -80,9 +74,24 @@ const resolvers = {
         } 
         throw AuthenticationError('You need to be logged in!');
     },
-    addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }) => {
-      return Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
+    addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }, contxt) => {
+      const newProduct = await Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
+    
+
+      await Category.findByIdAndUpdate(
+        category,
+        { $addToSet: { products: newProduct } }
+      );
+    
+
+      await Store.findByIdAndUpdate(
+        store,
+        { $addToSet: { products: newProduct } }
+      );
+    
+      return newProduct;
     },
+    
     updateProduct: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
       return Product.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
