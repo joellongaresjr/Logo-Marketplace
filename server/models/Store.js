@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Product = require("./Product");
 
 const storeSchema = new Schema({
   name: {
@@ -12,12 +13,7 @@ const storeSchema = new Schema({
     required: true,
     trim: true,
   },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-    },
-  ],
+  products: [Product.schema],
 });
 
 const Store = model("Store", storeSchema);
