@@ -7,10 +7,10 @@ const userSeeds = require("./userSeeds");
 const productSeeds = require("./productSeeds");
 
 //Change these values to change the amount of data seeded
-const productAmount = 200;
-const storeAmount = 10;
+const productAmount = 10000;
+const storeAmount = 100;
 const categoryAmount = 10;
-const userAmount = 20;
+const userAmount = 1000;
 const dbCollections = [Category, Store, User, Product];
 
 const resetCollections = async (collections) => {
@@ -23,7 +23,7 @@ const resetCollections = async (collections) => {
     } else {
       await col.collection.drop();
       await col.createCollection();
-      console.log(`Reset ${col.modelName} collection`);
+      console.log(`Dropped and Created ${col.modelName} collection`);
     }
     console.log("-------------------");
   }
