@@ -22,9 +22,11 @@ const Signup = (props) => {
          },
       });
       console.log(mutationResponse);
-      const token = mutationResponse.data.login.token;
+
+      const token = mutationResponse.data.addUser.token;
+      console.log(token);
       Auth.login(token);
-      
+
     } catch (e) {
       console.log(e);
     }
