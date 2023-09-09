@@ -28,9 +28,13 @@ const resolvers = {
   
     user: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id }).populate({
+          path: 'orders.products',
+           populate: 'category',
+        });
       }
-      throw AuthenticationError('Not logged in');
+      throw AuthenticationError;
+
     },
     // get all users
     users: async () => {
@@ -40,9 +44,11 @@ const resolvers = {
   },
   
   Mutation: {
-    addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
+    addUser: async (parent, args) => {
+      const user = await User.create(args);
       const token = signToken(user);
+      console.log("tokens created")
+      console.log("user added")
       return { token, user };
     },
     updateUser: async (parent, { username, email, password }) => {
@@ -72,7 +78,8 @@ const resolvers = {
         );
         return order;
         } 
-        throw AuthenticationError('You need to be logged in!');
+        throw AuthenticationError;
+  
     },
     addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }, contxt) => {
       const newProduct = await Product.create({ name, description, price, category, store, stockQuantity, imageUrl });

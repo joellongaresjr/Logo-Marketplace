@@ -4,6 +4,7 @@ const typeDefs = `
     username: String
     email: String
     password: String
+    address: String
     orders: [Order]
   }
 
@@ -59,7 +60,7 @@ const typeDefs = `
   }
 
   type Mutation {
-    addUser(username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!, address: String! ): Auth
     updateUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addOrder(products: [ID]!): Order
