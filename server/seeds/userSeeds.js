@@ -10,6 +10,7 @@ const userSeeds = async (amt) => {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: bcrypt.hashSync("password", 10),
+      address: faker.location.streetAddress(),
     });
     users.push(user);
   }

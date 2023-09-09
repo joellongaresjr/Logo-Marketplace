@@ -2,21 +2,31 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../../utils/mutations";
+import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
 
 const Signup = (props) => {
   const [formState, setFormState] = useState({ email: "", password: "" });
-  const [login, { error }] = useMutation(LOGIN_USER);
+  const [addUser, { error }] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
-      const mutationResponse = await login({
-        variables: { email: formState.email, password: formState.password },
+      console.log(formState);
+      const mutationResponse = await addUser({
+        variables: { 
+          email: formState.email, 
+          password: formState.password,
+          username: formState.username,
+          address: formState.address,
+         },
       });
-      const token = mutationResponse.data.login.token;
+      console.log(mutationResponse);
+
+      const token = mutationResponse.data.addUser.token;
+      console.log(token);
       Auth.login(token);
+
     } catch (e) {
       console.log(e);
     }
@@ -54,7 +64,7 @@ const Signup = (props) => {
           <label htmlFor="Address">Shipping Address</label>
           <input
             placeholder="1234 Main St"
-            name="Address"
+            name="address"
             type="String"
             id="address"
             onChange={handleChange}

@@ -7,6 +7,7 @@ class AuthService {
 
   loggedIn() {
     const token = this.getToken();
+    console.log("here", token);
     // If there is a token and it's not expired, return `true`
     return token && !this.isTokenExpired(token) ? true : false;
   }
@@ -24,11 +25,14 @@ class AuthService {
   }
 
   getToken() {
+    console.log("here");
     return localStorage.getItem('id_token');
   }
 
   login(idToken) {
+    
     localStorage.setItem('id_token', idToken);
+    console.log("idToken", idToken);
     window.location.assign('/');
   }
 

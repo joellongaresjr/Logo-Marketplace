@@ -1,5 +1,5 @@
 import "./HeaderStyles.css";
-
+import Auth from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -38,7 +38,20 @@ const Header = () => {
             <button type="submit">Submit</button>
           </form>
         </li>
-        <li>
+      
+        { Auth.loggedIn() ? (
+            <li>
+            <Link
+              to="/"
+              className={pathname === "/" ? "current-page" : "nav-item"}
+              onClick={() => Auth.logout()}
+            >
+              Logout
+            </Link>
+          </li>
+          ) : (
+            <>
+            <li>
           <Link
             to="/login"
             className={pathname === "/login" ? "current-page" : "nav-item"}
@@ -54,6 +67,8 @@ const Header = () => {
             Sign Up
           </Link>
         </li>
+        </>
+          )}
         <li>
           <Link
             to="/resume"
@@ -79,7 +94,9 @@ const Header = () => {
         )}
       </div>
     </header>
+    
   );
+ 
 };
 
 export default Header;
