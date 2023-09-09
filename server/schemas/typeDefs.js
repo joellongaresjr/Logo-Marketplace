@@ -27,8 +27,8 @@ const typeDefs = `
 
   type Category {
     _id: ID
-    name: String
-    description: String
+    name: String!
+    description: String!
     products: [Product]
   }
 
