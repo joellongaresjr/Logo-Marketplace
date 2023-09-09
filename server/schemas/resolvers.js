@@ -7,7 +7,9 @@ const resolvers = {
       return Product.findOne({ _id: id });
     },
     getProducts: async () => {
-      return Product.find();
+      const products = await Product.find();
+      const randomIndex = Math.floor(Math.random() * products.length);
+      return [products[randomIndex]]; 
     },
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });

@@ -5,7 +5,7 @@ const productSchema = new Schema(
     name: {
       type: String,
       required: true,
-      get: (name) => capitalize(name).trim(),
+      trim: true,
     },
     description: {
       type: String,

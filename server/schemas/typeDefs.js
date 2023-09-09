@@ -14,15 +14,15 @@ const typeDefs = `
   }
 
   type Product {
-    _id: ID
-    name: String
-    description: String
-    price: Float
-    category: Category
-    store: Store
-    stockQuantity: Int
-    imageUrl: String
-    created_at: String
+    _id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    category: Category!
+    store: Store!
+    stockQuantity: Int!
+    imageUrl: String!
+    created_at: String!
   }
 
   type Category {
