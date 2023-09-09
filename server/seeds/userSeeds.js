@@ -3,10 +3,8 @@ const db = require('../config/connection');
 const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
 
-
 const userSeeds = async () => {
     await db.dropCollection('users');
-    console.log('DROPPED COLLECTIONS')
     
     const users = [];
 
@@ -20,13 +18,11 @@ const userSeeds = async () => {
     }
 
     const uniqueUsers = [...new Set(users)];
-    console.log('USERS CREATED\n-------------------');
 
     for (const user of uniqueUsers) {
-        await User.create(user);
-        console.log(`${user.username} created!`);
-        
+        await User.create(user);  
     }
+    console.log("USERS CREATED\n-------------------");
 }
 
 module.exports = userSeeds;
