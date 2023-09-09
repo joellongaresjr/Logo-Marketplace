@@ -1,6 +1,6 @@
 const typeDefs = `
   type User {
-    _id: ID
+    _id: ID!
     username: String
     email: String
     password: String
@@ -8,13 +8,13 @@ const typeDefs = `
   }
 
   type Order {
-    _id: ID
+    _id: ID!
     purchaseDate: String
     products: [Product]
   }
 
   type Product {
-    _id: ID
+    _id: ID!
     name: String
     description: String
     price: Float
@@ -26,7 +26,7 @@ const typeDefs = `
   }
 
   type Category {
-    _id: ID
+    _id: ID!
     name: String
     description: String
     products: [Product]
@@ -51,7 +51,7 @@ const typeDefs = `
     order(_id: ID!): Order
     orders: [Order]
     getProduct(id: ID!): Product
-    getProducts: [Product]!
+    getProducts: [Product]! 
     getCategory(id: ID!): Category
     getCategories: [Category]!
     getStore(id: ID!): Store

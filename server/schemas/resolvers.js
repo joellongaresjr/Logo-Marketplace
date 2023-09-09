@@ -7,21 +7,25 @@ const resolvers = {
       return Product.findOne({ _id: id });
     },
     getProducts: async () => {
-      return Product.find();
+      return Product.find().populate('category').populate('store');
     },
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });
     },
     getCategories: async () => {
-      return Category.find().populate('products');
+      const categories = await Category.find();
+      return categories;
     },
     getStore: async (parent, { id }) => {
       return Store.findOne({ _id: id });
     },
+   
+
     getStores: async () => {
-      return Store.find().populate('products');
+      const stores = await Store.find();
+      return stores;
     },
-    // find user by username
+  
     user: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id });
@@ -70,27 +74,24 @@ const resolvers = {
         } 
         throw AuthenticationError('You need to be logged in!');
     },
-    addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }) => {
-      const newProduct = Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
-      console.log(store);
-      console.log(category);
-      //update by id of category and store
+    addProduct: async (parent, { name, description, price, category, store, stockQuantity, imageUrl }, contxt) => {
+      const newProduct = await Product.create({ name, description, price, category, store, stockQuantity, imageUrl });
+    
+
       await Category.findByIdAndUpdate(
-         category,
-        { $push: { products: newProduct } }
+        category,
+        { $addToSet: { products: newProduct } }
       );
-      
-      
+    
+
       await Store.findByIdAndUpdate(
         store,
-        { $push: { products: newProduct } }
+        { $addToSet: { products: newProduct } }
       );
-
-
-
+    
       return newProduct;
-
     },
+    
     updateProduct: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
       return Product.findOneAndUpdate({ _id }, { $inc: { stockQuantity: decrement } }, { new: true });
