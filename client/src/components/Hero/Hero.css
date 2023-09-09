@@ -1,0 +1,14 @@
+.jumbotron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-image: url("../../assets/images/hero.jpg"); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  text-align: center;
+  padding: 100px 0;
+  height: 40vh;
+  font-size: 3rem;
+}

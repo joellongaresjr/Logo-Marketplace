@@ -1,15 +1,16 @@
-import "./Home.css"
+import "./Home.css";
 import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import ItemContainer from '../../components/ItemContainer/ItemContainer';
+import { Container, Row, Col } from "react-bootstrap";
+import  Hero  from "../../components/Hero/Hero.jsx";
+import ItemContainer from "../../components/ItemContainer/ItemContainer";
 
 const Home = () => {
   const cardStyling = {
-    title: 'Home',
-    text: 'Test Text',
-    link: '#',
-    imgSrc: 'https://loremflickr.com/320/240',
-    altText: 'alt-text',
+    title: "Home",
+    text: "Test Text",
+    link: "#",
+    imgSrc: "https://loremflickr.com/320/240",
+    altText: "alt-text",
   };
 
   const numberOfItems = 100; // Set the number of items you want to render
@@ -20,15 +21,16 @@ const Home = () => {
   ));
 
   return (
-    <Container>
-      <Row>
-        <Col xs={12} sm={6} md={4} lg={3}>
-          <div className="item-grid">
-            {itemsToRender}
-          </div>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Hero />
+      <Container>
+        <Row>
+          <Col xs={12} sm={6} md={4} lg={3}>
+            <div className="item-grid">{itemsToRender}</div>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
