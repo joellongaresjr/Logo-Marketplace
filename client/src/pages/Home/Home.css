@@ -2,19 +2,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 5rem;
-  margin: 2rem;
   padding: 10rem;
 }
 
-.item-grid > * {
-  margin-bottom: 2rem;
-}
-
-.card-img-top {
-  width: 100%; /* Set the width to 100% to fill the card horizontally */
-  height: 200px; /* Set a fixed height for the image */
-  object-fit: cover; /* Crop the image to fit within the fixed dimensions */
-}
 
 @media screen and (max-width: 1000px) {
   .item-grid {
