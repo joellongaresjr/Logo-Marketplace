@@ -1,29 +1,21 @@
-const { faker } = require('@faker-js/faker')
-const db = require('../config/connection')
-const { Category } = require('../models')
+const { faker } = require("@faker-js/faker");
+const { Category } = require("../models");
 
+const categorySeeds = async (amount) => {
+  const categories = [];
 
+  for (let i = 0; i < amount; i++) {
+    const category = await Category.create({
+      name: faker.commerce.department(),
+    });
+    categories.push(category);
+  }
+  const uniqueCategories = [...new Set(categories)];
 
- const categorySeeds = async () => {
-    await db.dropCollection('categories')
-    
-    const categories = []
-    
-    for (let i = 0; i < 10; i++) {
-        const category = await Category.create({
-        name: faker.commerce.department()
-        })
-        categories.push(category)
-    }
-    const uniqueCategories = [...new Set(categories)]
-
-    console.log('CATEGORIES CREATED\n-------------------');
-    for(const category of uniqueCategories) {
-        await Category.create(category)
-        console.log(`${category.name} created!`)
-    }
- 
-}
-
+  for (const category of uniqueCategories) {
+    await Category.create(category);
+  }
+  console.log("CATEGORIES CREATED\n-------------------");
+};
 
 module.exports = categorySeeds;
