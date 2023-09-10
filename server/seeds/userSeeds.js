@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const { faker } = require("@faker-js/faker");
 const bcrypt = require("bcrypt");
-const { signToken } = require("../utils/auth");
+
 
 const userSeeds = async (amt) => {
   const users = [];
