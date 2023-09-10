@@ -1,6 +1,7 @@
 const { User } = require("../models");
 const { faker } = require("@faker-js/faker");
 const bcrypt = require("bcrypt");
+const { signToken } = require("../utils/auth");
 
 const userSeeds = async (amt) => {
   const users = [];
@@ -10,7 +11,10 @@ const userSeeds = async (amt) => {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: bcrypt.hashSync("password", 10),
+      address: faker.location.streetAddress(),
+
     });
+    console.log(user.password);
     users.push(user);
   }
 
@@ -20,6 +24,7 @@ const userSeeds = async (amt) => {
     await User.create(user);
   }
   console.log("USERS CREATED\n-------------------");
+
 };
 
 module.exports = userSeeds;
