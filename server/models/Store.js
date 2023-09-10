@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Product = require("./Product");
+const Admin = require("./Admin");
 
 const storeSchema = new Schema({
   name: {

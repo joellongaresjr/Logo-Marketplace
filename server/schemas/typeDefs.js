@@ -53,6 +53,7 @@ const typeDefs = `
     name: String
     location: String
     products: [Product]
+    admin: Admin
   }
 
   type Query {
@@ -74,6 +75,8 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!, address: String! ): Auth
     updateUser(username: String!, email: String!, password: String!): Auth
     addAdmin(username: String!, email: String!, password: String! ): Auth
+    addAdminStore(name: String!, location: String!, admin: ID! ): Auth
+
     login(email: String!, password: String!): Auth
     addOrder(products: [ID]!): Order
     addProduct(name: String!, description: String!, price: Float!, category: ID!, store: ID!, stockQuantity: Int!, imageUrl: String!): Product
@@ -82,7 +85,7 @@ const typeDefs = `
     addCategory(name: String!, description: String!): Category
     updateCategory(_id: ID!, name: String!): Category
     removeCategory(_id: ID!): Category
-    addStore(name: String!, location: String!): Store
+    addStore(name: String!, location: String!, admin: ID! ): Store
     updateStore(_id: ID!, name: String!): Store
     removeStore(_id: ID!): Store
   }
