@@ -57,7 +57,7 @@ const typeDefs = `
     orders: [Order]
     getProduct(id: ID!): Product
     getProducts(limit: Int!, offset: Int!): [Product]
-    getProductsFuzzy(query: String!): [Product]!
+    getProductsFuzzy(query: String!): [Product]
     getCategory(id: ID!): Category
     getCategories: [Category]!
     getStore(id: ID!): Store

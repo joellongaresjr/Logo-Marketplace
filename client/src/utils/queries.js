@@ -17,7 +17,7 @@ export const QUERY_USER = gql`
 
 export const QUERY_PRODUCTS_FUZZY = gql`
   query getProductsFuzzy($query: String!) {
-    getProductsFuzzy(name: $query) {
+    getProductsFuzzy(query: $query) {
       _id
       name
     }

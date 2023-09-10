@@ -14,9 +14,8 @@ const resolvers = {
       return paginatedProducts;
     },
     getProductsFuzzy: async (_, { query }) => {
-      console.log(query);
       try {
-        const result = await Product.find({ search: query });
+        const result = await Product.find({ name: { $regex: query, $options: 'i' } });
         return result;
       } catch (err) {
         console.log(err);
