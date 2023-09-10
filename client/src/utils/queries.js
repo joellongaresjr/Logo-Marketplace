@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_USER = gql`
   query user($username: String!) {
@@ -11,6 +11,26 @@ export const QUERY_USER = gql`
         thoughtText
         createdAt
       }
+    }
+  }
+`;
+
+export const QUERY_PRODUCTS_FUZZY = gql`
+  query getProductsFuzzy($query: String!) {
+    getProductsFuzzy(name: $query) {
+      _id
+      name
+    }
+  }
+`;
+
+export const QUERY_PRODUCTS_PAGINATED = gql`
+  query getProducts($limit: Int!, $offset: Int!) {
+    getProducts(limit: $limit, offset: $offset) {
+      _id
+      name
+      imageUrl
+      price
     }
   }
 `;

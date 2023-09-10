@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
-
-
+const atlasPlugin = require("mongoose-atlas-search");
 
 const productSchema = new Schema(
   {
@@ -48,10 +47,27 @@ const productSchema = new Schema(
   }
 );
 
+productSchema.index({ name: "text" });
+
 productSchema.virtual("orderCount").get(function () {
   return this.orders.length;
 });
 
 const Product = model("Product", productSchema);
+
+atlasPlugin.initialize({
+  model: Product,
+  overwriteFind: true,
+  searchKey: "search",
+  searchFunction: (query) => {
+    return {
+      wildcard: {
+        query: `${query}`,
+        path: "name",
+        allowAnalyzedField: true,
+      },
+    };
+  },
+});
 
 module.exports = Product;

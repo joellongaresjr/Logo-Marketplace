@@ -1,9 +1,11 @@
 import "./HeaderStyles.css";
-
+import Auth from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import logo from "../../assets/images/logo.svg";
+import Login from "./../../pages/Login/Login";
+import Signup from "./../../pages/Signup/Signup";
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
@@ -36,14 +38,37 @@ const Header = () => {
             <button type="submit">Submit</button>
           </form>
         </li>
-        <li>
+      
+        { Auth.loggedIn() ? (
+            <li>
+            <Link
+              to="/"
+              className={pathname === "/" ? "current-page" : "nav-item"}
+              onClick={() => Auth.logout()}
+            >
+              Logout
+            </Link>
+          </li>
+          ) : (
+            <>
+            <li>
           <Link
-            to="/projects"
-            className={pathname === "/projects" ? "current-page" : "nav-item"}
+            to="/login"
+            className={pathname === "/login" ? "current-page" : "nav-item"}
           >
-            Sign In
+            Login
           </Link>
         </li>
+        <li>
+          <Link
+            to="/signup"
+            className={pathname === "/signup" ? "current-page" : "nav-item"}
+          >
+            Sign Up
+          </Link>
+        </li>
+        </>
+          )}
         <li>
           <Link
             to="/resume"
@@ -69,7 +94,9 @@ const Header = () => {
         )}
       </div>
     </header>
+    
   );
+ 
 };
 
 export default Header;
