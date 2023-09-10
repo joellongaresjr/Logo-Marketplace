@@ -75,14 +75,12 @@ const resolvers = {
         args.store,
         { $addToSet: { admin: admin._id } }
       );
-
-
-
       console.log("tokens created")
       
       console.log("admin added")
       return { token, admin };
     },
+    
     updateUser: async (parent, { username, email, password }) => {
       const user = await User.update({ username, email, password });
       const token = signToken(user);
