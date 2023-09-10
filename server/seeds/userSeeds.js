@@ -10,7 +10,7 @@ const userSeeds = async (amt) => {
     const user = await User.create({
       username: faker.internet.userName(),
       email: faker.internet.email(),
-      password: bcrypt.hashSync("password", 10),
+      password: "password",
       address: faker.location.streetAddress(),
 
     });

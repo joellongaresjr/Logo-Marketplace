@@ -35,9 +35,8 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-    // get all users
     users: async () => {
-      // populate with orders and the orders' products
+
       return User.find().populate({
         path: "orders.products",
         populate: "category",
@@ -56,9 +55,20 @@ const resolvers = {
       return Admin.find().populate("store");
     },
     orders: async () => {
-      return Order.find();
-    }
+      return Order.find().populate("products");
+    },
+    
+    order: async (parent, { _id }, context) => {
+      if (context.user) {
+        const user = await User.findOne({ _id: context.user._id }).populate({
+          path: "orders.products",
+          populate: "category",
+        });
+        return user.orders.id(_id);
+      }
+      throw AuthenticationError;
 
+  },
   },
 
   Mutation: {
