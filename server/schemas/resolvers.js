@@ -37,7 +37,11 @@ const resolvers = {
     },
     // get all users
     users: async () => {
-      return User.find();
+      // populate with orders and the orders' products
+      return User.find().populate({
+        path: "orders.products",
+        populate: "category",
+      });
     },
     admin: async (parent, args, context) => {
       if (context.admin) {
@@ -51,6 +55,10 @@ const resolvers = {
     admins: async () => {
       return Admin.find().populate("store");
     },
+    orders: async () => {
+      return Order.find();
+    }
+
   },
 
   Mutation: {
@@ -77,15 +85,7 @@ const resolvers = {
       console.log("admin added");
       return { token, admin };
     },
-    // addAdminStore: async (parent, args) => {
-    //   const store = await Store.create(args);
-    //   console.log(store);
-    //   console.log(args.admin);
-    //   await Admin.findByIdAndUpdate(args.admin, {
-    //     $addToSet: { store: store._id },
-    //   });
-    //   return store;
-    // },
+
     updateUser: async (parent, { username, email, password }) => {
       const user = await User.update({ username, email, password });
       const token = signToken(user);
@@ -103,16 +103,29 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addOrder: async (parent, { products }, context) => {
-      if (context.user) {
+    addOrder: async (parent, args ) => {
+        const products = args.products
+
+        console.log(products)
         const order = await Order.create({ products });
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { orders: order._id } }
+
+        console.log(args.user)
+
+        await User.findByIdAndUpdate(
+          args.user,
+          { $push: { orders: order } }
         );
+
+        await Order.findByIdAndUpdate(
+          order._id,
+          { $push: { products: products }
+        }
+        );
+
+
+
         return order;
-      }
-      throw AuthenticationError;
+
     },
     addProduct: async (
       parent,

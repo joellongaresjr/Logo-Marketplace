@@ -76,9 +76,8 @@ const typeDefs = `
     updateUser(username: String!, email: String!, password: String!): Auth
     addAdmin(username: String!, email: String!, password: String! ): Auth
     addAdminStore(name: String!, location: String!, admin: ID! ): Auth
-
     login(email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
+    addOrder(products: [ID]!, user: ID! ): Order
     addProduct(name: String!, description: String!, price: Float!, category: ID!, store: ID!, stockQuantity: Int!, imageUrl: String!): Product
     updateProduct(_id: ID!, quantity: Int!): Product
     removeProduct(_id: ID!): Product
