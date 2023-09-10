@@ -1,4 +1,5 @@
-const { Product, Category, Store, User, Order } = require('../models');
+const { get } = require('mongoose');
+const { Product, Category, Store, User, Order, Admin } = require('../models');
 const {signToken, AuthenticationError} = require('../utils/auth');
 
 const resolvers = {
@@ -39,10 +40,21 @@ const resolvers = {
     // get all users
     users: async () => {
       return User.find();
-    }
-  
+    },
+    admin: async (parent, args, context) => {
+      if (context.admin) {
+        return Admin.findOne({ _id: context.admin._id }).populate({
+          path: 'orders.products',
+           populate: 'category',
+        });
+      }
+      throw AuthenticationError;
   },
-  
+  admins: async () => { 
+    return Admin.find().populate('store');
+  },
+},
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
@@ -50,6 +62,26 @@ const resolvers = {
       console.log("tokens created")
       console.log("user added")
       return { token, user };
+    },
+    addAdmin: async (parent, args ) => {
+      console.log(args.store)
+      const admin = await Admin.create(args);
+      console.log(admin);
+      const token = signToken(admin);
+
+      console.log(admin._id);
+
+      await Store.findByIdAndUpdate(
+        args.store,
+        { $addToSet: { admin: admin._id } }
+      );
+
+
+
+      console.log("tokens created")
+      
+      console.log("admin added")
+      return { token, admin };
     },
     updateUser: async (parent, { username, email, password }) => {
       const user = await User.update({ username, email, password });

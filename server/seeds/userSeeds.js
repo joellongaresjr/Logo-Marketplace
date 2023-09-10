@@ -14,7 +14,6 @@ const userSeeds = async (amt) => {
       address: faker.location.streetAddress(),
 
     });
-    console.log(user.password);
     users.push(user);
   }
 

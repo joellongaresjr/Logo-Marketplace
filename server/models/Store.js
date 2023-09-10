@@ -14,6 +14,11 @@ const storeSchema = new Schema({
     trim: true,
   },
   products: [Product.schema],
+  admin: {
+    type: Schema.Types.ObjectId,
+    ref: "Admin",
+  }
+
 });
 
 const Store = model("Store", storeSchema);
