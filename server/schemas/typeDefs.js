@@ -56,6 +56,11 @@ const typeDefs = `
     admin: Admin
   }
 
+  input ProductPaginationInput {
+    limit: Int!
+    offset: Int!
+  }
+
   type Query {
     user: User
     admin: Admin
@@ -64,7 +69,8 @@ const typeDefs = `
     order(_id: ID!): Order
     orders: [Order]
     getProduct(id: ID!): Product
-    getProducts: [Product]! 
+    getProducts(limit: Int!, offset: Int!): [Product]
+    getProductsFuzzy(query: String!): [Product]
     getCategory(id: ID!): Category
     getCategories: [Category]!
     getStore(id: ID!): Store

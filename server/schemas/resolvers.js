@@ -1,3 +1,5 @@
+const { Product, Category, Store, User, Order } = require("../models");
+const { signToken, AuthenticationError } = require("../utils/auth");
 const { get } = require("mongoose");
 const { Product, Category, Store, User, Order, Admin } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
@@ -7,8 +9,20 @@ const resolvers = {
     getProduct: async (parent, { id }) => {
       return Product.findOne({ _id: id });
     },
-    getProducts: async () => {
-      return Product.find().populate("category").populate("store");
+    getProducts: (parent, { limit, offset }) => {
+      const paginatedProducts = Product.find({})
+        .limit(limit)
+        .skip(offset)
+        .exec();
+      return paginatedProducts;
+    },
+    getProductsFuzzy: async (_, { query }) => {
+      try {
+        const result = await Product.find({ name: { $regex: query, $options: 'i' } });
+        return result;
+      } catch (err) {
+        console.log(err);
+      }
     },
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });
@@ -25,6 +39,7 @@ const resolvers = {
       const stores = await Store.find();
       return stores;
     },
+
 
     user: async (parent, args, context) => {
       if (context.user) {
@@ -71,6 +86,7 @@ const resolvers = {
   },
   },
 
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
@@ -101,12 +117,15 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
+      if (!user) {
       if (!user) {
         throw AuthenticationError;
       }
       const correctPw = await user.isCorrectPassword(password);
+      if (!correctPw) {
       if (!correctPw) {
         throw AuthenticationError;
       }
@@ -160,6 +179,18 @@ const resolvers = {
         $addToSet: { products: newProduct },
       });
 
+        stockQuantity,
+        imageUrl,
+      });
+
+      await Category.findByIdAndUpdate(category, {
+        $addToSet: { products: newProduct },
+      });
+
+      await Store.findByIdAndUpdate(store, {
+        $addToSet: { products: newProduct },
+      });
+
       return newProduct;
     },
     addStore: async (parent, args) => {
@@ -181,6 +212,11 @@ const resolvers = {
 
     updateProduct: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
+      return Product.findOneAndUpdate(
+        { _id },
+        { $inc: { stockQuantity: decrement } },
+        { new: true }
+      );
       return Product.findOneAndUpdate(
         { _id },
         { $inc: { stockQuantity: decrement } },
@@ -212,9 +248,16 @@ const resolvers = {
         { $inc: { stockQuantity: decrement } },
         { new: true }
       );
+      return Store.findOneAndUpdate(
+        { _id },
+        { $inc: { stockQuantity: decrement } },
+        { new: true }
+      );
     },
     removeStore: async (parent, { _id }, context) => {
       const store = await findOneAndDelete({ _id });
+    },
+  },
     },
   },
 };
