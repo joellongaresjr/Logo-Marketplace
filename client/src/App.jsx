@@ -12,6 +12,7 @@ import { store } from "./utils/store";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { StoreProvider } from "./utils/GlobalState";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -35,13 +36,15 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Provider store={store}>
-        <Header />
-        <main>
-          <Outlet />
-        </main>
-        <Footer />
-      </Provider>
+      <StoreProvider>
+        <Provider store={store}>
+          <Header />
+          <main>
+            <Outlet />
+          </main>
+          <Footer />
+        </Provider>
+      </StoreProvider>
     </ApolloProvider>
   );
 }
