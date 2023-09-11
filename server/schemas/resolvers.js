@@ -37,7 +37,7 @@ const resolvers = {
     },
 
     getStores: async () => {
-      const stores = await Store.find();
+      const stores = await Store.find().populate("products");
       return stores;
     },
 
@@ -98,10 +98,8 @@ const resolvers = {
     addAdmin: async (parent, args) => {
       console.log(args.store);
       const admin = await Admin.create(args);
-      // console.log(admin);
-      const token = signToken(admin);
 
-      // console.log(admin._id);
+      const token = signToken(admin);
 
       await Store.findByIdAndUpdate(args.store, {
         $addToSet: { admin: admin._id },
@@ -129,29 +127,15 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addOrder: async (parent, args ) => {
-        const products = args.products
-
-        console.log(products)
+    addOrder: async (parent, { products }, context) => {
+      if (context.user) {
         const order = await Order.create({ products });
-
-        console.log(args.user)
-
-        await User.findByIdAndUpdate(
-          args.user,
-          { $push: { orders: order } }
-        );
-
-        await Order.findByIdAndUpdate(
-          order._id,
-          { $push: { products: products }
-        }
-        );
-
-
-
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { orders: order },
+        });
         return order;
-
+      }
+      throw AuthenticationError;
     },
     addProduct: async (
       parent,
