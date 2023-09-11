@@ -26,7 +26,7 @@ const Header = () => {
   }, [pathname]);
 
   useEffect(() => {
-    console.log(fuzzyMatch);
+    // console.log(fuzzyMatch);
   }, [fuzzyMatch]);
 
 

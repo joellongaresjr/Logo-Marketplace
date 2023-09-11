@@ -46,7 +46,7 @@ const Home = () => {
     },
     [loading, hasMore]
   );
-  console.log(items);
+ 
   return (
     <>
       <Hero />
@@ -63,7 +63,7 @@ const Home = () => {
                     name={product.name}
                     price={product.price}
                     imgUrl={product.imageUrl}
-                    link={`/products/${product._id}`}
+                    _id={product._id}
                   />
                 </div>
               ))}

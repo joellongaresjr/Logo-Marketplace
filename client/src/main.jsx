@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login.jsx";
 import Signup from "./pages/Signup/Signup.jsx";
 import Product from "./pages/Product/Product.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
+import Confirmation from "./pages/Confirmation/Confirmation";
 
 
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/confirmation",
+        element: <Confirmation />,
       },
       {
         path: "/products/:id",
