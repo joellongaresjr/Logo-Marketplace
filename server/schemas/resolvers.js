@@ -26,8 +26,9 @@ const resolvers = {
       }
     },
     getFeaturedProducts: async () => {
-      return Product.find({ featured: true });
-    },
+      return Product.find({ featured: true })
+      .populate('category');
+    },    
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });
     },
@@ -35,6 +36,8 @@ const resolvers = {
       const categories = await Category.find();
       return categories;
     },
+
+
     getStore: async (parent, { id }) => {
       return Store.findOne({ _id: id });
     },
