@@ -1,44 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { QUERY_CATEGORIES } from "../../utils/queries";
-import { useQuery } from '@apollo/client';
-import { useStoreContext } from '../../utils/GlobalState';
-
+import { useQuery } from "@apollo/client";
+import { useStoreContext } from "../../utils/GlobalState";
+import { SET_CATEGORIES } from "../../utils/actions";
 
 function Category() {
-    const [state, dispatch] = useStoreContext();
+  const [state, dispatch] = useStoreContext();
 
-    const { categories } = state;
+  const { categories } = state;
 
-    const { data: categoryData } = useQuery(QUERY_CATEGORIES);
+  const { data: categoryData } = useQuery(QUERY_CATEGORIES);
 
-    useEffect(() => {
-        console.log("categoriesData:", categoryData);
-    }, [categoryData, dispatch]);
+  useEffect(() => {
+    if (categoryData) {
+      console.log("Category data:", categoryData);
+      dispatch({ type: SET_CATEGORIES, categories: categoryData.categories });
+    }
+  }, [categoryData, dispatch]);
 
+  if (!categories || categories.length === 0) {
+    return <div>Loading categories..</div>;
+  }
+}
 
-        return (
-            <div>
-              <label htmlFor="category">Select a category:</label>
-              <select
-                id="category"
-                className="form-control"
-                onChange={(e) =>
-                  dispatch({
-                    type: "UPDATE_CURRENT_CATEGORY",
-                    currentCategory: e.target.value,
-                  })
-                }
-                value={state.currentCategory}
-              >
-                <option value="">All</option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          );
-        }
-
-    export default Category;
+export default Category;
