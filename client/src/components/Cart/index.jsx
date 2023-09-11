@@ -42,7 +42,7 @@ const Cart = () => {
     });
   }
 
-  if (!state.cartOpen) {
+  if (!state.cartOpen ) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <a className="nav-item" role="img" aria-label="trash">
@@ -51,6 +51,7 @@ const Cart = () => {
       </div>
     );
   }
+  if (window.location.pathname !== "/confirmation") {
   return (
     <div className="cart">
       <div className="close " onClick={toggleCart}>
@@ -82,6 +83,8 @@ const Cart = () => {
 
     </div>
   );
+  }
 };
+
 
 export default Cart;
