@@ -2,6 +2,7 @@ import "./ItemContainerStyles.css";
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useStoreContext } from "../../utils/GlobalState";
 
 const ItemContainer = (props) => {
   let formatting_options = {
@@ -9,6 +10,12 @@ const ItemContainer = (props) => {
     currency: "USD",
     minimumFractionDigits: 2,
   };
+  const [, dispatch] = useStoreContext();
+
+  const addToCart = () => { 
+    dispatch({ type: "ADD_TO_CART", product: props });
+  };
+
 
    let dollarString = new Intl.NumberFormat("en-US", formatting_options).format(props.price);
 
@@ -20,7 +27,7 @@ const ItemContainer = (props) => {
         <Card.Text>{props.name}</Card.Text>
         {/* </Link> */}
         <Card.Text>{dollarString}</Card.Text>
-        <button className="btn">Add to Cart</button>
+        <button onClick={addToCart} className="btn">Add to Cart</button>
       </Card.Body>
     </Card>
   );
