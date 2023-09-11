@@ -79,7 +79,7 @@ const typeDefs = `
     getProductsFuzzy(query: String!): [Product]
     getFeaturedProducts: [Product]
     getCategory(id: ID!): Category
-    getCategories: [Category]!
+    getCategories: [Category]
     getStore(id: ID!): Store
     getStores: [Store]!
   }

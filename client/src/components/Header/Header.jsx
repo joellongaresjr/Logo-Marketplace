@@ -9,12 +9,14 @@ import logo from "../../assets/images/logo.svg";
 import Login from "./../../pages/Login/Login";
 import Signup from "./../../pages/Signup/Signup";
 import Cart from "../Cart";
+import Category from "../Category/Category"
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
+
 
 
   const burgerToggle = () => {
@@ -29,18 +31,17 @@ const Header = () => {
     // console.log(fuzzyMatch);
   }, [fuzzyMatch]);
 
-
-  // Use the useQuery hook directly within the component
   const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {
     variables: { query: searchQuery },
   });
 
+
   useEffect(() => {
-    // Update fuzzyMatch when data changes
     if (data) {
       setFuzzyMatch(data.getProductsFuzzy);
     }
   }, [data]);
+
 
   const searchChangeHandler = (event) => {
     setSearchQuery(event.target.value);
@@ -54,6 +55,7 @@ const Header = () => {
             src={logo}
             style={{ width: "4rem", height: "auto" }}
             className="logo"
+            alt="Logo"
           />
         </Link>
         <h1>Logo MarketPlace</h1>
@@ -61,7 +63,13 @@ const Header = () => {
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
         <li>
           <form className="nav-search">
-            <input type="text" placeholder="Search.." name="search" onChange={searchChangeHandler} list="fuzzyMatchList" />
+            <input
+              type="text"
+              placeholder="Search.."
+              name="search"
+              onChange={searchChangeHandler}
+              list="fuzzyMatchList"
+            />
             <datalist id="fuzzyMatchList">
               {fuzzyMatch.map((item) => (
                 <option key={item._id} value={item.name} />
@@ -71,8 +79,13 @@ const Header = () => {
           </form>
         </li>
 
-        {Auth.loggedIn() ? (
-          <li>
+  <li>
+    <Category />
+  </li>
+  </ul>
+      
+        { Auth.loggedIn() ? (
+            <li>
             <Link
               to="/"
               className={pathname === "/" ? "current-page" : "nav-item"}
@@ -112,7 +125,6 @@ const Header = () => {
         <li>
           <Cart />
         </li>
-      </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
           <FaTimes size={25} style={{ color: "#3a2e39" }} />
