@@ -7,6 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
 import { ADD_MULTIPLE_TO_CART, REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import Auth from "../../utils/auth";
+import {FaPlus, FaMinus, FaTrash} from "react-icons/fa";
+import "./Confirmation.css"
+import { Link } from "react-router-dom";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
@@ -17,6 +20,11 @@ const Confirmation = () => {
   const dispatch = useDispatch();
   const [cartOpen, setCartOpen] = useState(false);
 
+ 
+    const item = state.cart[0] ;
+
+    console.log(item);
+    
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise("cart", "get");
@@ -69,55 +77,85 @@ const Confirmation = () => {
     idbPromise("cart", "delete", { ...item });
   };
 
-  const updateQuantity = (item, newQuantity) => {
-    if (newQuantity === 0) {
+
+  const onChange = (action, item) => {
+    const updatedQuantity =
+      action === "increment"
+        ? item.purchaseQuantity + 1
+        : item.purchaseQuantity - 1;
+  
+    if (updatedQuantity <= 0) {
+
       dispatch({
         type: REMOVE_FROM_CART,
         _id: item._id,
       });
       idbPromise("cart", "delete", { ...item });
     } else {
+
       dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: item._id,
-        purchaseQuantity: parseInt(newQuantity),
+        purchaseQuantity: updatedQuantity,
       });
-      idbPromise("cart", "put", { ...item, purchaseQuantity: parseInt(newQuantity) });
+      idbPromise("cart", "put", { ...item, purchaseQuantity: updatedQuantity });
     }
   };
 
   return (
-    <div className="cart-and-confirmation">
-      <h2>Cart and Confirmation</h2>
+    <div className="confirmation">
+      <h2>Confirmation</h2>
       <div className="confirmation-container">
         {state.cart.length ? (
           <>
             {state.cart.map((item) => (
               <div key={item._id} className="confirmation-item">
-                <div>
-                  {item.name}, ${item.price}
+                <div className="confirmation-img">
+                    <Link to={`/products/${item._id}`}>
+                    <img
+                        src={item.imgUrl}
+                        alt={item.name}
+                    />
+                    </Link>
                 </div>
+                 <div className="item-values">
                 <div>
-                  <span>Qty:</span>
+                  <p>{item.name} </p>
+                </div>
+               
+
+                    <FaMinus
+                        className="minus minus-confirmation"
+                        onClick={() => onChange("decrement", item)}
+
+                    />
                   <input
-                    type="number"
+                    className="confirmation-input amount-input"
                     placeholder="1"
                     value={item.purchaseQuantity}
-                    onChange={(e) => updateQuantity(item, e.target.value)}
+                    onChange={onChange}
                   />
-                  <span
-                    role="img"
-                    aria-label="trash"
+                    <FaPlus
+                        className=" plus plus-confirmation"    
+                        onClick={() => onChange("increment", item)}
+                    />
+                    <div>
+                        <div className="price">
+                            <p>${item.price}</p>
+                            </div>
+                    </div>
+                    <div className="remove-item">
+                  <FaTrash
+                    className="trash"
                     onClick={() => removeFromCart(item)}
-                  >
-                    Remove Item
-                  </span>
+                    />
+                  </div>
                 </div>
               </div>
             ))}
             {Auth.loggedIn() ? (
-              <button onClick={submitCheckout}>
-                <a href="/confirmation">Submit Order</a>
+              <button className="confirmation-btn" onClick={submitCheckout}>
+                <a href="/confirmation">Checkout</a>
               </button>
             ) : (
               <span>(log in to check out)</span>
