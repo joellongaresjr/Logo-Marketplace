@@ -1,16 +1,14 @@
-const { Product, Category, Store, User, Order } = require("../models");
-const { signToken, AuthenticationError } = require("../utils/auth");
 const { get } = require("mongoose");
 const { Product, Category, Store, User, Order, Admin } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    getProduct: async (parent, { id }) => {
-      return Product.findOne({ _id: id });
+    getProduct: async (parent, args) => {
+      return Product.findOne({ args });
     },
-    getProducts: (parent, { limit, offset }) => {
-      const paginatedProducts = Product.find({})
+    getProducts: async (parent, { limit, offset }) => {
+      const paginatedProducts = await Product.find({ featured: true })
         .limit(limit)
         .skip(offset)
         .exec();
@@ -24,8 +22,8 @@ const resolvers = {
         console.log(err);
       }
     },
-    getProducts: async () => {
-      return Product.find().populate("category").populate("store");
+    getFeaturedProducts: async () => {
+      return Product.find({ featured: true });
     },
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });
@@ -86,6 +84,7 @@ const resolvers = {
       throw AuthenticationError;
 
   },
+  
   },
 
   Mutation: {

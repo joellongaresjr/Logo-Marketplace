@@ -8,7 +8,7 @@ const productSeeds = require("./productSeeds");
 const { create } = require("../models/Product");
 
 //Change these values to change the amount of data seeded
-const productAmount = 10;
+const productAmount = 10000;
 const storeAmount = 100;
 const categoryAmount = 10;
 const userAmount = 10;
