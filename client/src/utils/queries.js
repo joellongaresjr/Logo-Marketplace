@@ -34,3 +34,12 @@ export const QUERY_PRODUCTS_PAGINATED = gql`
     }
   }
 `;
+
+export const QUERY_CATEGORIES = gql`
+query getCategories {
+  getCategories {
+    _id
+    name
+  }
+}
+`;

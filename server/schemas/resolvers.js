@@ -10,6 +10,7 @@ const resolvers = {
       const paginatedProducts = Product.find({})
         .limit(limit)
         .skip(offset)
+        .populate('category')
         .exec();
       return paginatedProducts;
     },
