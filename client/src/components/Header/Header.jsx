@@ -15,8 +15,8 @@ const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
   const { pathname } = useLocation();
+  const { data: categoryData } = useQuery(QUERY_CATEGORIES);
 
 
   const burgerToggle = () => {
@@ -35,8 +35,7 @@ const Header = () => {
     variables: { query: searchQuery },
   });
 
-  const { data: categoriesData, loading: categoriesLoading } =
-    useQuery(QUERY_CATEGORIES);
+
 
   useEffect(() => {
     if (data) {
@@ -44,9 +43,6 @@ const Header = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log("categoriesData:", categoriesData); // Log categoriesData
-  }, [categoriesData]);
 
   const searchChangeHandler = (event) => {
     setSearchQuery(event.target.value);
@@ -82,6 +78,10 @@ const Header = () => {
             </datalist>
             <button type="submit">Submit</button>
           </form>
+        </li>
+
+        <li>
+          <Category categories={categoryData} />
         </li>
       
         { Auth.loggedIn() ? (
