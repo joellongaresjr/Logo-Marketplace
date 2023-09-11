@@ -4,17 +4,20 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
-import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
+import { QUERY_CATEGORIES, QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
 import Login from "./../../pages/Login/Login";
 import Signup from "./../../pages/Signup/Signup";
 import Cart from "../Cart";
+import Category from "../Category/Category"
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
+
+  const { data: categoryData } = useQuery(QUERY_CATEGORIES)
 
 
   const burgerToggle = () => {
@@ -70,6 +73,12 @@ const Header = () => {
             <button type="submit">Submit</button>
           </form>
         </li>
+
+        <li>
+          <Category categories={categoryData} />
+        </li>
+
+
 
         {Auth.loggedIn() ? (
           <li>
