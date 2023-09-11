@@ -25,7 +25,6 @@ class AuthService {
   }
 
   getToken() {
-    console.log("here");
     return localStorage.getItem('id_token');
   }
 

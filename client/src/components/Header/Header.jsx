@@ -3,6 +3,8 @@ import Auth from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useQuery } from "@apollo/client";
+import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
 import Login from "./../../pages/Login/Login";
 import Signup from "./../../pages/Signup/Signup";
@@ -10,7 +12,10 @@ import Cart from "../Cart";
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
+
 
   const burgerToggle = () => {
     setBurgerClick(!burgerClick);
@@ -19,6 +24,27 @@ const Header = () => {
   useEffect(() => {
     setBurgerClick(false);
   }, [pathname]);
+
+  useEffect(() => {
+    console.log(fuzzyMatch);
+  }, [fuzzyMatch]);
+
+
+  // Use the useQuery hook directly within the component
+  const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {
+    variables: { query: searchQuery },
+  });
+
+  useEffect(() => {
+    // Update fuzzyMatch when data changes
+    if (data) {
+      setFuzzyMatch(data.getProductsFuzzy);
+    }
+  }, [data]);
+
+  const searchChangeHandler = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <header>
@@ -35,7 +61,12 @@ const Header = () => {
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
         <li>
           <form className="nav-search">
-            <input type="text" placeholder="Search.." name="search" />
+            <input type="text" placeholder="Search.." name="search" onChange={searchChangeHandler} list="fuzzyMatchList" />
+            <datalist id="fuzzyMatchList">
+              {fuzzyMatch.map((item) => (
+                <option key={item._id} value={item.name} />
+              ))}
+            </datalist>
             <button type="submit">Submit</button>
           </form>
         </li>

@@ -46,13 +46,19 @@ const typeDefs = `
     products: [Product]
   }
 
+  input ProductPaginationInput {
+    limit: Int!
+    offset: Int!
+  }
+
   type Query {
     user: User
     users: [User]
     order(_id: ID!): Order
     orders: [Order]
     getProduct(id: ID!): Product
-    getProducts: [Product]! 
+    getProducts(limit: Int!, offset: Int!): [Product]
+    getProductsFuzzy(query: String!): [Product]
     getCategory(id: ID!): Category
     getCategories: [Category]!
     getStore(id: ID!): Store

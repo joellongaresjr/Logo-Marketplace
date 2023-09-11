@@ -58,15 +58,23 @@ const Cart = () => {
       </div>
 
       <div className="cart-items">
-        <div className="cart-item">
-          <span className="item-name">Sample Item</span>
-          <span className="item-price">$9.99</span>
-        </div>
+        {state.cart.length ? (
+          <>
+            {state.cart.map(item => (
+              <CartItem key={item._id} item={item} />
+            ))}
+            {Auth.loggedIn() ? (
+              <button onClick={submitCheckout}>Checkout</button>
+            ) : (
+              <span>(log in to check out)</span>
+            )}
+          </>
+        ) : (
+          <h3>Nothing in your cart yet!</h3>
+        )}
       </div>
 
-      {/* <h3>Nothing in your cart yet!</h3> */}
 
-      <button className="checkout-btn">Checkout</button>
     </div>
   );
 };
