@@ -8,6 +8,7 @@ import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
 import Login from "./../../pages/Login/Login";
 import Signup from "./../../pages/Signup/Signup";
+import Cart from "../Cart";
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
@@ -69,9 +70,9 @@ const Header = () => {
             <button type="submit">Submit</button>
           </form>
         </li>
-      
-        { Auth.loggedIn() ? (
-            <li>
+
+        {Auth.loggedIn() ? (
+          <li>
             <Link
               to="/"
               className={pathname === "/" ? "current-page" : "nav-item"}
@@ -80,26 +81,26 @@ const Header = () => {
               Logout
             </Link>
           </li>
-          ) : (
-            <>
+        ) : (
+          <>
             <li>
-          <Link
-            to="/login"
-            className={pathname === "/login" ? "current-page" : "nav-item"}
-          >
-            Login
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/signup"
-            className={pathname === "/signup" ? "current-page" : "nav-item"}
-          >
-            Sign Up
-          </Link>
-        </li>
-        </>
-          )}
+              <Link
+                to="/login"
+                className={pathname === "/login" ? "current-page" : "nav-item"}
+              >
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/signup"
+                className={pathname === "/signup" ? "current-page" : "nav-item"}
+              >
+                Sign Up
+              </Link>
+            </li>
+          </>
+        )}
         <li>
           <Link
             to="/resume"
@@ -109,12 +110,7 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Link
-            to="/contact"
-            className={pathname === "/contact" ? "current-page" : "nav-item"}
-          >
-            Cart
-          </Link>
+          <Cart />
         </li>
       </ul>
       <div className="burger" onClick={burgerToggle}>
@@ -125,9 +121,7 @@ const Header = () => {
         )}
       </div>
     </header>
-    
   );
- 
 };
 
 export default Header;
