@@ -7,6 +7,9 @@ import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
 import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { idbPromise } from "../../utils/helpers";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
@@ -16,6 +19,7 @@ const Cart = () => {
     async function getCart() {
       const cart = await idbPromise("cart", "get");
       dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+
     }
     if (!state.cart.length) {
       getCart();
@@ -27,17 +31,18 @@ const Cart = () => {
   }
   function submitCheckout() {
     const productIds = [];
-
+  
     state.cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
-      }
+      } 
     });
     getCheckout({
       variables: { products: productIds },
     });
   }
-  if (!state.cartOpen) {
+
+  if (!state.cartOpen ) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <a className="nav-item" role="img" aria-label="trash">
@@ -46,6 +51,7 @@ const Cart = () => {
       </div>
     );
   }
+  if (window.location.pathname !== "/confirmation") {
   return (
     <div className="cart">
       <div className="close " onClick={toggleCart}>
@@ -64,7 +70,7 @@ const Cart = () => {
               <CartItem key={item._id} item={item} />
             ))}
             {Auth.loggedIn() ? (
-              <button onClick={submitCheckout}>Checkout</button>
+              <button  onClick={submitCheckout}><a href="/confirmation">Checkout</a></button>
             ) : (
               <span>(log in to check out)</span>
             )}
@@ -77,6 +83,8 @@ const Cart = () => {
 
     </div>
   );
+  }
 };
+
 
 export default Cart;

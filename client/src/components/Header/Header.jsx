@@ -28,7 +28,7 @@ const Header = () => {
   }, [pathname]);
 
   useEffect(() => {
-    console.log(fuzzyMatch);
+    // console.log(fuzzyMatch);
   }, [fuzzyMatch]);
 
   const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {

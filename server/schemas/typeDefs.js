@@ -48,6 +48,10 @@ const typeDefs = `
     admin: Admin
   }
 
+  type Checkout {
+    session: ID
+  }
+
 
   type Store {
     _id: ID
@@ -66,6 +70,7 @@ const typeDefs = `
     user: User
     admin: Admin
     users: [User]
+    checkout(products: [ID]!): Checkout
     admins: [Admin]
     order(_id: ID!): Order
     orders: [Order]
