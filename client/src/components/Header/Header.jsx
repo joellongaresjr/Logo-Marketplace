@@ -109,9 +109,13 @@ const Header = () => {
             Orders
           </Link>
         </li>
-        <li>
-          <Cart />
-        </li>
+        { (window.location.pathname !== "/confirmation") ? (
+            <li>
+            <Cart />
+          </li>
+          ) : (
+            <></>
+          )}
       </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
