@@ -18,7 +18,7 @@ header {
   align-items: center;
   border-bottom: 1px solid black;
   height: 4rem;
-  background-color: #0B4F6C;
+  background-color: #0b4f6c;
   color: white;
 }
 
@@ -97,6 +97,17 @@ header a h1 {
 
 .nav-item:hover {
   scale: 1.1;
+  cursor: pointer;
+}
+.cart-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 200px;
+  border: 1px solid #ddd;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .burger {

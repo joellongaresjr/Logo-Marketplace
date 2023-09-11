@@ -34,3 +34,11 @@ export const QUERY_PRODUCTS_PAGINATED = gql`
     }
   }
 `;
+
+export const QUERY_CHECKOUT = gql`
+  query getCheckout($products: [ID]!) {
+    checkout(products: $products) {
+      session
+    }
+  }
+`;
