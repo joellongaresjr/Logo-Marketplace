@@ -16,7 +16,7 @@ const Cart = () => {
     async function getCart() {
       const cart = await idbPromise("cart", "get");
       dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
-      
+
     }
     if (!state.cart.length) {
       getCart();
@@ -39,33 +39,6 @@ const Cart = () => {
     });
   }
 
-
-
-  // useEffect(() => {
-  //   async function getCart() {
-  //     const cart = await idbPromise("cart", "get");
-  //     dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
-  //   }
-  //   if (!state.cart.length) {
-  //     getCart();
-  //   }
-  // }, [state.cart.length, dispatch]);
-
-  // function toggleCart() {
-  //   dispatch({ type: TOGGLE_CART });
-  // }
-  // function submitCheckout() {
-  //   const productIds = [];
-
-  //   state.cart.forEach((item) => {
-  //     for (let i = 0; i < item.purchaseQuantity; i++) {
-  //       productIds.push(item._id);
-  //     }
-  //   });
-  //   getCheckout({
-  //     variables: { products: productIds },
-  //   });
-  // }
   if (!state.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
@@ -93,7 +66,7 @@ const Cart = () => {
               <CartItem key={item._id} item={item} />
             ))}
             {Auth.loggedIn() ? (
-              <button onClick={submitCheckout}>Checkout</button>
+              <button to="/confirmation" onClick={submitCheckout}>Checkout</button>
             ) : (
               <span>(log in to check out)</span>
             )}
