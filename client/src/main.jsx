@@ -7,6 +7,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Signup from "./pages/Signup/Signup.jsx";
+import Product from "./pages/Product/Product.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 
 
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
       },
+      {
+        path: "/products/:id",
+        element: <Product />,
+      }
     ],
   },
 ]);

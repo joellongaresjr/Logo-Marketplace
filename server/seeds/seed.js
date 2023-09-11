@@ -7,7 +7,7 @@ const userSeeds = require("./userSeeds");
 const productSeeds = require("./productSeeds");
 
 //Change these values to change the amount of data seeded
-const productAmount = 1;
+const productAmount = 100;
 const storeAmount = 100;
 const categoryAmount = 10;
 const userAmount = 10;

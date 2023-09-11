@@ -15,6 +15,20 @@ export const QUERY_USER = gql`
   }
 `;
 
+export const QUERY_ITEM = gql`
+  query GetProduct($_id: ID!) {
+    getProduct(_id: $_id) {
+      _id
+      name
+      description
+      price
+      stockQuantity
+      imageUrl
+      created_at
+    }
+  }
+`;
+
 export const QUERY_PRODUCTS_FUZZY = gql`
   query getProductsFuzzy($query: String!) {
     getProductsFuzzy(query: $query) {

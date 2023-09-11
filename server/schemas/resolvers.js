@@ -3,8 +3,8 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    getProduct: async (parent, { id }) => {
-      return Product.findOne({ _id: id });
+    getProduct: async (parent, { _id }) => {
+      return Product.findOne({ _id });
     },
     getProducts: (parent, { limit, offset }) => {
       const paginatedProducts = Product.find({})

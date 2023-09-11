@@ -27,11 +27,10 @@ ul, ol {
 
 main {
   min-height: 100vh;
-  margin-top: auto;
   background-color: #f8f8f8;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   main {
     min-height: 100vh;
     margin-top: 4rem;
