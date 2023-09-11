@@ -1,10 +1,5 @@
 import "./Home.css";
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Hero from "../../components/Hero/Hero.jsx";
 import ItemContainer from "../../components/ItemContainer/ItemContainer";
@@ -13,35 +8,44 @@ import { QUERY_PRODUCTS_PAGINATED } from "./../../utils/queries";
 
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [loadedProducts, setLoadedProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [items, setItems] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const containerRef = useRef();
-  const { loading, data } = useQuery(QUERY_PRODUCTS_PAGINATED, {
-    variables: { limit: 12, offset: pageNumber * 12 },
+
+  const { data } = useQuery(QUERY_PRODUCTS_PAGINATED, {
+    variables: { limit: 10, offset: (pageNumber - 1) * 10 },
+    skip: !hasMore, 
   });
 
-  const lastProductRef = useCallback(
-    (node) => {
-      if (loading) return;
-      if (containerRef.current) {
-        const observer = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            setPageNumber((prevPageNumber) => prevPageNumber + 1);
-          }
-        });
-        if (node) {
-          observer.observe(node);
-        }
-      }
-    },
-    [loading]
-  );
-
   useEffect(() => {
-    if (!loading && data) {
-      setLoadedProducts((prevProducts) => [...prevProducts, ...data.getProducts]);
-    }
-  }, [loading, data]);
+    if (!data || !data.getProducts) return;
 
+    const newProducts = data.getProducts;
+
+    if (newProducts.length === 0) {
+      setHasMore(false);
+    } else {
+      setItems((prevItems) => [...prevItems, ...newProducts]);
+      setLoading(false);
+    }
+  }, [data]);
+
+  const lastItemRef = useCallback(
+    (node) => {
+      if (loading || !hasMore || !node) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1); 
+        }
+      });
+
+      observer.observe(node);
+      return null;
+    },
+    [loading, hasMore]
+  );
   return (
     <>
       <Hero />
@@ -49,13 +53,12 @@ const Home = () => {
         <Row>
           <Col xs={12} sm={6} md={4} lg={3}>
             <div className="item-grid">
-              {loadedProducts.map((product, index) => (
+              {items.map((product, index) => (
                 <div
-                  ref={index === loadedProducts.length - 1 ? lastProductRef : null}
                   key={product._id}
+                  ref={index === items.length - 1 ? lastItemRef : null}
                 >
                   <ItemContainer
-                    key={product._id}
                     name={product.name}
                     price={product.price}
                     imgUrl={product.imageUrl}
