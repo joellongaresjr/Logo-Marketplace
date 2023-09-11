@@ -48,7 +48,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className="nav-title">
+      <div className={burgerClick ? "nav-title active" : "nav-title"}>
         <Link to="/">
           <img
             src={logo}
@@ -117,7 +117,7 @@ const Header = () => {
         {burgerClick ? (
           <FaTimes size={25} style={{ color: "#3a2e39" }} />
         ) : (
-          <FaBars size={25} style={{ color: "#3a2e39" }} />
+          <FaBars size={25} style={{ color: "#fff" }} />
         )}
       </div>
     </header>

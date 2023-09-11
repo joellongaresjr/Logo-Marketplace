@@ -58,6 +58,10 @@ header a h1 {
   width: 100%;
 }
 
+.current-page {
+  color: yellow;
+}
+
 .nav-search button {
   background: var(--peach);
   height: inherit;
@@ -126,6 +130,10 @@ header a h1 {
     padding-right: 1rem;
   }
 
+  .nav-title.active {
+    color: #3a2e39;
+  }
+
   .nav-menu {
     flex-direction: column;
     justify-content: center;
@@ -147,6 +155,7 @@ header a h1 {
 
   .nav-menu li a {
     font-size: 1.5rem;
+    color: black;
   }
 
   .burger {
