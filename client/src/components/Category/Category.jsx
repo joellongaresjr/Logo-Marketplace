@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { QUERY_CATEGORIES } from "../../utils/queries";
 import { useQuery } from '@apollo/client';
 import { useStoreContext } from '../../utils/GlobalState';
@@ -6,15 +6,15 @@ import { useStoreContext } from '../../utils/GlobalState';
 
 function Category() {
     const [state, dispatch] = useStoreContext();
-  
+
     const { categories } = state;
-  
+
     const { data: categoryData } = useQuery(QUERY_CATEGORIES);
-  
+
     useEffect(() => {
         console.log("categoriesData:", categoryData);
     }, [categoryData, dispatch]);
-     
+
 
         return (
             <div>
@@ -40,5 +40,5 @@ function Category() {
             </div>
           );
         }
-    
+
     export default Category;

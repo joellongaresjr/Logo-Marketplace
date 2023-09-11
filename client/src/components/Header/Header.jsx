@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
-import { QUERY_PRODUCTS_FUZZY, QUERY_CATEGORIES } from "../../utils/queries";
+import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
 import Login from "./../../pages/Login/Login";
 import Signup from "./../../pages/Signup/Signup";
@@ -16,7 +16,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
-  const { data: categoryData } = useQuery(QUERY_CATEGORIES);
+
 
 
   const burgerToggle = () => {
@@ -34,7 +34,6 @@ const Header = () => {
   const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {
     variables: { query: searchQuery },
   });
-
 
 
   useEffect(() => {
@@ -80,9 +79,10 @@ const Header = () => {
           </form>
         </li>
 
-        <li>
-          <Category categories={categoryData} />
-        </li>
+  <li>
+    <Category />
+  </li>
+  </ul>
       
         { Auth.loggedIn() ? (
             <li>
@@ -125,7 +125,6 @@ const Header = () => {
         <li>
           <Cart />
         </li>
-      </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
           <FaTimes size={25} style={{ color: "#3a2e39" }} />
