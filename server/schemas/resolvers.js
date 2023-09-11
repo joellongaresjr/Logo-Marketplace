@@ -4,8 +4,9 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    getProduct: async (parent, args) => {
-      return Product.findOne({ args });
+
+    getProduct: async (parent, { _id }) => {
+      return Product.findOne({ _id });
     },
     getProducts: async (parent, { limit, offset }) => {
       const paginatedProducts = await Product.find({ featured: true })
