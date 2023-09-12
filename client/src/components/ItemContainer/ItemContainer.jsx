@@ -16,7 +16,7 @@ const ItemContainer = (props) => {
 
   const {cart} = state;
 
-  console.log(props._id)
+  // console.log(props._id)
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === props._id);

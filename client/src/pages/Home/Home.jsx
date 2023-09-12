@@ -5,7 +5,7 @@ import Hero from "../../components/Hero/Hero.jsx";
 import ItemContainer from "../../components/ItemContainer/ItemContainer";
 import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS_PAGINATED } from "./../../utils/queries";
-import 'animate.css';
+
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
