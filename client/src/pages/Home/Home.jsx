@@ -15,7 +15,7 @@ const Home = () => {
 
   const { data } = useQuery(QUERY_PRODUCTS_PAGINATED, {
     variables: { limit: 10, offset: (pageNumber - 1) * 10 },
-    skip: !hasMore, 
+    skip: !hasMore,
   });
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Home = () => {
 
       const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1); 
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
         }
       });
 
@@ -46,32 +46,26 @@ const Home = () => {
     },
     [loading, hasMore]
   );
- 
+
   return (
     <>
       <Hero />
-      <Container ref={containerRef}>
-        <Row>
-          <Col xs={12} sm={6} md={4} lg={3}>
-            <div className="item-grid">
-              {items.map((product, index) => (
-                <div
-                  key={product._id}
-                  ref={index === items.length - 1 ? lastItemRef : null}
-                >
-                  <ItemContainer
-                    name={product.name}
-                    price={product.price}
-                    imgUrl={product.imageUrl}
-                    _id={product._id}
-                    featured={product.featured}
-                  />
-                </div>
-              ))}
-            </div>
-          </Col>
-        </Row>
-      </Container>
+      <div className="item-grid">
+        {items.map((product, index) => (
+          <div
+            key={product._id}
+            ref={index === items.length - 1 ? lastItemRef : null}
+          >
+            <ItemContainer
+              name={product.name}
+              price={product.price}
+              imgUrl={product.imageUrl}
+              _id={product._id}
+              featured={product.featured}
+            />
+          </div>
+        ))}
+      </div>
     </>
   );
 };
