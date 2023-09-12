@@ -15,7 +15,6 @@ const Header = () => {
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
 
-
   const burgerToggle = () => {
     setBurgerClick(!burgerClick);
   };
@@ -24,15 +23,12 @@ const Header = () => {
     setBurgerClick(false);
   }, [pathname]);
 
-
-  // Use the useQuery hook directly within the component
   const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {
     variables: { query: searchQuery },
     skip: searchQuery.length < 2,
   });
 
   useEffect(() => {
-    // Update fuzzyMatch when data changes
     if (data) {
       setFuzzyMatch(data.getProductsFuzzy);
     }
@@ -55,6 +51,7 @@ const Header = () => {
             src={logo}
             style={{ width: "4rem", height: "auto" }}
             className="logo"
+            alt="Logo"
           />
         </Link>
         <h1>Logo MarketPlace</h1>
@@ -112,7 +109,6 @@ const Header = () => {
             </li>
           </>
         )}
-        
         <li>
           <Link
             to="/resume"
@@ -121,9 +117,15 @@ const Header = () => {
             Orders
           </Link>
         </li>
-        <li>
-          <Cart />
-        </li>
+          {(window.location.pathname !== "/confirmation") ? (
+            <li>
+              <Cart />
+            </li>
+          ) : (
+            <></>
+          )
+        }
+      </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
           <FaTimes size={25} style={{ color: "#3a2e39" }} />
@@ -132,10 +134,7 @@ const Header = () => {
         )}
       </div>
     </header>
-    
   );
 };
-
-
 
 export default Header;

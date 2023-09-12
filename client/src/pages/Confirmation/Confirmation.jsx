@@ -15,18 +15,18 @@ import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
 
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Confirmation = () => {
 const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 const cart = useSelector((state) => state.cart);
-
-
-  const dispatch = useDispatch();
+const state = useSelector((state) => state);
+const dispatch = useDispatch();
  
 
   useEffect(() => {
     if (data) {
+    console.log(data)
       stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
@@ -63,8 +63,8 @@ const cart = useSelector((state) => state.cart);
   }
 
   function submitCheckout() {
+    event.preventDefault();
 
-    
     const productIds = [];
 
     cart.forEach((item) => {
@@ -76,7 +76,7 @@ const cart = useSelector((state) => state.cart);
     });
 
     getCheckout({
-      variables: { products: productIds },
+      variables: { products: productIds }
     });
   }
 

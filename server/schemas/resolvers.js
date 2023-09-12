@@ -1,7 +1,7 @@
 const { get } = require("mongoose");
 const { Product, Category, Store, User, Order, Admin } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
-const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
@@ -47,15 +47,18 @@ const resolvers = {
       return Store.findOne({ _id: id });
     },
     checkout: async (parent, args, context) => {
-      console.log(args.products);
+      // console.log(args.products);  
       const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
-      const { products } = await order.populate("products").execPopulate();
-      console.log(products);
-      const line_items = [];
 
+      const order = new Order({ products: args.products });
+
+      const { products } = await order.populate('products');
+
+
+      const line_items = []; 
 
       for (let i = 0; i < products.length; i++) {
+  
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
@@ -66,6 +69,7 @@ const resolvers = {
           unit_amount: products[i].price * 100,
           currency: "usd",
         });
+        
         
         line_items.push({
           price: price.id,
@@ -79,7 +83,10 @@ const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
+
+
       return { session: session.id };
+
     },
 
     getStores: async () => {
@@ -142,7 +149,7 @@ const resolvers = {
       console.log(args.store);
       const admin = await Admin.create(args);
 
-      const token = signToken(admin);
+      const token = signToken(admin); 
 
       await Store.findByIdAndUpdate(args.store, {
         $addToSet: { admin: admin._id },
@@ -172,11 +179,13 @@ const resolvers = {
     },
     addOrder: async (parent, { products }, context) => {
       if (context.user) {
-        const order = await Order.create({ products });
+        const order = await Order({ products });
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
+        console.log("order added"); 
         return order;
+        
       }
       throw AuthenticationError;
     },

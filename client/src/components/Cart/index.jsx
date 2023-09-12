@@ -7,8 +7,8 @@ import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
-import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+
+
 
 const Cart = () => {
 
