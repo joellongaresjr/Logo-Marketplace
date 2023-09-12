@@ -14,6 +14,8 @@ import Auth from "../../utils/auth";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
+import ConfirmInfo from "../../components/ConfirmInfo/ConfirmInfo"
+
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
@@ -111,7 +113,10 @@ const dispatch = useDispatch();
   };
 
   return (
+    <div className="confirmation-page">
     <div className="confirmation">
+     <div className="confirmation-items">
+    <div className="order-items">
       <h2>Confirmation</h2>
       <div className="confirmation-container">
         {state.cart.length ? (
@@ -171,7 +176,15 @@ const dispatch = useDispatch();
       <div className="confirmation-total">
         <h3>Total: ${calculateTotal()}</h3>
         <h3>Total Items: {totalItems()}</h3>
+        </div>
       </div>
+      <div className="confirm-info">
+      <ConfirmInfo />
+      </div>
+    
+    </div>
+   
+    </div>
     </div>
   );
 };
