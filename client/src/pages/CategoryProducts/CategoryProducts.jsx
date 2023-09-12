@@ -16,9 +16,7 @@ const CategoryProducts = () => {
   });
 
   if (loading) {
-
     return <div>Loading...</div>;
-
   }
 
   const products = data.getProductsByCategory;

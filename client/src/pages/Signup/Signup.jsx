@@ -21,10 +21,9 @@ const Signup = (props) => {
           address: formState.address,
         },
       });
-      console.log(mutationResponse);
 
       const token = mutationResponse.data.addUser.token;
-      console.log(token);
+      
       Auth.login(token);
     } catch (e) {
       console.log(e);
@@ -61,7 +60,7 @@ const Signup = (props) => {
             />
           </div>
           <div className="">
-            <label htmlFor="Address">Shipping Address</label>
+            <label htmlFor="address">Shipping Address</label>
             <input
               placeholder="1234 Main St"
               name="address"

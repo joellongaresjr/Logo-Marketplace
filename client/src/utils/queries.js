@@ -86,3 +86,4 @@ export const QUERY_PRODUCT_BY_CATEGORY = gql`
     }
   }
 `;
+
