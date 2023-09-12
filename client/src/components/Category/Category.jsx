@@ -29,7 +29,7 @@ function Category() {
     <div className="category-dropdown" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <button className="category-dropdown-button">Categories</button>
       {isHovered && (
-        <div className="category-dropdown-menu">
+        <div className="nav-menu">
           {categories.map((category) => (
             <Link
               key={category._id}
