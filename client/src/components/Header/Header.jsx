@@ -78,49 +78,49 @@ const Header = () => {
         <li>
           <Category />
         </li>
-      </ul>
 
-      {Auth.loggedIn() ? (
+        {Auth.loggedIn() ? (
+          <li>
+            <Link
+              to="/"
+              className={pathname === "/" ? "current-page" : "nav-item"}
+              onClick={() => Auth.logout()}
+            >
+              Logout
+            </Link>
+          </li>
+        ) : (
+          <>
+            <li>
+              <Link
+                to="/login"
+                className={pathname === "/login" ? "current-page" : "nav-item"}
+              >
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/signup"
+                className={pathname === "/signup" ? "current-page" : "nav-item"}
+              >
+                Sign Up
+              </Link>
+            </li>
+          </>
+        )}
         <li>
           <Link
-            to="/"
-            className={pathname === "/" ? "current-page" : "nav-item"}
-            onClick={() => Auth.logout()}
+            to="/resume"
+            className={pathname === "/resume" ? "current-page" : "nav-item"}
           >
-            Logout
+            Orders
           </Link>
         </li>
-      ) : (
-        <>
-          <li>
-            <Link
-              to="/login"
-              className={pathname === "/login" ? "current-page" : "nav-item"}
-            >
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/signup"
-              className={pathname === "/signup" ? "current-page" : "nav-item"}
-            >
-              Sign Up
-            </Link>
-          </li>
-        </>
-      )}
-      <li>
-        <Link
-          to="/resume"
-          className={pathname === "/resume" ? "current-page" : "nav-item"}
-        >
-          Orders
-        </Link>
-      </li>
-      <li>
-        <Cart />
-      </li>
+        <li>
+          <Cart />
+        </li>
+      </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
           <FaTimes size={25} style={{ color: "#3a2e39" }} />

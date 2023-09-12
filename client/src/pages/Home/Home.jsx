@@ -18,8 +18,6 @@ const Home = () => {
     skip: !hasMore, 
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (!data || !data.getProducts) return;
 
@@ -66,6 +64,7 @@ const Home = () => {
                     price={product.price}
                     imgUrl={product.imageUrl}
                     _id={product._id}
+                    featured={product.featured}
                   />
                 </div>
               ))}
