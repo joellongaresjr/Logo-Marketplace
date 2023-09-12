@@ -1,40 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { QUERY_CATEGORIES } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SET_CATEGORIES } from "../../utils/actions";
+import { Link } from "react-router-dom";
 
 function Category() {
   const dispatch = useDispatch();
-  const categoryState = useSelector((state) => state.currentCategory);
+  const [isHovered, setIsHovered] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
+  const { data: categoryData } = useQuery(QUERY_CATEGORIES);
 
-  console.log(categoryData);
-
-  const categories = categoryData?.getCategories.map((category) => category.name) || [];
-
-
-  console.log(categories)
+  const categories = categoryData?.getCategories || [];
 
   useEffect(() => {
-    if (categories) {
-      console.log("Category data:", categories);
+    if (categories.length > 0) {
       dispatch({ type: SET_CATEGORIES, categories: categories });
     }
-  }, [categoryData, dispatch]);
+  }, [categories, dispatch]);
 
-  if (loading) {
-    return <div>Loading categories..</div>;
-  }
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setIsHovered(false);
+  };
 
   return (
-    <>
-      <h2>Choose a category:</h2>
-      {categories.map((category, index) => (
-        <button key={index}>{category}</button>
-      ))}
-    </>
+    <div className="category-dropdown" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <button className="category-dropdown-button">Categories</button>
+      {isHovered && (
+        <div className="nav-menu">
+          {categories.map((category) => (
+            <Link
+              key={category._id}
+              to={`/products/${category._id}`}
+              onClick={() => handleCategoryClick(category)}
+            >
+              {category.name}
+            </Link>
+          ))}
+        </div>
+      )}
+      {selectedCategory && <Redirect to={`/products/${selectedCategory._id}`} />}
+    </div>
   );
 }
 
