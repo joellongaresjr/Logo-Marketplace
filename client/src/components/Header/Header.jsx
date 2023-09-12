@@ -16,6 +16,7 @@ const Header = () => {
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
 
+
   const burgerToggle = () => {
     setBurgerClick(!burgerClick);
   };
@@ -27,6 +28,7 @@ const Header = () => {
   useEffect(() => {
     // console.log(fuzzyMatch);
   }, [fuzzyMatch]);
+
 
   // Use the useQuery hook directly within the component
   const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {
@@ -57,28 +59,9 @@ const Header = () => {
         <h1>Logo MarketPlace</h1>
       </div>
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
-        <li className="nav-item dropdown">
-          <a href="#" className="dropbtn">
-            Categories
-          </a>
-          <div className="dropdown-content">
-            <Link to={`/product/
-            `}>
-              <p>yes</p>
-              <p>yes</p>
-              <p>yes</p>
-            </Link>
-          </div>
-        </li>
         <li>
           <form className="nav-search">
-            <input
-              type="text"
-              placeholder="Search.."
-              name="search"
-              onChange={searchChangeHandler}
-              list="fuzzyMatchList"
-            />
+            <input type="text" placeholder="Search.." name="search" onChange={searchChangeHandler} list="fuzzyMatchList" />
             <datalist id="fuzzyMatchList">
               {fuzzyMatch.map((item) => (
                 <option key={item._id} value={item.name} />
@@ -126,13 +109,13 @@ const Header = () => {
             Orders
           </Link>
         </li>
-        {window.location.pathname !== "/confirmation" ? (
-          <li>
+        { (window.location.pathname !== "/confirmation") ? (
+            <li>
             <Cart />
           </li>
-        ) : (
-          <></>
-        )}
+          ) : (
+            <></>
+          )}
       </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (

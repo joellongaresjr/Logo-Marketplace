@@ -43,10 +43,16 @@ const resolvers = {
       return Store.findOne({ _id: id });
     },
     checkout: async (parent, args, context) => {
+      console.log(args.products);
+      console.log('here');
       const url = new URL(context.headers.referer).origin;
+      console.log(url)
       const order = new Order({ products: args.products });
+      
       const { products } = await order.populate("products").execPopulate();
+      console.log(products);
       const line_items = [];
+
 
       for (let i = 0; i < products.length; i++) {
         const product = await stripe.products.create({
@@ -54,13 +60,14 @@ const resolvers = {
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
         });
+        console.log({products});
         
         const price = await stripe.prices.create({
           product: product.id,
           unit_amount: products[i].price * 100,
           currency: "usd",
         });
-
+        
         line_items.push({
           price: price.id,
           quantity: 1,
