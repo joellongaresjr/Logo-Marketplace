@@ -12,6 +12,7 @@ import SearchedProducts from "./pages/SearchedProducts/SearchedProducts.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import Confirmation from "./pages/Confirmation/Confirmation";
 
+import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
       {
         path: "/search/:search",
         element: <SearchedProducts />,
-      }
+      },
+      {
+        path: "/products/category/:id",
+        element: <CategoryProducts />,
+      },
     ],
   },
 ]);

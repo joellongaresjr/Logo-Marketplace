@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Dropdown } from "react-bootstrap";
 import { QUERY_CATEGORIES } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
 import { useDispatch } from "react-redux";
@@ -7,42 +8,37 @@ import { Link } from "react-router-dom";
 
 function Category() {
   const dispatch = useDispatch();
-  const [isHovered, setIsHovered] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const [categories, setCategories] = useState([]);
   const { data: categoryData } = useQuery(QUERY_CATEGORIES);
 
-  const categories = categoryData?.getCategories || [];
-
   useEffect(() => {
-    if (categories.length > 0) {
-      dispatch({ type: SET_CATEGORIES, categories: categories });
+    if (categoryData?.getCategories) {
+      setCategories(categoryData.getCategories);
+      dispatch({
+        type: SET_CATEGORIES,
+        categories: categoryData.getCategories,
+      });
     }
-  }, [categories, dispatch]);
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    setIsHovered(false);
-  };
+  }, [categoryData, dispatch]);
 
   return (
-    <div className="category-dropdown" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <button className="category-dropdown-button">Categories</button>
-      {isHovered && (
-        <div className="nav-menu">
-          {categories.map((category) => (
-            <Link
-              key={category._id}
-              to={`/products/${category._id}`}
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category.name}
-            </Link>
-          ))}
-        </div>
-      )}
-      {selectedCategory && <Redirect to={`/products/${selectedCategory._id}`} />}
-    </div>
+    <Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+        Dropdown Button
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        {categories.map((category) => (
+          <Dropdown.Item
+            key={category._id}
+            as={Link}
+            to={`/products/category/${category._id}`}
+          >
+            {category.name}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
   );
 }
 
