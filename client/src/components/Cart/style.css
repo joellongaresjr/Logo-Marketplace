@@ -1,13 +1,19 @@
 .cart {
-  width: 300px;
+  max-width: 100%;
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  justify-content: center;
+  text-align: left;
   top: 10%;
   right: 5%;
-  background-color: #93d07f;
+  background-color: goldenrod;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 15px;
   z-index: 1000;
+  border: 1px solid black;
 }
 
 .close {
@@ -15,7 +21,10 @@
   justify-content: flex-end;
 }
 
-.close span {
+.close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   cursor: pointer;
   background-color: #f44336;
   color: #ffffff;
@@ -28,8 +37,13 @@
   transition: background-color 0.3s ease;
 }
 
-.close span:hover {
+.close:hover {
   background-color: #d32f2f;
+}
+
+.centered-text {
+  text-align: center;
+  align-items: center;
 }
 
 h2,
@@ -73,4 +87,28 @@ h3 {
 
 .checkout-btn:hover {
   background-color: #45a049;
+}
+
+/* Add these styles to your CSS file */
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-container p {
+  text-align: center;
+  justify-content: center;
+}
+
+.form-input p {
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.form-input,
+.form-input p {
+  width: auto;
+  align-items: center;
+  justify-content: center;
 }

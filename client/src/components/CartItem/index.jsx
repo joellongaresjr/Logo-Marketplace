@@ -1,6 +1,8 @@
+import "../Cart/style.css"
 import { useDispatch } from "react-redux";
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
+import { FaTimes } from "react-icons/fa";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -38,21 +40,21 @@ const CartItem = ({ item }) => {
         <div>
           {item.name}, ${item.price}
         </div>
-        <div>
-          <span>Qty:</span>
+        <div className="input-container">
+          <p>Qty:</p>
           <input
+            className="form-input"
             type="number"
             placeholder="1"
             value={item.purchaseQuantity}
             onChange={onChange}
           />
-          <span
+          <FaTimes
+            onClick={() => removeFromCart(item)}
             role="img"
             aria-label="trash"
-            onClick={() => removeFromCart(item)}
-          >
-            Remove Item
-          </span>
+            style={{ cursor: "pointer" }}
+          />
         </div>
       </div>
     </div>

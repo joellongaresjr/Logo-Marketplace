@@ -75,12 +75,6 @@ const Header = () => {
             <button className="search-btn" type="submit">Submit</button>
           </form>
         </li>
-
-
-        <li>
-          <Category />
-        </li>
-
         <li>
           <Link
             to="/stores"

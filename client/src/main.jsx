@@ -1,5 +1,5 @@
 import "./index.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -47,14 +47,13 @@ const router = createBrowserRouter([
         element: <SearchedProducts />,
       },
       {
-
         path: "/stores",
         element: <Stores />,
-      }
+      },
+      {
         path: "/products/category/:id",
         element: <CategoryProducts />,
       },
-
     ],
   },
 ]);
