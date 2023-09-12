@@ -8,6 +8,7 @@ import Home from "./pages/Home/Home.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Signup from "./pages/Signup/Signup.jsx";
 import Product from "./pages/Product/Product.jsx";
+import SearchedProducts from "./pages/SearchedProducts/SearchedProducts.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 
 
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:id",
         element: <Product />,
+      },
+      {
+        path: "/search/:search",
+        element: <SearchedProducts />,
       }
     ],
   },

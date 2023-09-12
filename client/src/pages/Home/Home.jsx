@@ -46,7 +46,6 @@ const Home = () => {
     },
     [loading, hasMore]
   );
-  console.log(items);
   return (
     <>
       <Hero />

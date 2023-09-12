@@ -34,6 +34,9 @@ export const QUERY_PRODUCTS_FUZZY = gql`
     getProductsFuzzy(query: $query) {
       _id
       name
+      imageUrl
+      price
+      description
     }
   }
 `;

@@ -14,7 +14,6 @@ const ItemContainer = (props) => {
     props.price
   );
 
-  console.log("here are the:", props)
   return (
     <Card>
       <Card.Body>

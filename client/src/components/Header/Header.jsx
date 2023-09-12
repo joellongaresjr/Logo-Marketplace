@@ -6,15 +6,12 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
-import Login from "./../../pages/Login/Login";
-import Signup from "./../../pages/Signup/Signup";
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
-
 
   const burgerToggle = () => {
     setBurgerClick(!burgerClick);
@@ -25,17 +22,14 @@ const Header = () => {
   }, [pathname]);
 
   useEffect(() => {
-    console.log(fuzzyMatch);
   }, [fuzzyMatch]);
 
-
-  // Use the useQuery hook directly within the component
   const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {
     variables: { query: searchQuery },
+    skip: searchQuery.length < 2,
   });
 
   useEffect(() => {
-    // Update fuzzyMatch when data changes
     if (data) {
       setFuzzyMatch(data.getProductsFuzzy);
     }
@@ -44,6 +38,12 @@ const Header = () => {
   const searchChangeHandler = (event) => {
     setSearchQuery(event.target.value);
   };
+
+  const searchSubmitHandler = (event) => {
+    event.preventDefault();
+    window.location.href = `/search/${searchQuery}`;;
+  }
+
 
   return (
     <header>
@@ -59,8 +59,8 @@ const Header = () => {
       </div>
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
         <li>
-          <form className="nav-search">
-            <input type="text" placeholder="Search.." name="search" onChange={searchChangeHandler} list="fuzzyMatchList" />
+          <form className="nav-search" onSubmit={searchSubmitHandler}>
+            <input type="text" placeholder="Search.." name="search" onChange={searchChangeHandler} list="fuzzyMatchList"  />
             <datalist id="fuzzyMatchList">
               {fuzzyMatch.map((item) => (
                 <option key={item._id} value={item.name} />
