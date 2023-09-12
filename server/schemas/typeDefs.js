@@ -54,7 +54,7 @@ const typeDefs = `
 
 
   type Store {
-    _id: ID
+    _id: ID!
     name: String
     location: String
     products: [Product]
@@ -84,6 +84,7 @@ const typeDefs = `
     getStore(id: ID!): Store
     getStores: [Store]!
     getProductsByCategory(_id: ID!): [Product]
+    getOrder(_id: ID!): Order
   }
 
   type Mutation {

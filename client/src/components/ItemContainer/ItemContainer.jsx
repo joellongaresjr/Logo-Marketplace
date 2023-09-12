@@ -47,11 +47,16 @@ const ItemContainer = (props) => {
       <Card.Body>
         {props.featured && <p>Featured ✨ Product</p>}
         <Link to={`/products/${props._id}`} className="card-link">
-          <Card.Img className="card-img" variant="top" src={props.imgUrl} alt="alt-text" />
-          <Card.Text>{props.name}</Card.Text>
+          <Card.Img
+            className="card-img"
+            variant="top"
+            src={props.imgUrl}
+            alt="alt-text"
+          />
+          <Card.Text className="item-title">{props.name}</Card.Text>
         </Link>
         <Card.Text>{dollarString}</Card.Text>
-        <button onClick={addToCart} className="btn">
+        <button onClick={addToCart} className="add-to-cart">
           Add to Cart
         </button>
       </Card.Body>

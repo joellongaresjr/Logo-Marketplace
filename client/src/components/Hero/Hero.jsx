@@ -4,9 +4,9 @@ import { Container } from "react-bootstrap";
 
 const Hero = () => {
   return (
-    <Container className="jumbotron">
+    <div className="jumbotron">
       <h1>Welcome to Logo MarketPlace</h1>
-    </Container>
+    </div>
   );
 };
 

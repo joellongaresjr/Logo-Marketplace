@@ -21,18 +21,24 @@ function Category() {
     }
   }, [categoryData, dispatch]);
 
+  const handleCloseDropdown = () => {
+    document.getElementById("category-dropdown").click();
+  };
+
   return (
     <Dropdown>
       <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
+        Categories
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
         {categories.map((category) => (
           <Dropdown.Item
+            className="dropdown-item"
             key={category._id}
             as={Link}
             to={`/products/category/${category._id}`}
+            onClick={handleCloseDropdown}
           >
             {category.name}
           </Dropdown.Item>
