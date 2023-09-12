@@ -44,7 +44,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <nav className="header">
       <div className={burgerClick ? "nav-title active" : "nav-title"}>
         <Link to="/">
           <img
@@ -59,6 +59,7 @@ const Header = () => {
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
         <li>
           <form className="nav-search" onSubmit={searchSubmitHandler}>
+            <Category />
             <input
               type="text"
               placeholder="Search.."
@@ -71,9 +72,10 @@ const Header = () => {
                 <option key={item._id} value={item.name} />
               ))}
             </datalist>
-            <button type="submit">Submit</button>
+            <button className="search-btn" type="submit">Submit</button>
           </form>
         </li>
+
 
         <li>
           <Category />
@@ -87,7 +89,6 @@ const Header = () => {
             Stores
           </Link>
         </li>
-
         {Auth.loggedIn() ? (
           <li>
             <Link
@@ -126,9 +127,14 @@ const Header = () => {
             Orders
           </Link>
         </li>
-        <li>
-          <Cart />
-        </li>
+          {(window.location.pathname !== "/confirmation") ? (
+            <li>
+              <Cart />
+            </li>
+          ) : (
+            <></>
+          )
+        }
       </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
@@ -137,7 +143,7 @@ const Header = () => {
           <FaBars size={25} style={{ color: "#fff" }} />
         )}
       </div>
-    </header>
+    </nav>
   );
 };
 
