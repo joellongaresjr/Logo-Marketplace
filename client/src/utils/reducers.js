@@ -5,7 +5,7 @@ import {
   REMOVE_FROM_CART,
   ADD_MULTIPLE_TO_CART,
   UPDATE_CATEGORIES,
-  UPDATE_CURRENT_CATEGORY,
+  SET_CATEGORIES,
   CLEAR_CART,
   TOGGLE_CART,
 } from "./actions";
@@ -83,11 +83,10 @@ export const reducer = (state = initialState, action) => {
         categories: [...action.categories],
       };
 
-    case UPDATE_CURRENT_CATEGORY:
-      return {
-        ...state,
-        currentCategory: action.currentCategory,
-      };
+    case SET_CATEGORIES:
+      return { 
+        ...state, 
+        categories: action.payload };
 
     default:
       return state;

@@ -18,7 +18,11 @@
     "concurrently": "^8.2.0"
   },
   "dependencies": {
+    "@adminjs/express": "^6.0.0",
+    "@adminjs/mongoose": "^4.0.0",
+    "adminjs": "^7.2.1",
     "bootstrap": "^5.3.1",
-    "react-bootstrap": "^2.8.0"
+    "react-bootstrap": "^2.8.0",
+    "stripe": "^13.5.0"
   }
 }

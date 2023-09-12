@@ -1,5 +1,5 @@
 const db = require("../config/connection");
-const { Category, Store, User, Product } = require("../models");
+const { Category, Store, User, Product, Admin, Order} = require("../models");
 
 const categorySeeds = require("./categorySeeds");
 const storeSeeds = require("./storeSeeds");
@@ -7,11 +7,11 @@ const userSeeds = require("./userSeeds");
 const productSeeds = require("./productSeeds");
 
 //Change these values to change the amount of data seeded
-const productAmount = 100;
+const productAmount = 200;
 const storeAmount = 100;
-const categoryAmount = 10;
+const categoryAmount = 100;
 const userAmount = 10;
-const dbCollections = [Category, Store, User, Product];
+const dbCollections = [Category, Store, User, Product, Admin, Order];
 
 const resetCollections = async (collections) => {
   for (const col of collections) {

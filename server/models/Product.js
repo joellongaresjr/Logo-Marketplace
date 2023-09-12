@@ -38,6 +38,10 @@ const productSchema = new Schema(
       ref: "Store",
       required: true,
     },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: {
