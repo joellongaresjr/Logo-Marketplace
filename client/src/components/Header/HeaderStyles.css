@@ -12,7 +12,7 @@
   --peach-rgb: 242, 97, 87;
 }
 
-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,22 +22,25 @@ header {
   color: white;
 }
 
-header a {
+.header a {
   text-decoration: none;
   background: none;
   border: none;
   box-shadow: none;
+  margin: 0;
 }
 
-header a img {
+.header a img {
   box-shadow: none;
+  margin: 0;
 }
 
-header a h1 {
-  font-size: 1.5rem;
+.header h1 {
+  font-size: 2rem;
   font-weight: 600;
-  color: var(--mauve);
+  color: white;
   padding-left: 1rem;
+  margin: 0;
 }
 
 .nav-title {
@@ -45,6 +48,7 @@ header a h1 {
   align-items: center;
   justify-content: center;
   padding-left: 1rem;
+  margin: 0;
 }
 
 .nav-search {
@@ -54,9 +58,8 @@ header a h1 {
 }
 
 .nav-search input {
-  border: 1px solid lightgrey;
-  border-width: 1px 0 1px 1px;
-  border-radius: 0.25rem 0 0 0.25rem;
+  border: 1px solid black;
+  border-width: 1px 0 1px 0;
   padding: 0.5rem;
   width: 20rem;
   font-size: 0.75rem;
@@ -69,22 +72,42 @@ header a h1 {
   color: yellow;
 }
 
-.nav-search button {
-  background: var(--peach);
+.search-btn {
+  background: goldenrod;
   height: inherit;
   font-size: 0.75rem;
   padding: 0.5rem;
   cursor: pointer;
   border-radius: 0 0.25rem 0.25rem 0;
   color: var(--mauve);
-  border: 1px solid var(--peach);
+  border: 1px solid black;
   border-width: 1px 1px 1px 0;
   width: 30%;
 }
 
-.nav-search button:hover {
+.search-btn:hover {
   background: var(--light-red);
-  border: 1px solid var(--light-red);
+}
+
+.dropdown-toggle {
+  background: var(--blue);
+  height: inherit;
+  font-size: 0.75rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem 0 0 0.25rem;
+  color: black;
+  border: 1px solid black;
+  border-width: 1px 0px 1px 1px;
+}
+
+.dropdown-toggle:hover {
+ background: green;
+}
+
+.dropdown-menu {
+  text-align: center;
+  font-size: 0.75rem;
 }
 
 .nav-menu {
@@ -92,6 +115,7 @@ header a h1 {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  margin: 0;
 }
 
 .nav-menu li {
@@ -127,7 +151,7 @@ header a h1 {
 }
 
 @media screen and (max-width: 1000px) {
-  header {
+  .header {
     height: 4rem;
     position: fixed;
     width: 100%;
@@ -137,7 +161,7 @@ header a h1 {
     padding-right: 1rem;
   }
 
-  .nav-title.active {
+ header h1.active {
     color: #3a2e39;
   }
 
@@ -173,5 +197,3 @@ header a h1 {
     font-size: 1.5rem;
   }
 }
-
-

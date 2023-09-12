@@ -4,19 +4,56 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ITEM } from "./../../utils/queries";
+import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
+import { idbPromise } from "../../utils/helpers";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Product = () => {
   const [count, setCount] = useState(1);
   const { id } = useParams();
+
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    const itemInCart = cart.find((cartItem) => cartItem._id === product._id);
+    const newQuantity = itemInCart
+      ? count + parseInt(itemInCart.purchaseQuantity)
+      : count;
+  
+    if (count > 0) {
+      if (itemInCart) {
+        dispatch({
+          type: UPDATE_CART_QUANTITY,
+          _id: product._id,
+          purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + count,
+        });
+  
+        idbPromise("cart", "put", {
+          ...itemInCart,
+          purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + count,
+        });
+      } else {
+        dispatch({
+          type: ADD_TO_CART,
+          product: { ...product, purchaseQuantity: count },
+        });
+  
+        idbPromise("cart", "delete", { ...product, purchaseQuantity: count });
+      }
+    }
+  };
+  
   const { loading, data } = useQuery(QUERY_ITEM, {
     variables: { _id: id },
   });
 
   if (loading) return <div>Loading...</div>;
-  const product = data.getProduct; // Assuming getProduct returns a single product
+
+  const product = data.getProduct;
 
   let formatting_options = {
     style: "currency",
@@ -48,7 +85,7 @@ const Product = () => {
           </p>
           <p>In Stock: {product.stockQuantity} units</p>
         </div>
-        <div className="input-section">
+        <form className="input-section" id="add-to-cart">
           <FaMinus
             className="minus"
             onClick={() => {
@@ -70,8 +107,10 @@ const Product = () => {
               }
             }}
           />
-        </div>
-        <button className="add-cart">Add to Cart</button>
+        </form>
+        <button className="add-cart" onClick={addToCart}>
+          Add to Cart
+        </button>
       </Container>
     </div>
   );

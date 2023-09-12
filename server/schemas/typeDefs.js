@@ -54,7 +54,7 @@ const typeDefs = `
 
 
   type Store {
-    _id: ID
+    _id: ID!
     name: String
     location: String
     products: [Product]
@@ -74,6 +74,7 @@ const typeDefs = `
     admins: [Admin]
     order(_id: ID!): Order
     orders: [Order]
+    productsByCategory(category: ID): [Product]
     getProduct(_id: ID!): Product
     getProducts(limit: Int!, offset: Int!): [Product]
     getProductsFuzzy(query: String!): [Product]
@@ -83,6 +84,7 @@ const typeDefs = `
     getStore(id: ID!): Store
     getStores: [Store]!
     getProductsByCategory(_id: ID!): [Product]
+    getOrder(_id: ID!): Order
   }
 
   type Mutation {
@@ -91,7 +93,7 @@ const typeDefs = `
     addAdmin(username: String!, email: String!, password: String! ): Auth
     addAdminStore(name: String!, location: String!, admin: ID! ): Auth
     login(email: String!, password: String!): Auth
-    addOrder(products: [ID]!, user: ID! ): Order
+    addOrder(products: [ID]!): Order
     addProduct(name: String!, description: String!, price: Float!, category: ID!, store: ID!, stockQuantity: Int!, imageUrl: String!): Product
     updateProduct(_id: ID!, quantity: Int!): Product
     removeProduct(_id: ID!): Product
