@@ -30,6 +30,7 @@ const SearchedProducts = () => {
                   price={product.price}
                   imgUrl={product.imageUrl}
                   link={`/products/${product._id}`}
+                  featured={product.featured}
                 />
               </div>
             ))}

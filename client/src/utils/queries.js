@@ -37,6 +37,7 @@ export const QUERY_PRODUCTS_FUZZY = gql`
       imageUrl
       price
       description
+      featured
     }
   }
 `;
@@ -48,6 +49,8 @@ export const QUERY_PRODUCTS_PAGINATED = gql`
       name
       imageUrl
       price
+      description
+      featured
     }
   }
 `;
@@ -66,4 +69,5 @@ query getCategories {
     _id
     name
   }
-}`
+}
+`;

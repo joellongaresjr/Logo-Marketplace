@@ -10,16 +10,10 @@ function Category() {
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
-  console.log(categoryData);
-
   const categories = categoryData?.getCategories.map((category) => category.name) || [];
-
-
-  console.log(categories)
-
+  
   useEffect(() => {
     if (categories) {
-      console.log("Category data:", categories);
       dispatch({ type: SET_CATEGORIES, categories: categories });
     }
   }, [categoryData, dispatch]);
