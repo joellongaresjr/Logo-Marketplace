@@ -82,6 +82,7 @@ const typeDefs = `
     getCategories: [Category]
     getStore(id: ID!): Store
     getStores: [Store]!
+    getProductsByCategory(_id: ID!): [Product]
   }
 
   type Mutation {
