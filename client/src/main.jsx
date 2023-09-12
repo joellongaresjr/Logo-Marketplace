@@ -13,7 +13,6 @@ import SearchedProducts from "./pages/SearchedProducts/SearchedProducts.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import Confirmation from "./pages/Confirmation/Confirmation";
 import Stores from "./pages/Stores/Stores";
-
 import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
 
 const router = createBrowserRouter([
@@ -47,14 +46,13 @@ const router = createBrowserRouter([
         element: <SearchedProducts />,
       },
       {
-
         path: "/stores",
         element: <Stores />,
-      }
+      },
+      {
         path: "/products/category/:id",
         element: <CategoryProducts />,
       },
-
     ],
   },
 ]);
