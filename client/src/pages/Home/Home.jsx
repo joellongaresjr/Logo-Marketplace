@@ -18,6 +18,8 @@ const Home = () => {
     skip: !hasMore, 
   });
 
+  console.log(data);
+
   useEffect(() => {
     if (!data || !data.getProducts) return;
 

@@ -16,8 +16,6 @@ const ItemContainer = (props) => {
 
   const {cart} = state;
 
-  console.log(props._id)
-
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === props._id);
     if (itemInCart) {
@@ -45,7 +43,6 @@ const ItemContainer = (props) => {
     props.price
   );
 
-  // console.log("here are the:", props)
   return (
     <Card>
       <Card.Body>

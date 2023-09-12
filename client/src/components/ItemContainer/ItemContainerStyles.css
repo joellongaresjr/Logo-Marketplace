@@ -23,3 +23,11 @@
   line-height: 1.2;
   margin-bottom: 0.75rem;
 }
+
+@media screen and (max-width: 1000px) {
+  .card {
+    padding: auto;
+    margin: auto;
+    max-width: 90vw;
+  }
+}
