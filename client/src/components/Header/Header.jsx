@@ -23,10 +23,6 @@ const Header = () => {
     setBurgerClick(false);
   }, [pathname]);
 
-  useEffect(() => {
-    // console.log(fuzzyMatch);
-  }, [fuzzyMatch]);
-
   const { data } = useQuery(QUERY_PRODUCTS_FUZZY, {
     variables: { query: searchQuery },
     skip: searchQuery.length < 2,
