@@ -14,10 +14,14 @@ import Auth from "../../utils/auth";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
-import ConfirmInfo from "../../components/ConfirmInfo/ConfirmInfo"
 import {FaAddressBook, FaCity, FaFontAwesome, FaUser } from "react-icons/fa";
 
-import "../../components/ConfirmInfo/ConfirmInfo.css";
+
+
+window.onload = function () {
+  idbPromise("cart", "delete", { _id: "shippingInfo" });
+};
+
 
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
@@ -31,20 +35,30 @@ const dispatch = useDispatch();
  
 
 const [isSubmitted, setIsSubmitted] = useState(false); 
-const [inputValues, setInputValues] = useState({
-  name:"",
-  email: "",
-  city: "",
-  state: "",
+// const [inputValues, setInputValues] = useState({
+//   name:"",
+//   email: "",
+//   city: "",
+//   state: "",
+//     zip: "",
+//     address: "",
+// });
+// const [isNameValid, setIsNameValid] = useState(true);
+// const [isEmailValid, setIsEmailValid] = useState(true);
+// const [isCityValid, setIsCityValid] = useState(true);
+// const [isStateValid, setIsStateValid] = useState(true);
+// const [isZipValid, setIsZipValid] = useState(true);
+// const [isAddressValid, setIsAddressValid] = useState(true);
+
+const [shippingInfo, setShippingInfo] = useState({
+    full_name: "",
+    email: "",
+    city: "",
+    state: "",
     zip: "",
     address: "",
+    _id: "shippingInfo",
 });
-const [isNameValid, setIsNameValid] = useState(true);
-const [isEmailValid, setIsEmailValid] = useState(true);
-const [isCityValid, setIsCityValid] = useState(true);
-const [isStateValid, setIsStateValid] = useState(true);
-const [isZipValid, setIsZipValid] = useState(true);
-const [isAddressValid, setIsAddressValid] = useState(true);
 
 const form = useRef();
 
@@ -91,8 +105,11 @@ const form = useRef();
 
   function submitCheckout() {
     event.preventDefault();
-
     const productIds = [];
+
+        idbPromise("cart", "put", {
+        ...shippingInfo,
+        });
 
     cart.forEach((item) => {
         console.log(item)
@@ -205,26 +222,36 @@ const form = useRef();
         <FaUser className={FaUser} />
         <label className="name">Name</label>
         </div>
-        <input className="name-input" type="text" placeholder="Name" required/>
+        <input className="name-input" type="text" placeholder="Name" value={shippingInfo.full_name} 
+        onChange={(e)=> setShippingInfo({...shippingInfo, full_name: e.target.value})} 
+        required/>
         <div className="co-logo">
         <FaAddressBook/>
         <label className="address">Address</label>
         </div>
-        <input className="address-input" type="text" placeholder="Address" required/>
+        <input className="address-input" type="text" placeholder="Address" value={shippingInfo.address} 
+        onChange={(e)=> setShippingInfo({...shippingInfo, address: e.target.value})} 
+        required/>
         <div className="co-logo">
         <FaCity className={FaCity} />
         <label className="city">City</label>
         </div>
-        <input className="city-input" type="text" placeholder="City" required/>
+        <input className="city-input" type="text" placeholder="City" value={shippingInfo.city}
+        onChange={(e)=> setShippingInfo({...shippingInfo, city: e.target.value})} 
+        required/>
         <div className="location-info">
           <div className="location">
 
             <label className="state">State</label>
-            <input className="state-input" type="text" placeholder="State" required/>
+            <input className="state-input" type="text" placeholder="State" value={shippingInfo.state}
+            onChange={(e)=> setShippingInfo({...shippingInfo, state: e.target.value})} 
+            required/>
           </div>
           <div className="zip-info">
             <label className="zip">Zip</label>
-            <input className="zip-input" type="text" placeholder="Zip" required/>
+            <input className="zip-input" type="text" placeholder="Zip" value={shippingInfo.zip} 
+            onChange={(e)=> setShippingInfo({...shippingInfo, zip: e.target.value})} 
+            required/>
           </div>
         </div>
       </div>
