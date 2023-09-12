@@ -117,7 +117,7 @@ const dispatch = useDispatch();
     <div className="confirmation">
      <div className="confirmation-items">
     <div className="order-items">
-      <h2>Confirmation</h2>
+      <h2>Order Confirmation</h2>
       <div className="confirmation-container">
         {state.cart.length ? (
           <>

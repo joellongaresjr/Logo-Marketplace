@@ -20,6 +20,7 @@
   "dependencies": {
     "@adminjs/express": "^6.0.0",
     "@adminjs/mongoose": "^4.0.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "adminjs": "^7.2.1",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.1",

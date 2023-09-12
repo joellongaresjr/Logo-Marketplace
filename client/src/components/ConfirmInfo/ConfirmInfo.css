@@ -6,9 +6,10 @@
 }
 
 .confirm-info-container label {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   display: block;
   margin-top: 5px;
+  margin-left: 5px;
 }
 
 .confirm-info-container input {
@@ -47,4 +48,10 @@
 
 .zip-info{
     margin-left: 10px;
+}
+
+.co-logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
