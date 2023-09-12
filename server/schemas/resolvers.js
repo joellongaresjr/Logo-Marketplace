@@ -5,10 +5,6 @@ const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const resolvers = {
   Query: {
-    productsByCategory: async (parent, args) => {
-      const products = await Product.find({ category: args.category }).populate("category");
-      return products;
-    },
     getProduct: async (parent, { _id }) => {
       return Product.findOne({ _id });
     },
@@ -16,13 +12,15 @@ const resolvers = {
       const paginatedProducts = await Product.find({ featured: true })
         .limit(limit)
         .skip(offset)
-        .populate('category')
+        .populate("category")
         .exec();
       return paginatedProducts;
     },
     getProductsFuzzy: async (_, { query }) => {
       try {
-        const result = await Product.find({ name: { $regex: query, $options: 'i' } });
+        const result = await Product.find({
+          name: { $regex: query, $options: "i" },
+        });
         return result;
       } catch (err) {
         console.log(err);
@@ -38,7 +36,13 @@ const resolvers = {
       const categories = await Category.find();
       return categories;
     },
-    
+    getProductsByCategory: async (parent, _id) => {
+      console.log(_id);
+      const result = await Product.find({ category: _id }).populate("category");
+      console.log(result);
+      return result;
+    },
+
     getStore: async (parent, { id }) => {
       return Store.findOne({ _id: id });
     },
@@ -57,8 +61,6 @@ const resolvers = {
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
         });
-        console.log({products});
-        
         const price = await stripe.prices.create({
           product: product.id,
           unit_amount: products[i].price * 100,
@@ -95,7 +97,6 @@ const resolvers = {
       throw AuthenticationError;
     },
     users: async () => {
-
       return User.find().populate({
         path: "orders.products",
         populate: "category",
@@ -116,7 +117,7 @@ const resolvers = {
     orders: async () => {
       return Order.find().populate("products");
     },
-    
+
     order: async (parent, { _id }, context) => {
       if (context.user) {
         const user = await User.findOne({ _id: context.user._id }).populate({
@@ -126,9 +127,7 @@ const resolvers = {
         return user.orders.id(_id);
       }
       throw AuthenticationError;
-
-  },
-  
+    },
   },
 
   Mutation: {

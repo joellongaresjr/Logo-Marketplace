@@ -25,6 +25,7 @@ export const QUERY_ITEM = gql`
       stockQuantity
       imageUrl
       created_at
+      featured
     }
   }
 `;
@@ -34,6 +35,10 @@ export const QUERY_PRODUCTS_FUZZY = gql`
     getProductsFuzzy(query: $query) {
       _id
       name
+      imageUrl
+      price
+      description
+      featured
     }
   }
 `;
@@ -45,6 +50,8 @@ export const QUERY_PRODUCTS_PAGINATED = gql`
       name
       imageUrl
       price
+      description
+      featured
     }
   }
 `;
@@ -58,9 +65,24 @@ export const QUERY_CHECKOUT = gql`
 `;
 
 export const QUERY_CATEGORIES = gql`
-query getCategories {
-  getCategories {
-    _id
-    name
+  query getCategories {
+    getCategories {
+      _id
+      name
+    }
   }
-}`
+`;
+
+export const QUERY_PRODUCT_BY_CATEGORY = gql`
+  query getProductsByCategory($_id: ID!) {
+    getProductsByCategory(_id: $_id) {
+      _id
+      name
+      description
+      price
+      stockQuantity
+      imageUrl
+      featured
+    }
+  }
+`;

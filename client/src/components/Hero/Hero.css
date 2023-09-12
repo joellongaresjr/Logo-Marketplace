@@ -12,3 +12,9 @@
   height: 40vh;
   font-size: 3rem;
 }
+
+@media screen and (max-width: 1000px) {
+  .jumbotron {
+    font-size: 2rem;
+  }
+}

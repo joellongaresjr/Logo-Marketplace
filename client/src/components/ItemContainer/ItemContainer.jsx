@@ -2,8 +2,9 @@ import "./ItemContainerStyles.css";
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useStoreContext } from "../../utils/GlobalState";
+
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
+import { useDispatch, useSelector } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
 
 const ItemContainer = (props) => {
@@ -12,11 +13,9 @@ const ItemContainer = (props) => {
     currency: "USD",
     minimumFractionDigits: 2,
   };
-  const [state, dispatch] = useStoreContext();
 
-  const {cart} = state;
-
-  // console.log(props._id)
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === props._id);
@@ -39,22 +38,22 @@ const ItemContainer = (props) => {
     }
   };
 
-
-
   let dollarString = new Intl.NumberFormat("en-US", formatting_options).format(
     props.price
   );
 
-  // console.log("here are the:", props)
   return (
     <Card>
       <Card.Body>
+        {props.featured && <p>Featured ✨ Product</p>}
         <Link to={`products/${props._id}`} className="card-link">
-          <Card.Img variant="top" src={props.imgUrl} alt="alt-text" />
+          <Card.Img className="card-img" variant="top" src={props.imgUrl} alt="alt-text" />
           <Card.Text>{props.name}</Card.Text>
         </Link>
         <Card.Text>{dollarString}</Card.Text>
-        <button onClick={addToCart} className="btn">Add to Cart</button>
+        <button onClick={addToCart} className="btn">
+          Add to Cart
+        </button>
       </Card.Body>
     </Card>
   );

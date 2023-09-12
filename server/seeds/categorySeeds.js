@@ -2,19 +2,21 @@ const { faker } = require("@faker-js/faker");
 const { Category } = require("../models");
 
 const categorySeeds = async (amount) => {
-  const categories = [];
+  const categoryNames = new Set();
 
   for (let i = 0; i < amount; i++) {
-    const category = await Category.create({
-      name: faker.commerce.department(),
-    });
-    categories.push(category);
-  }
-  const uniqueCategories = [...new Set(categories)];
+    let categoryName;
+    do {
+      categoryName = faker.commerce.department();
+    } while (categoryNames.has(categoryName));
 
-  for (const category of uniqueCategories) {
-    await Category.create(category);
+    categoryNames.add(categoryName); 
+
+    await Category.create({
+      name: categoryName,
+    });
   }
+
   console.log("CATEGORIES CREATED\n-------------------");
 };
 

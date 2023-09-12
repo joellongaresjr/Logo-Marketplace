@@ -64,6 +64,7 @@ const Home = () => {
                     price={product.price}
                     imgUrl={product.imageUrl}
                     _id={product._id}
+                    featured={product.featured}
                   />
                 </div>
               ))}
