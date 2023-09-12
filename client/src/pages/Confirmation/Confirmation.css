@@ -83,7 +83,7 @@
     cursor: pointer;
     font-size: 17px;
     &:hover {
-        background-color: #5e5c5c;
+        background-color: #3581b8;
         scale: 1.05;
         cursor: pointer;
     }
