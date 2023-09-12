@@ -11,8 +11,8 @@ import Product from "./pages/Product/Product.jsx";
 import SearchedProducts from "./pages/SearchedProducts/SearchedProducts.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import Confirmation from "./pages/Confirmation/Confirmation";
-import CategoryProducts from "./pages/CategoryProducts/CategoryProducts.jsx";
 
+import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
 
 const router = createBrowserRouter([
   {
@@ -46,8 +46,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/products/category/:id",
-        element: <CategoryProducts />
-      }
+        element: <CategoryProducts />,
+      },
     ],
   },
 ]);

@@ -46,7 +46,7 @@ const ItemContainer = (props) => {
     <Card>
       <Card.Body>
         {props.featured && <p>Featured ✨ Product</p>}
-        <Link to={`products/${props._id}`} className="card-link">
+        <Link to={`/products/${props._id}`} className="card-link">
           <Card.Img className="card-img" variant="top" src={props.imgUrl} alt="alt-text" />
           <Card.Text>{props.name}</Card.Text>
         </Link>

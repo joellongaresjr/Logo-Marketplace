@@ -12,7 +12,7 @@
   --peach-rgb: 242, 97, 87;
 }
 
-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,18 +22,18 @@ header {
   color: white;
 }
 
-header a {
+.header a {
   text-decoration: none;
   background: none;
   border: none;
   box-shadow: none;
 }
 
-header a img {
+.header a img {
   box-shadow: none;
 }
 
-header a h1 {
+.header a h1 {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--mauve);
@@ -69,7 +69,7 @@ header a h1 {
   color: yellow;
 }
 
-.nav-search button {
+.search-btn {
   background: var(--peach);
   height: inherit;
   font-size: 0.75rem;
@@ -82,7 +82,7 @@ header a h1 {
   width: 30%;
 }
 
-.nav-search button:hover {
+.search-btn:hover {
   background: var(--light-red);
   border: 1px solid var(--light-red);
 }
@@ -127,7 +127,7 @@ header a h1 {
 }
 
 @media screen and (max-width: 1000px) {
-  header {
+  .header {
     height: 4rem;
     position: fixed;
     width: 100%;

@@ -29,7 +29,7 @@ const SearchedProducts = () => {
                   name={product.name}
                   price={product.price}
                   imgUrl={product.imageUrl}
-                  link={`/products/${product._id}`}
+                  _id={product._id}
                   featured={product.featured}
                 />
               </div>
