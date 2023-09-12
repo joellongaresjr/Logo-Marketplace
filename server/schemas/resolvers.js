@@ -16,6 +16,7 @@ const resolvers = {
       const paginatedProducts = await Product.find({ featured: true })
         .limit(limit)
         .skip(offset)
+        .populate('category')
         .exec();
       return paginatedProducts;
     },
