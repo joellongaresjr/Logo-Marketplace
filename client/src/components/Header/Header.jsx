@@ -79,6 +79,15 @@ const Header = () => {
           <Category />
         </li>
 
+        <li>
+          <Link
+            to="/stores"
+            className={pathname === "/stores" ? "current-page" : "nav-item"} 
+          >
+            Stores
+          </Link>
+        </li>
+
         {Auth.loggedIn() ? (
           <li>
             <Link

@@ -11,6 +11,7 @@ import Product from "./pages/Product/Product.jsx";
 import SearchedProducts from "./pages/SearchedProducts/SearchedProducts.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import Confirmation from "./pages/Confirmation/Confirmation";
+import Stores from "./pages/Stores/Stores";
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/search/:search",
         element: <SearchedProducts />,
+      },
+      {
+        path: "/stores",
+        element: <Stores />,
       }
     ],
   },

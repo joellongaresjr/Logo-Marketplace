@@ -54,7 +54,7 @@ const typeDefs = `
 
 
   type Store {
-    _id: ID
+    _id: ID!
     name: String
     location: String
     products: [Product]
