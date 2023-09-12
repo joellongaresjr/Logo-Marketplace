@@ -2,19 +2,19 @@
 
 ## Technology Used
 
-| Technology Used           | Resource URL                                                                 | Badge                                                                      |
-| ------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| **JavaScript**            | [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript)               | ![JavaScript](https://img.shields.io/badge/-JavaScript-yellow)             |
-| **Nodejs**                | [Node.js](https://nodejs.org/en)                                             | ![Node.js](https://img.shields.io/badge/-Node.js-green)                    |
-| **bcrypt**                | [bcrypt](https://www.npmjs.com/package/bcrypt)                               | ![bcrypt](https://img.shields.io/badge/-bcrypt-orange)                     |
-| **mongoose**              | [Mongoose](https://mongoosejs.com/docs/api/mongoose.html)                    | ![Mongoose](https://img.shields.io/badge/-Mongoose-red)                    |
-| **Faker**                 | [Faker.js](https://fakerjs.dev)                                              | ![Faker](https://img.shields.io/badge/-Faker.js-blue)                      |
-| **Apollo**                | [Apollo GraphQL](https://www.apollographql.com/docs/react/)                  | ![Apollo](https://img.shields.io/badge/-Apollo-purple)                     |
-| **currency-converter-lt** | [currency-converter-lt](https://www.npmjs.com/package/currency-converter-lt) | ![Currency Converter](https://img.shields.io/badge/-CurrencyConverter-9cf) |
-| **react-redux**           | [React Redux](https://react-redux.js.org)                                    | ![React-Redux](https://img.shields.io/badge/-React--Redux-blueviolet)      |
-| **react**                 | [React](https://react.dev)                                                   | ![React](https://img.shields.io/badge/-React-blue)                         |
-| **Stripe**                | [Stripe](https://www.npmjs.com/package/stripe)                               | ![Stripe](https://img.shields.io/badge/-Stripe-lightgrey)                  |
-| **jwt**                   | [JWT](https://jwt.io/introduction)                                           | ![JWT](https://img.shields.io/badge/-JWT-black)                            |
+| Badge Name         | Badge                                                                                                                              | Link                                                           |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| JavaScript         | [![JavaScript](https://img.shields.io/badge/JavaScript-✓-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)         | [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) |
+| Nodejs             | [![Nodejs](https://img.shields.io/badge/Node.js-✓-green)](https://nodejs.org/en)                                                   | [Node.js](https://nodejs.org/en)                               |
+| Bcrypt             | [![Bcrypt](https://img.shields.io/badge/Bcrypt-✓-orange)](https://www.npmjs.com/package/bcrypt)                                    | [npm](https://www.npmjs.com/package/bcrypt)                    |
+| Mongoose           | [![Mongoose](https://img.shields.io/badge/Mongoose-✓-red)](https://mongoosejs.com/docs/api/mongoose.html)                          | [Mongoose](https://mongoosejs.com/docs/api/mongoose.html)      |
+| Faker              | [![Faker](https://img.shields.io/badge/Faker-✓-blue)](https://fakerjs.dev)                                                         | [Faker.js](https://fakerjs.dev)                                |
+| Apollo             | [![Apollo](https://img.shields.io/badge/Apollo-✓-purple)](https://www.apollographql.com/docs/react/)                               | [Apollo GraphQL](https://www.apollographql.com/docs/react/)    |
+| Currency Converter | [![Currency Converter](https://img.shields.io/badge/CurrencyConverter-✓-9cf)](https://www.npmjs.com/package/currency-converter-lt) | [npm](https://www.npmjs.com/package/currency-converter-lt)     |
+| React-Redux        | [![React-Redux](https://img.shields.io/badge/React--Redux-✓-blueviolet)](https://react-redux.js.org)                               | [React Redux](https://react-redux.js.org)                      |
+| React              | [![React](https://img.shields.io/badge/React-✓-blue)](https://react.dev)                                                           | [React](https://react.dev)                                     |
+| Stripe             | [![Stripe](https://img.shields.io/badge/Stripe-✓-lightgrey)](https://www.npmjs.com/package/stripe)                                 | [npm](https://www.npmjs.com/package/stripe)                    |
+| JWT                | [![JWT](https://img.shields.io/badge/JWT-✓-black)](https://jwt.io/introduction)                                                    | [JWT](https://jwt.io/introduction)                             |
 
 # Landing Page
 
@@ -42,13 +42,49 @@
 
 ## Description
 
+This is general purpose e-commerence website that hosts a variety of different products that are able to be purchased.
+
 # Models
+
+- Admin
+
+  ![Snippet of admin model](./assets/images/AdminModel.png)
+
+- Cart
+
+![Snippet of Cart model](./assets/images/CartModel.png)
+
+- Category
+
+![Snippet of Category model](./assets/images/CategoryModel.png)
+
+- Order
+
+![Snippet of Order model](./assets/images/OrderModel.png)
+
+- Product
+
+![Snippet of Product model](./assets/images/ProductModel.png)
+
+- Store
+
+![Snippet of Store model](./assets/images/StoreModel.png)
+
+- User
+
+![Snippet of User model](./assets/images/UserModel.png)
 
 ## Usage
 
+On the page you may login or sign up through the nav links. Once Logged in you can you can click items that you can add to your cart and press the checkout button. Just follow the checkout instructions to make purchase.
+[Link to Site](https://logo-marketplace-f9aad311ca28.herokuapp.com/)
+
+Here is video demonstration on how to sign up and purchase an item.
 [Link to Video]()
 
 ## Learning Points
+
+1. How to use Stripe to make an easy checkout page for auser
 
 ## Author Info
 
