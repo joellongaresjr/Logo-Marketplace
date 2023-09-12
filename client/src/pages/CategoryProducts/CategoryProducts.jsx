@@ -1,18 +1,24 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+
 import { QUERY_PRODUCT_BY_CATEGORY } from "../../utils/queries";
+
 import ItemContainer from "../../components/ItemContainer/ItemContainer";
 
 const CategoryProducts = () => {
   const { id } = useParams();
 
   console.log(id);
+
   const { loading, data } = useQuery(QUERY_PRODUCT_BY_CATEGORY, {
+
     variables: { _id: id },
   });
 
   if (loading) {
+
     return <div>Loading...</div>;
+
   }
 
   const products = data.getProductsByCategory;

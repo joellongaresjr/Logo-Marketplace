@@ -8,7 +8,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./utils/store";
+import  store  from "./utils/store";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
