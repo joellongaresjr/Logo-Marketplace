@@ -5,7 +5,10 @@ const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const resolvers = {
   Query: {
-
+    productsByCategory: async (parent, args) => {
+      const products = await Product.find({ category: args.category }).populate("category");
+      return products;
+    },
     getProduct: async (parent, { _id }) => {
       return Product.findOne({ _id });
     },
@@ -25,7 +28,7 @@ const resolvers = {
       }
     },
     getFeaturedProducts: async () => {
-      return Product.find({ featured: true });
+      return Product.find({ featured: true }).populate("category");
     },
     getCategory: async (parent, { id }) => {
       return Category.findOne({ _id: id });
@@ -34,6 +37,7 @@ const resolvers = {
       const categories = await Category.find();
       return categories;
     },
+    
     getStore: async (parent, { id }) => {
       return Store.findOne({ _id: id });
     },
@@ -70,7 +74,6 @@ const resolvers = {
       });
       return { session: session.id };
     },
-
 
     getStores: async () => {
       const stores = await Store.find().populate("products");

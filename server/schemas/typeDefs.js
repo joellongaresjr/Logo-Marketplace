@@ -74,6 +74,7 @@ const typeDefs = `
     admins: [Admin]
     order(_id: ID!): Order
     orders: [Order]
+    productsByCategory(category: ID): [Product]
     getProduct(_id: ID!): Product
     getProducts(limit: Int!, offset: Int!): [Product]
     getProductsFuzzy(query: String!): [Product]
