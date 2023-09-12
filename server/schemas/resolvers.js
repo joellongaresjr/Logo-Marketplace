@@ -44,11 +44,8 @@ const resolvers = {
     },
     checkout: async (parent, args, context) => {
       console.log(args.products);
-      console.log('here');
       const url = new URL(context.headers.referer).origin;
-      console.log(url)
       const order = new Order({ products: args.products });
-      
       const { products } = await order.populate("products").execPopulate();
       console.log(products);
       const line_items = [];

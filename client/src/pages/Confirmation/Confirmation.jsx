@@ -18,9 +18,8 @@ import { Link } from "react-router-dom";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Confirmation = () => {
-  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const cart = useSelector((state) => state.cart);
-    const state = useSelector((state) => state);
+const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+const cart = useSelector((state) => state.cart);
 
 
   const dispatch = useDispatch();
