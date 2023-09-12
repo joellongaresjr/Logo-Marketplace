@@ -17,10 +17,9 @@ import { Link } from "react-router-dom";
 import {FaAddressBook, FaCity, FaFontAwesome, FaUser } from "react-icons/fa";
 
 
-
-window.onload = function () {
+useEffect(() => {
   idbPromise("cart", "delete", { _id: "shippingInfo" });
-};
+}, []);
 
 
 
@@ -35,20 +34,6 @@ const dispatch = useDispatch();
  
 
 const [isSubmitted, setIsSubmitted] = useState(false); 
-// const [inputValues, setInputValues] = useState({
-//   name:"",
-//   email: "",
-//   city: "",
-//   state: "",
-//     zip: "",
-//     address: "",
-// });
-// const [isNameValid, setIsNameValid] = useState(true);
-// const [isEmailValid, setIsEmailValid] = useState(true);
-// const [isCityValid, setIsCityValid] = useState(true);
-// const [isStateValid, setIsStateValid] = useState(true);
-// const [isZipValid, setIsZipValid] = useState(true);
-// const [isAddressValid, setIsAddressValid] = useState(true);
 
 const [shippingInfo, setShippingInfo] = useState({
     full_name: "",
