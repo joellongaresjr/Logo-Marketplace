@@ -87,3 +87,19 @@ export const QUERY_PRODUCT_BY_CATEGORY = gql`
   }
 `;
 
+export const QUERY_SINGLE_STORE = gql`
+query getStore($_id: ID!) {
+  getStore(_id: $_id) {
+    _id
+    name
+  }
+}`;
+
+export const QUERY_STORES = gql`
+query getStores {
+  getStores {
+    _id
+    name
+    location
+  }
+}`
