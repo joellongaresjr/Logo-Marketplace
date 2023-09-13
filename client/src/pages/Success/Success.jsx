@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import { ADD_ORDER } from './../../utils/mutations';
 import { idbPromise } from '../../utils/helpers';
 import Auth from '../../utils/auth';
+import './SuccessStyles.css';
 
 const Success = () => {
   const { id } = useParams(); 
@@ -25,7 +26,6 @@ const Success = () => {
 
       if (products.length) {
         const { data } = await addOrderMutation({ variables: { products } });
-        const productData = data.addOrder.products;
 
         // productData.forEach((item) => {
         //   idbPromise('cart', 'delete', item);
@@ -41,19 +41,26 @@ const Success = () => {
 
   return (
     <div className="success-page">
+      <div className="summary">
+    <div className="title">
       <h2>Thank you for your purchase!</h2>
       <h3>Your order number is: {id}</h3>
       <h3>You will receive an email confirmation shortly.</h3>
+      <h3> Order Summary:</h3>
+    </div>
       <div className="item-grid">
-        {/* Render the products in the cart */}
+      
         {cart.map((product) => (
+          <div className="ordered-items">
           <div key={product._id}>
-            {/* Render your product details here */}
-            <p>Name: {product.name}</p>
+          <p>{product.name}</p>
+            <img src={product.imgUrl} alt="" />
+            
             <p>Price: ${product.price}</p>
-            {/* Add more product details as needed */}
+          </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
