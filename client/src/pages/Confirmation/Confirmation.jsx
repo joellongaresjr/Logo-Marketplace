@@ -14,28 +14,19 @@ import Auth from "../../utils/auth";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
-import {FaAddressBook, FaCity, FaFontAwesome, FaUser } from "react-icons/fa";
+import { FaAddressBook, FaCity, FaFontAwesome, FaUser } from "react-icons/fa";
 
-
-useEffect(() => {
-  idbPromise("cart", "delete", { _id: "shippingInfo" });
-}, []);
-
-
-
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Confirmation = () => {
-    
-const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-const cart = useSelector((state) => state.cart);
-const state = useSelector((state) => state);
-const dispatch = useDispatch();
- 
+  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const cart = useSelector((state) => state.cart);
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-const [isSubmitted, setIsSubmitted] = useState(false); 
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-const [shippingInfo, setShippingInfo] = useState({
+  const [shippingInfo, setShippingInfo] = useState({
     full_name: "",
     email: "",
     city: "",
@@ -43,16 +34,17 @@ const [shippingInfo, setShippingInfo] = useState({
     zip: "",
     address: "",
     _id: "shippingInfo",
-});
+  });
 
-const form = useRef();
+  const form = useRef();
 
-
-
+  useEffect(() => {
+    idbPromise("cart", "delete", { _id: "shippingInfo" });
+  }, []);
 
   useEffect(() => {
     if (data) {
-    console.log(data)
+      console.log(data);
       stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
@@ -67,7 +59,6 @@ const form = useRef();
     if (!cart.length) {
       getCart();
     }
-   
   }, [cart.length, dispatch]);
 
   function calculateTotal() {
@@ -92,20 +83,19 @@ const form = useRef();
     event.preventDefault();
     const productIds = [];
 
-        idbPromise("cart", "put", {
-        ...shippingInfo,
-        });
+    idbPromise("cart", "put", {
+      ...shippingInfo,
+    });
 
     cart.forEach((item) => {
-        console.log(item)
+      console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
-      
     });
 
     getCheckout({
-      variables: { products: productIds }
+      variables: { products: productIds },
     });
   }
 
@@ -148,7 +138,7 @@ const form = useRef();
             <div className="confirmation-container">
               {state.cart.length ? (
                 <>
-                   {state.cart.map((item) => (
+                  {state.cart.map((item) => (
                     <div key={item._id} className="confirmation-item">
                       <div className="confirmation-img">
                         <Link to={`/products/${item._id}`}>
@@ -159,7 +149,7 @@ const form = useRef();
                         <div>
                           <p>{item.name} </p>
                         </div>
-                
+
                         <FaMinus
                           className="minus minus-confirmation"
                           onClick={() => onChange("decrement", item)}
@@ -200,60 +190,106 @@ const form = useRef();
             </div>
           </div>
           <form onSubmit={submitCheckout}>
-          <div className="confirm-info">
-          <div className="confirm-info-container">
-        <h2>Billing Info</h2>
-        <div className="co-logo">
-        <FaUser className={FaUser} />
-        <label className="name">Name</label>
-        </div>
-        <input className="name-input" type="text" placeholder="Name" value={shippingInfo.full_name} 
-        onChange={(e)=> setShippingInfo({...shippingInfo, full_name: e.target.value})} 
-        required/>
-        <div className="co-logo">
-        <FaAddressBook/>
-        <label className="address">Address</label>
-        </div>
-        <input className="address-input" type="text" placeholder="Address" value={shippingInfo.address} 
-        onChange={(e)=> setShippingInfo({...shippingInfo, address: e.target.value})} 
-        required/>
-        <div className="co-logo">
-        <FaCity className={FaCity} />
-        <label className="city">City</label>
-        </div>
-        <input className="city-input" type="text" placeholder="City" value={shippingInfo.city}
-        onChange={(e)=> setShippingInfo({...shippingInfo, city: e.target.value})} 
-        required/>
-        <div className="location-info">
-          <div className="location">
+            <div className="confirm-info">
+              <div className="confirm-info-container">
+                <h2>Billing Info</h2>
+                <div className="co-logo">
+                  <FaUser className={FaUser} />
+                  <label className="name">Name</label>
+                </div>
+                <input
+                  className="name-input"
+                  type="text"
+                  placeholder="Name"
+                  value={shippingInfo.full_name}
+                  onChange={(e) =>
+                    setShippingInfo({
+                      ...shippingInfo,
+                      full_name: e.target.value,
+                    })
+                  }
+                  required
+                />
+                <div className="co-logo">
+                  <FaAddressBook />
+                  <label className="address">Address</label>
+                </div>
+                <input
+                  className="address-input"
+                  type="text"
+                  placeholder="Address"
+                  value={shippingInfo.address}
+                  onChange={(e) =>
+                    setShippingInfo({
+                      ...shippingInfo,
+                      address: e.target.value,
+                    })
+                  }
+                  required
+                />
+                <div className="co-logo">
+                  <FaCity className={FaCity} />
+                  <label className="city">City</label>
+                </div>
+                <input
+                  className="city-input"
+                  type="text"
+                  placeholder="City"
+                  value={shippingInfo.city}
+                  onChange={(e) =>
+                    setShippingInfo({ ...shippingInfo, city: e.target.value })
+                  }
+                  required
+                />
+                <div className="location-info">
+                  <div className="location">
+                    <label className="state">State</label>
+                    <input
+                      className="state-input"
+                      type="text"
+                      placeholder="State"
+                      value={shippingInfo.state}
+                      onChange={(e) =>
+                        setShippingInfo({
+                          ...shippingInfo,
+                          state: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="zip-info">
+                    <label className="zip">Zip</label>
+                    <input
+                      className="zip-input"
+                      type="text"
+                      placeholder="Zip"
+                      value={shippingInfo.zip}
+                      onChange={(e) =>
+                        setShippingInfo({
+                          ...shippingInfo,
+                          zip: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <label className="state">State</label>
-            <input className="state-input" type="text" placeholder="State" value={shippingInfo.state}
-            onChange={(e)=> setShippingInfo({...shippingInfo, state: e.target.value})} 
-            required/>
-          </div>
-          <div className="zip-info">
-            <label className="zip">Zip</label>
-            <input className="zip-input" type="text" placeholder="Zip" value={shippingInfo.zip} 
-            onChange={(e)=> setShippingInfo({...shippingInfo, zip: e.target.value})} 
-            required/>
-          </div>
+            {Auth.loggedIn() ? (
+              <button className="confirmation-btn" type="submit">
+                <a href="/confirmation">Checkout</a>
+              </button>
+            ) : (
+              <span>(log in to check out)</span>
+            )}
+          </form>
         </div>
-      </div>
-          </div>
-
-          {Auth.loggedIn() ? (
-            <button className="confirmation-btn" type="submit" >
-              <a href="/confirmation">Checkout</a>
-            </button>
-          ) : (
-            <span>(log in to check out)</span>
-          )}
-        </form>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Confirmation;
