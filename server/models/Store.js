@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const Product = require("./Product");
-const Admin = require("./Admin");
 
 const storeSchema = new Schema({
   name: {
@@ -10,6 +9,11 @@ const storeSchema = new Schema({
     trim: true,
   },
   location: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  shopImageUrl: {
     type: String,
     required: true,
     trim: true,

@@ -19,7 +19,7 @@ const Stores = () => {
         {stores.map((store) => (
           <li key={store._id}>
             <h3>{store.name}</h3>
-            <p>Location: {store.location}</p>
+            <h4>Location: {store.location}</h4>
           </li>
         ))}
       </ul>
