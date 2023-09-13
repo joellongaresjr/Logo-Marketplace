@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/client';
 import { ADD_ORDER } from './../../utils/mutations';
@@ -12,7 +12,6 @@ const Success = () => {
   const token = localStorage.getItem('id_token');
   const decodedToken = Auth.getProfile(token);
   const cart = useSelector((state) => state.cart);
-
 
   const [addOrderMutation] = useMutation(ADD_ORDER);
 
@@ -44,19 +43,25 @@ const Success = () => {
       <div className="summary">
     <div className="title">
       <h2>Thank you for your purchase!</h2>
-      <h3>Your order number is: {id}</h3>
+      {/* <h3>Your order number is: {id}</h3> */}
       <h3>You will receive an email confirmation shortly.</h3>
-      <h3> Order Summary:</h3>
     </div>
-      <div className="item-grid">
-      
+      <div className="summary-grid">
+      <h3> Order Summary:</h3>
         {cart.map((product) => (
           <div className="ordered-items">
           <div key={product._id}>
           <p>{product.name}</p>
-            <img src={product.imgUrl} alt="" />
+            <img src={product.imgUrl} alt="deez" />
             
             <p>Price: ${product.price}</p>
+            <p>Quantity: {product.purchaseQuantity}</p>
+            <Link to={`/products/${product._id}`}>
+            <button className="reorder-btn" type="submit">
+                <a href="/pro">Purchase Again!</a>
+              </button>
+            </Link>
+            <button> </button>
           </div>
           </div>
         ))}
