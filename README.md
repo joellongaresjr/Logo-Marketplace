@@ -10,7 +10,6 @@
 | Mongoose           | [![Mongoose](https://img.shields.io/badge/Mongoose-✓-red)](https://mongoosejs.com/docs/api/mongoose.html)                          | [Mongoose](https://mongoosejs.com/docs/api/mongoose.html)      |
 | Faker              | [![Faker](https://img.shields.io/badge/Faker-✓-blue)](https://fakerjs.dev)                                                         | [Faker.js](https://fakerjs.dev)                                |
 | Apollo             | [![Apollo](https://img.shields.io/badge/Apollo-✓-purple)](https://www.apollographql.com/docs/react/)                               | [Apollo GraphQL](https://www.apollographql.com/docs/react/)    |
-| Currency Converter | [![Currency Converter](https://img.shields.io/badge/CurrencyConverter-✓-9cf)](https://www.npmjs.com/package/currency-converter-lt) | [npm](https://www.npmjs.com/package/currency-converter-lt)     |
 | React-Redux        | [![React-Redux](https://img.shields.io/badge/React--Redux-✓-blueviolet)](https://react-redux.js.org)                               | [React Redux](https://react-redux.js.org)                      |
 | React              | [![React](https://img.shields.io/badge/React-✓-blue)](https://react.dev)                                                           | [React](https://react.dev)                                     |
 | Stripe             | [![Stripe](https://img.shields.io/badge/Stripe-✓-lightgrey)](https://www.npmjs.com/package/stripe)                                 | [npm](https://www.npmjs.com/package/stripe)                    |
@@ -18,7 +17,7 @@
 
 # Landing Page
 
-![Picture of Landing Page]()
+![Picture of Landing Page](./assets/images/LandingPage.png)
 
 [Link to depolyed app](https://logo-marketplace-f9aad311ca28.herokuapp.com/)
 
@@ -42,13 +41,13 @@
 
 ## Description
 
-This is general purpose e-commerence website that hosts a variety of different products that are able to be purchased.
+This is general purpose e-commerence website that hosts a variety of different products that are able to be purchased. Complete with cart, stripe, and an order confirmation page.
 
 # Models
 
 - Admin
 
-  ![Snippet of admin model](./assets/images/AdminModel.png)
+![Snippet of admin model](./assets/images/AdminModel.png)
 
 - Cart
 
@@ -84,7 +83,9 @@ Here is video demonstration on how to sign up and purchase an item.
 
 ## Learning Points
 
-1. How to use Stripe to make an easy checkout page for auser
+1. How to use Stripe to make an easy checkout page.
+2. How to effectively use React-Redux
+3. 
 
 ## Author Info
 
