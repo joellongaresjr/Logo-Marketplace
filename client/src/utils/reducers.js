@@ -20,6 +20,7 @@ const initialState = {
   currentCategory: "",
   stores: [],
   user: [],
+  currencyRates: [],
 };
 
 // export the reducer function
@@ -92,12 +93,18 @@ export const reducer = (state = initialState, action) => {
         categories: action.payload,
       };
 
-      case SAVE_USER:
-        console.log("SAVE_USER action dispatched with payload:", action.payload);
-        return {
-          ...state,
-          user: { _id: action.payload },
-        };
+    case SAVE_USER:
+      console.log("SAVE_USER action dispatched with payload:", action.payload);
+      return {
+        ...state,
+        user: { _id: action.payload },
+      };
+
+    case "SET_CURRENCY_RATES":
+      return {
+        ...state,
+        currencyRates: action.payload,
+      };
 
     default:
       return state;

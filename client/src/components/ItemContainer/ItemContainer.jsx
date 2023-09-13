@@ -1,13 +1,17 @@
 import "./ItemContainerStyles.css";
 import React from "react";
+import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
+import { convertToPHP } from "../../utils/helpers";
 
 const ItemContainer = (props) => {
+ 
+  const [convertedAmount, setConvertedAmount] = useState(null);
+
   let formatting_options = {
     style: "currency",
     currency: "USD",
@@ -42,6 +46,17 @@ const ItemContainer = (props) => {
     props.price
   );
 
+  useEffect(() => {
+    // Call the asynchronous function and update state when the result is ready
+    convertToPHP(props.price)
+      .then((newAmountFormatted) => {
+        setConvertedAmount(newAmountFormatted);
+      })
+      .catch((error) => {
+        console.error("Error converting to PHP:", error);
+      });
+  }, [props.price]);
+
   return (
     <Card>
       <Card.Body>
@@ -56,6 +71,7 @@ const ItemContainer = (props) => {
           <Card.Text className="item-title">{props.name}</Card.Text>
         </Link>
         <Card.Text>{dollarString}</Card.Text>
+        <Card.Text>{convertedAmount}</Card.Text>
         <button onClick={addToCart} className="add-to-cart">
           Add to Cart
         </button>
