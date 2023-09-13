@@ -4,11 +4,6 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  user_id: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
   products: [
     {
       type: Schema.Types.ObjectId,
