@@ -40,7 +40,9 @@ const Header = () => {
 
   const searchSubmitHandler = (event) => {
     event.preventDefault();
-    window.location.href = `/search/${searchQuery}`;
+    if (searchQuery.length >= 2) {
+      window.location.href = `/search/${searchQuery}`;
+    }
   };
 
   return (
@@ -72,13 +74,19 @@ const Header = () => {
                 <option key={item._id} value={item.name} />
               ))}
             </datalist>
-            <button className="search-btn" type="submit">Submit</button>
+            <button
+              className="search-btn"
+              type="submit"
+              disabled={searchQuery.length < 2}
+            >
+              Submit
+            </button>
           </form>
         </li>
         <li>
           <Link
             to="/stores"
-            className={pathname === "/stores" ? "current-page" : "nav-item"} 
+            className={pathname === "/stores" ? "current-page" : "nav-item"}
           >
             Stores
           </Link>
@@ -121,14 +129,13 @@ const Header = () => {
             Orders
           </Link>
         </li>
-          {(window.location.pathname !== "/confirmation") ? (
-            <li>
-              <Cart />
-            </li>
-          ) : (
-            <></>
-          )
-        }
+        {window.location.pathname !== "/confirmation" ? (
+          <li>
+            <Cart />
+          </li>
+        ) : (
+          <></>
+        )}
       </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
