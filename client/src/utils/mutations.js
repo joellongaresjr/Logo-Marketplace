@@ -12,7 +12,6 @@ export const LOGIN_USER = gql`
   }
 `;
 
-
 export const ADD_USER = gql`
 mutation addUser(
   $username: String!,
@@ -33,5 +32,24 @@ mutation addUser(
   }
 }
 `;
+
+export const CREATE_ORDER = gql`
+mutation createOrder($products: [ID]!) {
+  createOrder(products: $products) {
+    purchaseDate
+    products {
+      _id
+      name
+      description
+      price
+      quantity
+      imageUrl
+      featured
+    }
+  }
+}
+`;
+
+
 
 

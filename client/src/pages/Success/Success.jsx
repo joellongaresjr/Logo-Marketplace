@@ -1,20 +1,27 @@
-import "./Success.css";
+import "./SuccessStyles.css";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-
+import { QUERY_PRODUCT_BY_CATEGORY, QUERY_USER } from "../../utils/queries";
+import { useDispatch, useSelector } from "react-redux";
+import Auth from "../../utils/auth";
 
 const Success = () => {
-  const { id } = useParams();
+  const token = localStorage.getItem("id_token");
+  const decoded = Auth.getProfile(token);
 
-  const { loading, data } = useQuery(QUERY_PRODUCT_BY_CATEGORY, {
-    variables: { _id: id },
-  });
+  console.log(decoded);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    if (!decoded) {
+      window.location.assign("/");
+    }
 
-  const products = data.getProductsByCategory;
+    if (decoded) {
+      
+
+  }, [decoded]);
+
+  return <div>Loading...</div>;
 
   return (
     <div className="success-page">
