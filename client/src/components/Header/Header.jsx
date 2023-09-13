@@ -11,6 +11,7 @@ import Category from "../Category/Category";
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
 
+
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -112,7 +113,10 @@ const Header = () => {
               <Link
                 to="/login"
                 className={pathname === "/login" ? "current-page" : "nav-item"}
+                data-step="3"
+                data-intro="Login to your account here if you have one!"
               >
+              
                 Login
               </Link>
             </li>
@@ -120,6 +124,8 @@ const Header = () => {
               <Link
                 to="/signup"
                 className={pathname === "/signup" ? "current-page" : "nav-item"}
+                data-step="4"
+                data-intro="Sign up for an account here if you don't have one!"
               >
                 Sign Up
               </Link>
@@ -128,14 +134,18 @@ const Header = () => {
         )}
         <li>
           <Link
-            to="/resume"
-            className={pathname === "/resume" ? "current-page" : "nav-item"}
+            to="/orders"
+            className={pathname === "/orders" ? "current-page" : "nav-item"}
+            data-step="5"
+            data-intro="Click here to view your Past Orders!"
           >
             Orders
           </Link>
         </li>
           {(window.location.pathname !== "/confirmation") ? (
-            <li>
+            <li
+            data-step="6"
+            data-intro="Click here to view your cart items and proceed to checkout!">
               <Cart />
             </li>
           ) : (
