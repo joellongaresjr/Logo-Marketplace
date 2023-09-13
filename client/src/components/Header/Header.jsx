@@ -8,6 +8,8 @@ import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
 import Cart from "../Cart";
 import Category from "../Category/Category";
+import introJs from 'intro.js';
+import 'intro.js/introjs.css';
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
@@ -57,6 +59,14 @@ const Header = () => {
         <h1>Logo MarketPlace</h1>
       </div>
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
+      <li><a className="nav-item"
+            href="javascript:void(0);"
+            onClick={() => introJs().setOption('showProgress', true).start()}
+            data-step="1"
+            data-intro="Click here to start the tutorial demo!"
+          >
+            Get a demo
+          </a></li>
         <li>
           <form className="nav-search" onSubmit={searchSubmitHandler}>
             <Category />
@@ -76,13 +86,16 @@ const Header = () => {
           </form>
         </li>
         <li>
-          <Link
+        <Link
             to="/stores"
-            className={pathname === "/stores" ? "current-page" : "nav-item"} 
+            className={pathname === "/stores" ? "current-page" : "nav-item"}
+            data-step="2"
+            data-intro="Click here to view all stores!"
           >
             Stores
           </Link>
         </li>
+        
         {Auth.loggedIn() ? (
           <li>
             <Link
