@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
+import { useDispatch } from "react-redux";
 
 const Signup = (props) => {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [addUser, { error }] = useMutation(ADD_USER);
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -21,11 +23,18 @@ const Signup = (props) => {
           address: formState.address,
         },
       });
+
       console.log(mutationResponse);
 
       const token = mutationResponse.data.addUser.token;
-      console.log(token);
+
       Auth.login(token);
+      Auth.getProfile(token).then((data) => {
+        dispatch({
+          type: "LOGIN",
+          payload: data.data,
+        });
+      });
     } catch (e) {
       console.log(e);
     }
@@ -61,7 +70,7 @@ const Signup = (props) => {
             />
           </div>
           <div className="">
-            <label htmlFor="Address">Shipping Address</label>
+            <label htmlFor="address">Shipping Address</label>
             <input
               placeholder="1234 Main St"
               name="address"

@@ -25,6 +25,30 @@
   margin-bottom: 0.75rem;
 }
 
+.card-link {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.item-title {
+  margin-top: 1rem;
+}
+
+.add-to-cart {
+  background-color: goldenrod;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.add-to-cart:hover {
+  background-color: goldenrod;
+  color: #f1eedd;
+}
+
 @media screen and (max-width: 1000px) {
   .card {
     padding: auto;

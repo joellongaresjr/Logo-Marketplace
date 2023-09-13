@@ -1,5 +1,4 @@
 import "./SearchedProducts.css";
-import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";

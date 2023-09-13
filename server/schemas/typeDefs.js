@@ -66,6 +66,12 @@ const typeDefs = `
     offset: Int!
   }
 
+  input OrderProductInput {
+    name: String
+    price: Float
+    quantity: Int
+  }
+
   type Query {
     user: User
     admin: Admin
@@ -84,6 +90,7 @@ const typeDefs = `
     getStore(id: ID!): Store
     getStores: [Store]!
     getProductsByCategory(_id: ID!): [Product]
+    getOrder(_id: ID!): Order
   }
 
   type Mutation {
@@ -92,7 +99,6 @@ const typeDefs = `
     addAdmin(username: String!, email: String!, password: String! ): Auth
     addAdminStore(name: String!, location: String!, admin: ID! ): Auth
     login(email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
     addProduct(name: String!, description: String!, price: Float!, category: ID!, store: ID!, stockQuantity: Int!, imageUrl: String!): Product
     updateProduct(_id: ID!, quantity: Int!): Product
     removeProduct(_id: ID!): Product
@@ -102,6 +108,7 @@ const typeDefs = `
     addStore(name: String!, location: String!, admin: ID! ): Store
     updateStore(_id: ID!, name: String!): Store
     removeStore(_id: ID!): Store
+    addOrder(products: [ID]!): Order
   }
     
   `;

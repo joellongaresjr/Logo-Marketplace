@@ -24,24 +24,26 @@ const Product = () => {
       ? count + parseInt(itemInCart.purchaseQuantity)
       : count;
   
-    if (newQuantity > 0) {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: product._id,
-        purchaseQuantity: newQuantity,
-      });
+    if (count > 0) {
+      if (itemInCart) {
+        dispatch({
+          type: UPDATE_CART_QUANTITY,
+          _id: product._id,
+          purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + count,
+        });
   
-      idbPromise("cart", "put", {
-        ...itemInCart,
-        purchaseQuantity: newQuantity,
-      });
-    } else {
-      dispatch({
-        type: ADD_TO_CART,
-        product: { ...product, purchaseQuantity: newQuantity },
-      });
+        idbPromise("cart", "put", {
+          ...itemInCart,
+          purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + count,
+        });
+      } else {
+        dispatch({
+          type: ADD_TO_CART,
+          product: { ...product, purchaseQuantity: count },
+        });
   
-      idbPromise("cart", "delete", { ...product, purchaseQuantity: newQuantity });
+        idbPromise("cart", "delete", { ...product, purchaseQuantity: count });
+      }
     }
   };
   
