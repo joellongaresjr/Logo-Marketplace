@@ -43,7 +43,7 @@ const ItemContainer = (props) => {
   );
 
   return (
-    <Card >
+    <Card>
       <Card.Body>
         {props.featured && <p>Featured ✨ Product</p>}
         <Link to={`/products/${props._id}`} className="card-link">
@@ -56,7 +56,12 @@ const ItemContainer = (props) => {
           <Card.Text className="item-title">{props.name}</Card.Text>
         </Link>
         <Card.Text>{dollarString}</Card.Text>
-        <button onClick={addToCart} className="add-to-cart">
+        <button
+          onClick={addToCart}
+          className="add-to-cart"
+          data-step="9"
+          data-intro="Click this to add to cart!"
+        >
           Add to Cart
         </button>
       </Card.Body>
