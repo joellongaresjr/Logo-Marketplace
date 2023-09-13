@@ -10,7 +10,7 @@ const productSeeds = require("./productSeeds");
 const productAmount = 200;
 const storeAmount = 1;
 const categoryAmount = 10;
-const userAmount = 10;
+const userAmount = 2;
 const dbCollections = [Category, Store, User, Product, Admin, Order];
 
 const resetCollections = async (collections) => {

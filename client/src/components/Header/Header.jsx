@@ -114,12 +114,12 @@ const Header = () => {
           </>
         )}
         <li>
-          <Link
+          {/* <Link
             to="/resume"
             className={pathname === "/resume" ? "current-page" : "nav-item"}
           >
             Orders
-          </Link>
+          </Link> */}
         </li>
           {(window.location.pathname !== "/confirmation") ? (
             <li>
