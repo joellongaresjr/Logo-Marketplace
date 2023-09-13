@@ -47,6 +47,7 @@ const resolvers = {
       return Store.findOne({ _id: id });
     },
     checkout: async (parent, args, context) => {
+      console.log(context.user)
       const url = new URL(context.headers.referer).origin;
 
       const order = new Order({ products: args.products });
@@ -171,14 +172,16 @@ const resolvers = {
       return { token, user };
     },
     addOrder: async (parent, { products }, context) => {
+      console.log(context);
+      console.log("here")
       if (context.user) {
-        const order = await Order({ products });
-        await User.findByIdAndUpdate(context.user._id, {
-          $push: { orders: order },
-        });
-        console.log("order added");
+        const order = new Order({ products });
+
+        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+
         return order;
       }
+
       throw AuthenticationError;
     },
     addProduct: async (
@@ -260,17 +263,18 @@ const resolvers = {
     removeStore: async (parent, { _id }, context) => {
       const store = await findOneAndDelete({ _id });
     },
-    addOrder: async (_, { userId, products }, context) => {
-      const order = new Order({
-        user_id: userId,
-        products: products,
-      });
-  
-      const savedOrder = await order.save();
-  
-      return savedOrder;
+    addOrder: async (parent, { products }, context) => {
+      if(context.user) {
+        const order = await Order({ products });  
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { orders: order },
+        });
+        console.log("order added");
+        return order;
+      }
+      throw AuthenticationError;
     },
-  },
+  }
 }
 
 module.exports = resolvers;

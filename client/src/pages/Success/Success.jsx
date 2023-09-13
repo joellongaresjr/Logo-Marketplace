@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/client';
 import { ADD_ORDER } from './../../utils/mutations';
+import { idbPromise } from '../../utils/helpers';
 import Auth from '../../utils/auth';
 
 const Success = () => {
@@ -11,28 +12,32 @@ const Success = () => {
   const decodedToken = Auth.getProfile(token);
   const cart = useSelector((state) => state.cart);
 
-  console.log(cart);
 
   const [addOrderMutation] = useMutation(ADD_ORDER);
 
-  const user_id = decodedToken.data._id;
-
-  const handleAddOrder = async () => {
-    try {
-      const response = await addOrderMutation({
-        variables: { userId: user_id, products: cart },
-      });
-      console.log(response);
-    } catch (error) {
-      console.error('GraphQL Error:', error.message);
-    }
-  };
-
   useEffect(() => {
-    if (cart.length > 0) {
-      handleAddOrder();
+    async function saveOrder() {
+      const cart = await idbPromise('cart', 'get');
+
+      console.log(cart);
+      const products = cart.map((item) => item._id);
+      console.log(products);
+
+      if (products.length) {
+        const { data } = await addOrderMutation({ variables: { products } });
+        const productData = data.addOrder.products;
+
+        // productData.forEach((item) => {
+        //   idbPromise('cart', 'delete', item);
+        // });
+        console.log(addOrder)
+      }
+
+  
     }
-  }, [cart]); 
+ 
+    saveOrder();
+  }, [addOrderMutation]);
 
   return (
     <div className="success-page">

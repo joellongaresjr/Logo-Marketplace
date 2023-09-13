@@ -108,7 +108,7 @@ const typeDefs = `
     addStore(name: String!, location: String!, admin: ID! ): Store
     updateStore(_id: ID!, name: String!): Store
     removeStore(_id: ID!): Store
-    addOrder(userId: ID!, products: [OrderProductInput]!): Order
+    addOrder(products: [ID]!): Order
   }
     
   `;
