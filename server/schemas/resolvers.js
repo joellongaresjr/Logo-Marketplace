@@ -260,7 +260,17 @@ const resolvers = {
     removeStore: async (parent, { _id }, context) => {
       const store = await findOneAndDelete({ _id });
     },
+    addOrder: async (_, { userId, products }, context) => {
+      const order = new Order({
+        user_id: userId,
+        products: products,
+      });
+  
+      const savedOrder = await order.save();
+  
+      return savedOrder;
+    },
   },
-};
+}
 
 module.exports = resolvers;
