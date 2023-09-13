@@ -52,13 +52,15 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <div className="item-grid">
+      <div className="item-grid" data-step="7"
+      data-intro="Click on any items to view them and add them to cart">
         {items.map((product, index) => (
           <div
             key={product._id}
             ref={index === items.length - 1 ? lastItemRef : null}
           >
             <ItemContainer
+      
               name={product.name}
               price={product.price}
               imgUrl={product.imageUrl}

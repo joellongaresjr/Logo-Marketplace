@@ -11,7 +11,6 @@ import Category from "../Category/Category";
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
 
-
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

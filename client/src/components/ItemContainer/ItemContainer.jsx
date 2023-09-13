@@ -43,7 +43,7 @@ const ItemContainer = (props) => {
   );
 
   return (
-    <Card>
+    <Card >
       <Card.Body>
         {props.featured && <p>Featured ✨ Product</p>}
         <Link to={`/products/${props._id}`} className="card-link">
