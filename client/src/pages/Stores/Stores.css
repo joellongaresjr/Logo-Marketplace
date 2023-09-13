@@ -1,0 +1,36 @@
+.store-container {
+    text-align: center;
+  }
+  
+  .store-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap to the next row if needed */
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Add some spacing between cards */
+  }
+  
+  .store-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    box-shadow: 3px 3px 3px #888888;
+    border-radius: 3px;
+  }
+  
+  .store-card img {
+    max-width: 100px; /* Adjust the maximum width of the store icons */
+    height: auto;
+  }
+  
+  .store-card h3 {
+    margin: 10px 0; /* Add some margin to the store name */
+  }
+  
+  .store-card h4 {
+    margin: 10px 0;
+  }
