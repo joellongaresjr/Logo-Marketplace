@@ -24,7 +24,7 @@ const storeSeeds = async (storeDataAraay) => {
 
     console.log("Stores saved successfully");
   } catch (err) {
-    console.log("No Seeds bitch");
+    console.log("No Seeds");
   }
 };
 
