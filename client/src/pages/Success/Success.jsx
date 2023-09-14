@@ -1,17 +1,15 @@
-import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useMutation } from "@apollo/client";
-import { ADD_ORDER } from "./../../utils/mutations";
 import { idbPromise } from "../../utils/helpers";
-import { QUERY_USER } from "../../utils/queries";
-import { useQuery } from "@apollo/client";
-import Auth from "../../utils/auth";
-import "./SuccessStyles.css";
 import emailjs from "@emailjs/browser";
+import Auth from "../../utils/auth";
+import { useQuery } from "@apollo/client";
+import { QUERY_USER } from "../../utils/queries";
+
+import "./SuccessStyles.css";
 
 const Success = () => {
-  const { id } = useParams();
   const token = localStorage.getItem("id_token");
   const decodedToken = Auth.getProfile(token);
   const globalCart = useSelector((state) => state.cart);
@@ -23,28 +21,90 @@ const Success = () => {
     message: "",
   });
 
-  const [addOrderMutation] = useMutation(ADD_ORDER);
+  console.log(decodedToken);
 
   const { data } = useQuery(QUERY_USER);
 
+  const [cart, setCart] = useState([]);
+  let products = [];
 
-    if (data) {
+  useEffect(() => {
+    async function getCart() {
+      const idbcart = await idbPromise("cart", "get");
+      idbcart.map((item) => {
+        if (item.name) {
+          products.push(item);
+        }
+      });
+      setCart(products);
+      products.map((item) => {
+        idbPromise("cart", "delete", item);
+      });
+      const stringEmail = JSON.stringify(decodedToken.data.email);
+      const stringName = JSON.stringify(decodedToken.data.username);
+
+
+      console.log(stringEmail);
+      console.log(stringName);
+
+
+      setFormState({
+        ...formState,
+        user_email: stringEmail,
+        user_name: stringName
+      });
+
+    }
+    getCart();
+  }, []);
+
+  console.log("this is the stored cart", storedCart);
+  console.log("this is the global", globalCart);
+  console.log("this is the local", cart);
+
+  const createMessage = () => {
+    const cartItems = cart;
+    const cartInfo = [];
+    cartItems.forEach((item, index) => {
+      cartInfo.push(
+        `${index + 1}. ${item.name} - Price: $${item.price}, Quantity: ${item.purchaseQuantity
+        }\n`
+      );
+    });
+    const message = `
+    Thank you for your purchase!
+
+    ${cartInfo}
+
+    If you have any questions or concerns, please feel free to contact us.`;
+
+    setFormState({ ...formState, message: message });
+    return message;
+   };
+
+   if (data) {
     console.log(data.user.email);
     }
-
-
   const sendEmail = async () => {
     const shipping = await idbPromise("shipping", "get");
     const email = data.user.email;
-    console.log(shipping);
+  
+    console.log(shipping[0]);
+
     if (shipping) {
+    let full_name = shipping[0].full_name;
+    let city = shipping[0].city;
+    let address = shipping[0].address;
+    let state = shipping[0].state;
+    let zip = shipping[0].zip;
+    console.log(full_name);
     const templateParams = {
-      full_name: shipping.full_name,
+      full_name: full_name,
       email: email,
-      city: shipping.city,
-      address: shipping.address,
-      state: shipping.state,
-      zip: shipping.zip,
+      city: city,
+      address: address,
+      state: state,
+      zip: zip,
     };
     emailjs
       .send(
@@ -61,47 +121,42 @@ const Success = () => {
           console.log("FAILED...", error);
         }
       );
-      await idbPromise("shipping", "delete");
+      await idbPromise("shipping", "delete", { _id: "shippingInfo" });
     } else {
       return
     }
-
   };
-
+  // if(data) {
+  // console.log(data.user);
+  // }
   window.onload = sendEmail();
 
-
+  
 
   return (
     <div className="success-page">
       <div className="summary">
         <div className="title">
           <h2>Thank you for your purchase!</h2>
-          {/* <h3>Your order number is: {id}</h3> */}
           <h3>You will receive an email confirmation shortly.</h3>
         </div>
         <div className="summary-grid">
           <h3> Order Summary:</h3>
-
-          {cart
-            .filter((product) => product._id !== "shippingInfo")
-            .map((product) => (
-              <div className="ordered-items">
-                <div key={product._id}>
-                  <p>{product.name}</p>
-                  <img src={product.imgUrl} alt="deez" />
-
-                  <p>Price: ${product.price}</p>
-                  <p>Quantity: {product.purchaseQuantity}</p>
-                  <Link to={`/products/${product._id}`}>
-                    <button className="reorder-btn" type="submit">
-                      <a href="/pro">Purchase Again!</a>
-                    </button>
-                  </Link>
-                  <button> </button>
-                </div>
+          {cart.map((product) => (
+            <div className="ordered-items" key={product._id}>
+              <div>
+                <p>{product.name}</p>
+                <img src={product.imgUrl} alt="deez" />
+                <p>Price: ${product.price}</p>
+                <p>Quantity: {product.purchaseQuantity}</p>
+                <Link to={`/products/${product._id}`}>
+                  <button className="reorder-btn" type="submit">
+                    Purchase Again!
+                  </button>
+                </Link>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>
