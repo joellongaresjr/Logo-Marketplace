@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../../utils/queries";
 import './OrderHistory.css'
+import { FaAngleDown, FaArrowDown } from "react-icons/fa";
 
 const OrderHistory = () => {
   const { data } = useQuery(QUERY_USER);
@@ -36,6 +37,7 @@ const OrderHistory = () => {
                       </h5>
                     </div>
                     <h5>Order Details</h5>
+                    <FaAngleDown />
                     </div>
                     <div className="order-total">
                       {/* <h3>Order Total: </h3> */}
@@ -47,12 +49,12 @@ const OrderHistory = () => {
                             <div key={index} className="order-products-item">
                             <div className="order-product-image">
                               <img src={imageUrl} alt="product" />
-                                </div>
-                                <div className="order-product-name">
                                 <p>{name}</p>
                                 </div>
+                                <div className="order-product-name">
+                                </div>
                               <div className="order-product-price">
-                              <p>Price: {price}</p>
+                              <p> Price: ${price}</p>
                               </div>
 
                             </div>

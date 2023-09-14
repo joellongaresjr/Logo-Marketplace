@@ -28,6 +28,7 @@ const Stores = () => {
               />
               <h3>{store.name}</h3>
               <h4>Location: {store.location}</h4>
+              <h5>Description: {store.description}</h5>
             </div>
           ))}
         </div>
