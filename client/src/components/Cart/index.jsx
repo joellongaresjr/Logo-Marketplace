@@ -11,7 +11,6 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
-
   const cart = useSelector((state) => state.cart);
   const cartOpen = useSelector((state) => state.cartOpen);
   const dispatch = useDispatch();
@@ -22,18 +21,18 @@ const Cart = () => {
   }
   function submitCheckout() {
     const productIds = [];
-  
+
     cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
-      } 
+      }
     });
     getCheckout({
       variables: { products: productIds },
     });
   }
 
-  if (!cartOpen ) {
+  if (!cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <a className="nav-item" role="img" aria-label="trash">
@@ -73,13 +72,14 @@ const Cart = () => {
                     to="/confirmation"
                     type="button"
                     onClick={submitCheckout}
+                    className="checkout-btn"
                   >
                     Checkout
                   </Link>
                 </div>
               ) : (
                 <div>
-                  <Link to="/login" className="centered-text">
+                  <Link to="/login" className="btn-login centered-text">
                     LogIn to Checkout
                   </Link>
                 </div>
@@ -97,10 +97,8 @@ const Cart = () => {
           )}
         </div>
       </div>
-    </div>
-  );
+    );
   }
 };
-
 
 export default Cart;
