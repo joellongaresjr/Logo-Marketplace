@@ -71,23 +71,6 @@ const Success = () => {
   window.onload = sendEmail();
 
 
-  useEffect(() => {
-    async function saveOrder() {
-      const cart = await idbPromise("cart", "get");
-
-      console.log(stringEmail);
-      console.log(stringName);
-
-
-        productData.forEach((item) => {
-          idbPromise("cart", "delete", item);
-        });
-        console.log(addOrderMutation);
-      }
-    }
-
-    saveOrder();
-  }, [addOrderMutation]);
 
   return (
     <div className="success-page">
