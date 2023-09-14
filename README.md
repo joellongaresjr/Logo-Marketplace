@@ -2,18 +2,20 @@
 
 ## Technology Used
 
-| Badge Name         | Badge                                                                                                                              | Link                                                           |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| JavaScript         | [![JavaScript](https://img.shields.io/badge/JavaScript-✓-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)         | [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) |
-| Nodejs             | [![Nodejs](https://img.shields.io/badge/Node.js-✓-green)](https://nodejs.org/en)                                                   | [Node.js](https://nodejs.org/en)                               |
-| Bcrypt             | [![Bcrypt](https://img.shields.io/badge/Bcrypt-✓-orange)](https://www.npmjs.com/package/bcrypt)                                    | [npm](https://www.npmjs.com/package/bcrypt)                    |
-| Mongoose           | [![Mongoose](https://img.shields.io/badge/Mongoose-✓-red)](https://mongoosejs.com/docs/api/mongoose.html)                          | [Mongoose](https://mongoosejs.com/docs/api/mongoose.html)      |
-| Faker              | [![Faker](https://img.shields.io/badge/Faker-✓-blue)](https://fakerjs.dev)                                                         | [Faker.js](https://fakerjs.dev)                                |
-| Apollo             | [![Apollo](https://img.shields.io/badge/Apollo-✓-purple)](https://www.apollographql.com/docs/react/)                               | [Apollo GraphQL](https://www.apollographql.com/docs/react/)    |
-| React-Redux        | [![React-Redux](https://img.shields.io/badge/React--Redux-✓-blueviolet)](https://react-redux.js.org)                               | [React Redux](https://react-redux.js.org)                      |
-| React              | [![React](https://img.shields.io/badge/React-✓-blue)](https://react.dev)                                                           | [React](https://react.dev)                                     |
-| Stripe             | [![Stripe](https://img.shields.io/badge/Stripe-✓-lightgrey)](https://www.npmjs.com/package/stripe)                                 | [npm](https://www.npmjs.com/package/stripe)                    |
-| JWT                | [![JWT](https://img.shields.io/badge/JWT-✓-black)](https://jwt.io/introduction)                                                    | [JWT](https://jwt.io/introduction)                             |
+| Badge Name  | Badge                                                                                                                      | Link                                                           |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| JavaScript  | [![JavaScript](https://img.shields.io/badge/JavaScript-✓-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) | [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript) |
+| Nodejs      | [![Nodejs](https://img.shields.io/badge/Node.js-✓-green)](https://nodejs.org/en)                                           | [Node.js](https://nodejs.org/en)                               |
+| Bcrypt      | [![Bcrypt](https://img.shields.io/badge/Bcrypt-✓-orange)](https://www.npmjs.com/package/bcrypt)                            | [npm](https://www.npmjs.com/package/bcrypt)                    |
+| Mongoose    | [![Mongoose](https://img.shields.io/badge/Mongoose-✓-red)](https://mongoosejs.com/docs/api/mongoose.html)                  | [Mongoose](https://mongoosejs.com/docs/api/mongoose.html)      |
+| Faker       | [![Faker](https://img.shields.io/badge/Faker-✓-blue)](https://fakerjs.dev)                                                 | [Faker.js](https://fakerjs.dev)                                |
+| Apollo      | [![Apollo](https://img.shields.io/badge/Apollo-✓-purple)](https://www.apollographql.com/docs/react/)                       | [Apollo GraphQL](https://www.apollographql.com/docs/react/)    |
+| React-Redux | [![React-Redux](https://img.shields.io/badge/React--Redux-✓-blueviolet)](https://react-redux.js.org)                       | [React Redux](https://react-redux.js.org)                      |
+| React       | [![React](https://img.shields.io/badge/React-✓-blue)](https://react.dev)                                                   | [React](https://react.dev)                                     |
+| Stripe      | [![Stripe](https://img.shields.io/badge/Stripe-✓-lightgrey)](https://www.npmjs.com/package/stripe)                         | [npm](https://www.npmjs.com/package/stripe)                    |
+| JWT         | [![JWT](https://img.shields.io/badge/JWT-✓-black)](https://jwt.io/introduction)                                            | [JWT](https://jwt.io/introduction)                             |
+| Axios       | [![Axios](https://img.shields.io/badge/Axios-✓-purple)](https://axios-http.com/docs/intro)                                 | [Axios](https://axios-http.com/docs/intro)                     |
+| IntroJs     | [![IntroJs](https://img.shields.io/badge/IntroJs-✓-darkblue)](https://introjs.com/)                                        | [IntroJs](https://introjs.com/)                                |
 
 # Landing Page
 
@@ -79,13 +81,12 @@ On the page you may login or sign up through the nav links. Once Logged in you c
 [Link to Site](https://logo-marketplace-f9aad311ca28.herokuapp.com/)
 
 Here is video demonstration on how to sign up and purchase an item.
-[Link to Video]()
+[Link to Video](https://www.youtube.com/watch?v=2sAOR4DWM20)
 
 ## Learning Points
 
 1. How to use Stripe to make an easy checkout page.
 2. How to effectively use React-Redux
-3. 
 
 ## Author Info
 
