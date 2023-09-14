@@ -25,6 +25,7 @@ const Success = () => {
 
   const [cart, setCart] = useState([]);
   let products = [];
+
   useEffect(() => {
     async function getCart() {
       const idbcart = await idbPromise("cart", "get");
@@ -40,6 +41,7 @@ const Success = () => {
       const stringEmail = JSON.stringify(decodedToken.data.email);
       const stringName = JSON.stringify(decodedToken.data.username);
 
+
       console.log(stringEmail);
       console.log(stringName);
 
@@ -49,11 +51,10 @@ const Success = () => {
         user_email: stringEmail,
         user_name: stringName
       });
+
     }
     getCart();
   }, []);
-
-
 
   console.log("this is the stored cart", storedCart);
   console.log("this is the global", globalCart);
@@ -78,7 +79,6 @@ const Success = () => {
     setFormState({ ...formState, message: message });
     return message;
    };
-
 
   const sendInvoice = () => {
     const cartItems = cart;

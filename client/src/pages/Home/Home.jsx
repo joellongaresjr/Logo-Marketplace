@@ -5,6 +5,8 @@ import Hero from "../../components/Hero/Hero.jsx";
 import ItemContainer from "../../components/ItemContainer/ItemContainer";
 import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS_PAGINATED } from "./../../utils/queries";
+import introJs from "intro.js";
+import "intro.js/introjs.css";
 
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -50,11 +52,21 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <div className="item-grid">
+      <div
+        className="item-grid"
+        data-step="7"
+        data-intro="Click on any items to view them and add them to cart"
+      >
         {items.map((product, index) => (
           <div
             key={product._id}
             ref={index === items.length - 1 ? lastItemRef : null}
+            {...(index === 0
+              ? {
+                  "data-step": "8",
+                  "data-intro": "Click this to view details!",
+                }
+              : {})}
           >
             <ItemContainer
               name={product.name}
@@ -62,6 +74,7 @@ const Home = () => {
               imgUrl={product.imageUrl}
               _id={product._id}
               featured={product.featured}
+              showIntro={index === 0}
             />
           </div>
         ))}

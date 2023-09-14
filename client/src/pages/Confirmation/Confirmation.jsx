@@ -38,7 +38,7 @@ const Confirmation = () => {
   const form = useRef();
 
   useEffect(() => {
-    idbPromise("cart", "delete", { _id: "shippingInfo" });
+    idbPromise("shipping", "delete", { _id: "shippingInfo" });
   }, []);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const Confirmation = () => {
     event.preventDefault();
     const productIds = [];
 
-    idbPromise("cart", "put", {
+    idbPromise("shipping", "put", {
       ...shippingInfo,
     });
 

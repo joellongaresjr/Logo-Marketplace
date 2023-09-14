@@ -30,6 +30,7 @@ const typeDefs = `
     category: Category
     store: Store
     stockQuantity: Int
+    purchaseQuantity: Int
     imageUrl: String
     featured: Boolean
     created_at: String
@@ -52,11 +53,23 @@ const typeDefs = `
     session: ID
   }
 
+  input ProductInput {
+    name: String!
+    price: Float!
+    quantity: Int!
+  }
+
+  input OrderInput {
+    customerName: String!
+    products: [ProductInput!]!
+  }
+
 
   type Store {
     _id: ID!
     name: String
     location: String
+    shopImageUrl: String
     products: [Product]
     admin: Admin
   }
@@ -94,6 +107,7 @@ const typeDefs = `
   }
 
   type Mutation {
+
     addUser(username: String!, email: String!, password: String!, address: String! ): Auth
     updateUser(username: String!, email: String!, password: String!): Auth
     addAdmin(username: String!, email: String!, password: String! ): Auth
