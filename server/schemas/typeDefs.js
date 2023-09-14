@@ -69,6 +69,7 @@ const typeDefs = `
     _id: ID!
     name: String
     location: String
+    shopImageUrl: String
     products: [Product]
     admin: Admin
   }

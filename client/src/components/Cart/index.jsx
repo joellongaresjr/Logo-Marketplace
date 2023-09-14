@@ -54,32 +54,59 @@ const Cart = () => {
     );
   }
   if (window.location.pathname !== "/confirmation") {
-  return (
-    <div className="cart">
-      <div className="close " onClick={toggleCart}>
-        <span role="img" aria-label="trash">
-          X
-        </span>
-      </div>
-      <div>
-        <h2>Your Cart</h2>
-      </div>
+    return (
+      <div className="cart">
+        <div className="close " onClick={toggleCart}>
+          <FaTimes style={{ cursor: "pointer" }} />
+        </div>
+        <div>
+          <h2 data-step="10" data-intro="This is your shopping cart!">
+            Your Cart
+          </h2>
+        </div>
 
-      <div className="cart-items">
-        {cart.length ? (
-          <>
-            {cart.map(item => (
-              <CartItem key={item._id} item={item} />
-            ))}
-            {Auth.loggedIn() ? (
-              <button  onClick={submitCheckout}><a href="/confirmation">Checkout</a></button>
-            ) : (
-              <span>(log in to check out)</span>
-            )}
-          </>
-        ) : (
-          <h3>Nothing in your cart yet!</h3>
-        )}
+        <div
+          className="cart-items"
+          data-step="11"
+          data-intro="These are the items in your cart."
+        >
+          {cart.length ? (
+            <>
+              {cart.map((item) => (
+                <CartItem key={item._id} item={item} />
+              ))}
+              {Auth.loggedIn() ? (
+                <div
+                  data-step="12"
+                  data-intro="Click here to checkout and complete your purchase!"
+                >
+                  <Link
+                    to="/confirmation"
+                    type="button"
+                    onClick={submitCheckout}
+                  >
+                    Checkout
+                  </Link>
+                </div>
+              ) : (
+                <div>
+                  <Link to="/login" className="centered-text">
+                    LogIn to Checkout
+                  </Link>
+                </div>
+              )}
+            </>
+          ) : (
+            <div
+              data-step="13"
+              data-intro="You can proceed to checkout from here."
+            >
+              <Link to="/confirmation" className="centered-text">
+                Proceed to Checkout
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
