@@ -27,14 +27,13 @@ const Success = () => {
 
       if (products.length) {
         const { data } = await addOrderMutation({ variables: { products } });
+        const productData = data.addOrder.products;
 
         productData.forEach((item) => {
           idbPromise('cart', 'delete', item);
         });
         console.log(addOrderMutation);
       }
-
-  
     }
  
     saveOrder();
