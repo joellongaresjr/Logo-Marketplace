@@ -1,14 +1,13 @@
-import { useEffect } from "react";
 import { QUERY_CHECKOUT } from "../../utils/queries";
+import { Link } from "react-router-dom";
 import CartItem from "../CartItem/index";
 import Auth from "../../utils/auth";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
+import { FaTimes } from "react-icons/fa";
 import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
-import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
 
@@ -16,17 +15,6 @@ const Cart = () => {
   const cartOpen = useSelector((state) => state.cartOpen);
   const dispatch = useDispatch();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-
-  useEffect(() => {
-    async function getCart() {
-      const cart = await idbPromise("cart", "get");
-      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
-
-    }
-    if (!cart.length) {
-      getCart();
-    }
-  }, [cart.length, dispatch]);
 
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
@@ -60,26 +48,17 @@ const Cart = () => {
           <FaTimes style={{ cursor: "pointer" }} />
         </div>
         <div>
-          <h2 data-step="10" data-intro="This is your shopping cart!">
-            Your Cart
-          </h2>
+          <h2>Your Cart</h2>
         </div>
 
-        <div
-          className="cart-items"
-          data-step="11"
-          data-intro="These are the items in your cart."
-        >
+        <div className="cart-items">
           {cart.length ? (
             <>
               {cart.map((item) => (
                 <CartItem key={item._id} item={item} />
               ))}
               {Auth.loggedIn() ? (
-                <div
-                  data-step="12"
-                  data-intro="Click here to checkout and complete your purchase!"
-                >
+                <div>
                   <Link
                     to="/confirmation"
                     type="button"
@@ -97,10 +76,7 @@ const Cart = () => {
               )}
             </>
           ) : (
-            <div
-              data-step="13"
-              data-intro="You can proceed to checkout from here."
-            >
+            <div>
               <Link to="/confirmation" className="centered-text">
                 Proceed to Checkout
               </Link>
@@ -108,10 +84,9 @@ const Cart = () => {
           )}
         </div>
       </div>
-    </div>
-  );
+    );
   }
 };
 
-
 export default Cart;
+

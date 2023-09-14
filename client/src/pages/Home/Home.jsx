@@ -1,6 +1,5 @@
 import "./Home.css";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState, useCallback } from "react";
 import Hero from "../../components/Hero/Hero.jsx";
 import ItemContainer from "../../components/ItemContainer/ItemContainer";
 import { useQuery } from "@apollo/client";
@@ -13,7 +12,6 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const containerRef = useRef();
 
   const { data } = useQuery(QUERY_PRODUCTS_PAGINATED, {
     variables: { limit: 10, offset: (pageNumber - 1) * 10 },

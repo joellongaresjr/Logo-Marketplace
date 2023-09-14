@@ -5,7 +5,6 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { idbPromise } from "../../utils/helpers";
 import { convertToPHP } from "../../utils/helpers";
 
 const ItemContainer = (props) => {
@@ -28,16 +27,11 @@ const ItemContainer = (props) => {
         _id: props._id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
-      idbPromise("cart", "put", {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
     } else {
       dispatch({
         type: ADD_TO_CART,
         product: { ...props, purchaseQuantity: 1 },
       });
-      idbPromise("cart", "put", { ...props, purchaseQuantity: 1 });
     }
   };
 
@@ -46,7 +40,6 @@ const ItemContainer = (props) => {
   );
 
   useEffect(() => {
-    // Call the asynchronous function and update state when the result is ready
     convertToPHP(props.price)
       .then((newAmountFormatted) => {
         setConvertedAmount(newAmountFormatted);

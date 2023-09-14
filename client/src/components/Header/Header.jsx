@@ -4,18 +4,20 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
 import Cart from "../Cart";
 import Category from "../Category/Category";
-import introJs from 'intro.js';
-import 'intro.js/introjs.css';
+import introJs from "intro.js";
+import "intro.js/introjs.css";
 
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const burgerToggle = () => {
     setBurgerClick(!burgerClick);
@@ -43,7 +45,7 @@ const Header = () => {
   const searchSubmitHandler = (event) => {
     event.preventDefault();
     if (searchQuery.length >= 2) {
-      window.location.href = `/search/${searchQuery}`;
+      navigate(`/search/${searchQuery}`);
     }
   };
 
@@ -61,14 +63,16 @@ const Header = () => {
         <h1>Logo MarketPlace</h1>
       </div>
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
-      <li><a className="nav-item"
-            href="javascript:void(0);"
-            onClick={() => introJs().setOption('showProgress', true).start()}
+        <li>
+          <a
+            className="nav-item"
+            onClick={() => introJs().setOption("showProgress", true).start()}
             data-step="1"
             data-intro="Click here to start the tutorial demo!"
           >
             Get a demo
-          </a></li>
+          </a>
+        </li>
         <li>
           <form className="nav-search" onSubmit={searchSubmitHandler}>
             <Category />
@@ -94,7 +98,7 @@ const Header = () => {
           </form>
         </li>
         <li>
-        <Link
+          <Link
             to="/stores"
             className={pathname === "/stores" ? "current-page" : "nav-item"}
             data-step="2"
@@ -122,7 +126,6 @@ const Header = () => {
                 data-step="3"
                 data-intro="Login to your account here if you have one!"
               >
-              
                 Login
               </Link>
             </li>
@@ -140,25 +143,25 @@ const Header = () => {
         )}
         <li>
           <Link
-
-            to="/orders"
-            className={pathname === "/orders" ? "current-page" : "nav-item"}
+            to="/order-history"
+            className={pathname === "/order-history" ? "current-page" : "nav-item"}
             data-step="5"
             data-intro="Click here to view your Past Orders!"
           >
             Orders
           </Link>
         </li>
-          {(window.location.pathname !== "/confirmation") ? (
-            <li
+
+        {window.location.pathname !== "/confirmation" ? (
+          <li
             data-step="6"
-            data-intro="Click here to view your cart items and proceed to checkout!">
-              <Cart />
-            </li>
-          ) : (
-            <></>
-          )
-        }
+            data-intro="Click here to view your cart items and proceed to checkout!"
+          >
+            <Cart />
+          </li>
+        ) : (
+          <></>
+        )}
       </ul>
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (

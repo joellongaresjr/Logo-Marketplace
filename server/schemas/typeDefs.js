@@ -71,6 +71,7 @@ const typeDefs = `
     location: String
     shopImageUrl: String
     products: [Product]
+    description: String
     admin: Admin
   }
 

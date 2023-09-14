@@ -109,5 +109,6 @@ query getStores {
     name
     location
     shopImageUrl
+    description
   }
 }`

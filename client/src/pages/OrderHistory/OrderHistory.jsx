@@ -1,9 +1,7 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../../utils/queries";
 import './OrderHistory.css'
-
+import { FaAngleDown, FaArrowDown } from "react-icons/fa";
 
 const OrderHistory = () => {
   const { data } = useQuery(QUERY_USER);
@@ -12,13 +10,6 @@ const OrderHistory = () => {
 
   if (data) {
     user = data.user;
-    // console.log(user);
-    // console.log(user.username);
-    // console.log(user.orders);
-    // console.log(user.orders);
-    // console.log(user.orders._id);
-    // console.log(user.orders[0].purchaseDate);
-    // console.log(user.orders[0].products);
   }
 
   return (
@@ -46,6 +37,7 @@ const OrderHistory = () => {
                       </h5>
                     </div>
                     <h5>Order Details</h5>
+                    <FaAngleDown />
                     </div>
                     <div className="order-total">
                       {/* <h3>Order Total: </h3> */}
@@ -57,12 +49,12 @@ const OrderHistory = () => {
                             <div key={index} className="order-products-item">
                             <div className="order-product-image">
                               <img src={imageUrl} alt="product" />
-                                </div>
-                                <div className="order-product-name">
                                 <p>{name}</p>
                                 </div>
+                                <div className="order-product-name">
+                                </div>
                               <div className="order-product-price">
-                              <p>Price: {price}</p>
+                              <p> Price: ${price}</p>
                               </div>
 
                             </div>

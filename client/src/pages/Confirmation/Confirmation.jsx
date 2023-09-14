@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import { useQuery } from "@apollo/client";
 import { QUERY_CHECKOUT } from "../../utils/queries";
+import { useMutation } from "@apollo/client";
+import { ADD_ORDER } from "../../utils/mutations";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,18 +15,14 @@ import Auth from "../../utils/auth";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
-import { FaAddressBook, FaCity, FaFontAwesome, FaUser } from "react-icons/fa";
+import { FaAddressBook, FaCity, FaUser } from "react-icons/fa";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Confirmation = () => {
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const cart = useSelector((state) => state.cart);
-  const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
   const [shippingInfo, setShippingInfo] = useState({
     full_name: "",
     email: "",
@@ -63,7 +60,7 @@ const Confirmation = () => {
 
   function calculateTotal() {
     let sum = 0;
-    state.cart.forEach((item) => {
+    cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
 
@@ -72,14 +69,14 @@ const Confirmation = () => {
 
   function totalItems() {
     let total = 0;
-    state.cart.forEach((item) => {
+    cart.forEach((item) => {
       total += item.purchaseQuantity;
     });
 
     return total;
   }
 
-  function submitCheckout() {
+  function submitCheckout(event) {
     event.preventDefault();
     const productIds = [];
 
@@ -87,13 +84,15 @@ const Confirmation = () => {
       ...shippingInfo,
     });
 
+    
     cart.forEach((item) => {
+      idbPromise("cart", "put", { ...item});
       console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
-    });
 
+    });
     getCheckout({
       variables: { products: productIds },
     });
@@ -136,9 +135,9 @@ const Confirmation = () => {
           <div className="order-items">
             <h2>Order Confirmation</h2>
             <div className="confirmation-container">
-              {state.cart.length ? (
+              {cart.length ? (
                 <>
-                  {state.cart.map((item) => (
+                  {cart.map((item) => (
                     <div key={item._id} className="confirmation-item">
                       <div className="confirmation-img">
                         <Link to={`/products/${item._id}`}>
@@ -280,7 +279,7 @@ const Confirmation = () => {
 
             {Auth.loggedIn() ? (
               <button className="confirmation-btn" type="submit">
-                <a href="/confirmation">Checkout</a>
+                Confirm
               </button>
             ) : (
               <span>(log in to check out)</span>
