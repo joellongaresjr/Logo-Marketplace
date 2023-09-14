@@ -49,6 +49,11 @@ const Header = () => {
     }
   };
 
+  const handleLogout = () => {
+    Auth.logout();
+    window.location.href(`/`);
+  };
+
   return (
     <nav className="header">
       <div className={burgerClick ? "nav-title active" : "nav-title"}>
@@ -112,7 +117,7 @@ const Header = () => {
             <Link
               to="/"
               className={pathname === "/" ? "current-page" : "nav-item"}
-              onClick={() => Auth.logout()}
+              onClick={handleLogout}
             >
               Logout
             </Link>

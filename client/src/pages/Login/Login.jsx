@@ -27,8 +27,8 @@ const Login = (props) => {
         payload: userId,
       });
       Auth.login(token);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
   const handleChange = (event) => {
@@ -65,7 +65,7 @@ const Login = (props) => {
           {error ? (
             <div>
               <p className="error-text">
-                The provided credentials are incorrect
+                Username or Password is incorrect. Please try again.
               </p>
             </div>
           ) : null}

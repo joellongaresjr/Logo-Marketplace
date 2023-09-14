@@ -17,8 +17,7 @@ const Signup = () => {
 
   const [addUser, { error }] = useMutation(ADD_USER);
   const [apolloErrorText, setApolloErrorText] = useState("");
-  const [submitted, setSubmitted] = useState(false); // Track whether the form is submitted
-
+  const [submitted, setSubmitted] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
