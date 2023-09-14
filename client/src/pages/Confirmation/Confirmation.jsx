@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { QUERY_CHECKOUT } from "../../utils/queries";
+import { useMutation } from "@apollo/client";
+import { ADD_ORDER } from "../../utils/mutations";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
@@ -89,8 +91,8 @@ const Confirmation = () => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
-    });
 
+    });
     getCheckout({
       variables: { products: productIds },
     });

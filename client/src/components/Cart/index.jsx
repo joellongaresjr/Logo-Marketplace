@@ -8,8 +8,6 @@ import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
-import { Link } from "react-router-dom";
-
 
 const Cart = () => {
 
