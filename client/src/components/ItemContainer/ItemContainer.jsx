@@ -59,8 +59,9 @@ const ItemContainer = (props) => {
         <button
           onClick={addToCart}
           className="add-to-cart"
-          data-step="9"
-          data-intro="Click this to add to cart!"
+          {...(props.showIntro
+            ? { "data-step": "9", "data-intro": "Click this to add to cart!" }
+            : {})}
         >
           Add to Cart
         </button>
