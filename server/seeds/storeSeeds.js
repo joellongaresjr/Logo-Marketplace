@@ -3,13 +3,15 @@ const { Store } = require("../models");
 const stores = [
   {
     name: "Bayani Delhi",
-    location: "Long Beach",
-    shopImageUrl: "store1"
+    location: "Houston, Texas",
+    shopImageUrl: "store1",
+    description: "A Filipino deli in Texas offering a vibrant taste of the Philippines right in the heart of the Lone Star State."
   },
   {
     name: "Sunset Shack",
-    location: "Daly City",
-    shopImageUrl: "store2"
+    location: "New York, Brooklyn",
+    shopImageUrl: "store2",
+    description: "Sunset Shack, the Filipino bakery that supplies fresh goods and services from the Big Apple"
   },
 ];
 
