@@ -6,7 +6,6 @@
 
 
 .summary{
-  
     justify-content: center;
     width: 50%;
     text-align: center;
@@ -75,14 +74,12 @@
     border-radius: 3px;
     cursor: pointer;
     font-size: 17px;
+    color: white;
+    text-decoration: none;
     &:hover {
         background-color: #3581b8;
         scale: 1.02;
         cursor: pointer;
     }
-}
-.reorder-btn a{
-    color: white;
-    text-decoration: none;
 }
 

@@ -21,7 +21,6 @@ const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 const Confirmation = () => {
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const cart = useSelector((state) => state.cart);
-  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -39,7 +38,7 @@ const Confirmation = () => {
   const form = useRef();
 
   useEffect(() => {
-    idbPromise("cart", "delete", { _id: "shippingInfo" });
+    idbPromise("shipping", "delete", { _id: "shippingInfo" });
   }, []);
 
   useEffect(() => {
@@ -63,7 +62,7 @@ const Confirmation = () => {
 
   function calculateTotal() {
     let sum = 0;
-    state.cart.forEach((item) => {
+    cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
 
@@ -72,22 +71,24 @@ const Confirmation = () => {
 
   function totalItems() {
     let total = 0;
-    state.cart.forEach((item) => {
+    cart.forEach((item) => {
       total += item.purchaseQuantity;
     });
 
     return total;
   }
 
-  function submitCheckout() {
+  function submitCheckout(event) {
     event.preventDefault();
     const productIds = [];
 
-    idbPromise("cart", "put", {
+    idbPromise("shipping", "put", {
       ...shippingInfo,
     });
 
+    
     cart.forEach((item) => {
+      idbPromise("cart", "put", { ...item});
       console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
@@ -136,9 +137,9 @@ const Confirmation = () => {
           <div className="order-items">
             <h2>Order Confirmation</h2>
             <div className="confirmation-container">
-              {state.cart.length ? (
+              {cart.length ? (
                 <>
-                  {state.cart.map((item) => (
+                  {cart.map((item) => (
                     <div key={item._id} className="confirmation-item">
                       <div className="confirmation-img">
                         <Link to={`/products/${item._id}`}>
@@ -280,7 +281,7 @@ const Confirmation = () => {
 
             {Auth.loggedIn() ? (
               <button className="confirmation-btn" type="submit">
-                <a href="/confirmation">Checkout</a>
+                Confirm
               </button>
             ) : (
               <span>(log in to check out)</span>

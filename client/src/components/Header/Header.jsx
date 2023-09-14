@@ -1,9 +1,10 @@
 import "./HeaderStyles.css";
 import Auth from "../../utils/auth";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, redirect } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
+import { useNavigate } from 'react-router-dom';
 import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
 import logo from "../../assets/images/logo.svg";
 import Cart from "../Cart";
@@ -16,6 +17,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const burgerToggle = () => {
     setBurgerClick(!burgerClick);
@@ -42,7 +44,9 @@ const Header = () => {
 
   const searchSubmitHandler = (event) => {
     event.preventDefault();
-    window.location.href = `/search/${searchQuery}`;
+    if (searchQuery.length >= 2) {
+      navigate(`/search/${searchQuery}`);
+    }
   };
 
   return (
@@ -82,7 +86,13 @@ const Header = () => {
                 <option key={item._id} value={item.name} />
               ))}
             </datalist>
-            <button className="search-btn" type="submit">Submit</button>
+            <button
+              className="search-btn"
+              type="submit"
+              disabled={searchQuery.length < 2}
+            >
+              Submit
+            </button>
           </form>
         </li>
         <li>
@@ -141,6 +151,7 @@ const Header = () => {
             Orders
           </Link>
         </li>
+
           {(window.location.pathname !== "/confirmation") ? (
             <li
             data-step="6"

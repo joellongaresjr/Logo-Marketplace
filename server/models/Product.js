@@ -23,6 +23,11 @@ const productSchema = new Schema(
       required: true,
       min: 0,
     },
+    purchaseQuantity: { 
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     imageUrl: {
       type: String,
       required: true,
