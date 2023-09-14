@@ -2,13 +2,12 @@ const db = require("../config/connection");
 const { Category, Store, User, Product, Admin, Order} = require("../models");
 
 const categorySeeds = require("./categorySeeds");
-const storeSeeds = require("./storeSeeds");
 const userSeeds = require("./userSeeds");
 const productSeeds = require("./productSeeds");
+const { storeSeeds, stores } = require("./storeSeeds");
 
 //Change these values to change the amount of data seeded
 const productAmount = 200;
-const storeAmount = 1;
 const categoryAmount = 10;
 const userAmount = 2;
 const dbCollections = [Category, Store, User, Product, Admin, Order];
@@ -41,7 +40,7 @@ db.once("open", async () => {
     await resetCollections(dbCollections);
     await userSeeds(userAmount);
     await categorySeeds(categoryAmount);
-    await storeSeeds(storeAmount);
+    await storeSeeds(stores);
     await productSeeds(productAmount);
   } catch (err) {
     console.log(err);

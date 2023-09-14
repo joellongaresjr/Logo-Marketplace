@@ -14,7 +14,14 @@ const Success = () => {
   const { id } = useParams();
   const token = localStorage.getItem("id_token");
   const decodedToken = Auth.getProfile(token);
-  const cart = useSelector((state) => state.cart);
+  const globalCart = useSelector((state) => state.cart);
+  const storedCart = idbPromise("cart", "get");
+  const [formComplete, setFormComplete] = useState(false);
+  const [formState, setFormState] = useState({
+    user_name: "",
+    user_email: "",
+    message: "",
+  });
 
   const [addOrderMutation] = useMutation(ADD_ORDER);
 
@@ -68,13 +75,9 @@ const Success = () => {
     async function saveOrder() {
       const cart = await idbPromise("cart", "get");
 
-      console.log(cart);
-      const products = cart.map((item) => item._id);
-      console.log(products);
+      console.log(stringEmail);
+      console.log(stringName);
 
-      if (products.length) {
-        const { data } = await addOrderMutation({ variables: { products } });
-        const productData = data.addOrder.products;
 
         productData.forEach((item) => {
           idbPromise("cart", "delete", item);

@@ -1,26 +1,29 @@
-const { faker } = require("@faker-js/faker");
 const { Store } = require("../models");
 
-const storeSeeds = async (amount) => {
+const stores = [
+  {
+    name: "Bayani Delhi",
+    location: "Long Beach",
+    shopImageUrl: "store1",
+  },
+  {
+    name: "Sunset Shack",
+    location: "Daly City",
+    shopImageUrl: "store2",
+  },
+];
+
+const storeSeeds = async (storeDataAraay) => {
   try {
-    const stores = [];
-
-    for (let i = 0; i < amount; i++) {
-      const store = await Store.create({
-        name: faker.company.name(),
-        location: faker.location.city(),
-      });
-      stores.push(store);
+    for (const storeData of storeDataAraay) {
+      const store = new Store(storeData);
+      await store.save();
     }
-    const uniqueStores = [...new Set(stores)];
 
-    for (const store of uniqueStores) {
-      await Store.create(store);
-    }
-    console.log("STORES CREATED\n-------------------");
+    console.log("Stores saved successfully");
   } catch (err) {
-    console.log(err);
+    console.log("No Seeds");
   }
 };
 
-module.exports = storeSeeds;
+module.exports = { storeSeeds, stores };

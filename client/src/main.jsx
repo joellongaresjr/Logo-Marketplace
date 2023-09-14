@@ -1,5 +1,7 @@
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import introJs from 'intro.js';
+import 'intro.js/introjs.css';
 
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -16,7 +18,6 @@ import Stores from "./pages/Stores/Stores";
 import Success from "./pages/Success/Success";
 import OrderHistory from "./pages/OrderHistory/OrderHistory";
 import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
-
 const router = createBrowserRouter([
   {
     path: "/",

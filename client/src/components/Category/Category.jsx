@@ -14,10 +14,7 @@ function Category() {
   useEffect(() => {
     if (categoryData?.getCategories) {
       setCategories(categoryData.getCategories);
-      dispatch({
-        type: SET_CATEGORIES,
-        categories: categoryData.getCategories,
-      });
+      dispatch({ type: SET_CATEGORIES, categories: categoryData.getCategories });
     }
   }, [categoryData, dispatch]);
 
@@ -27,14 +24,13 @@ function Category() {
 
   return (
     <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
+      <Dropdown.Toggle variant="light" id="category-dropdown">
         Categories
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
         {categories.map((category) => (
           <Dropdown.Item
-            className="dropdown-item"
             key={category._id}
             as={Link}
             to={`/products/category/${category._id}`}
