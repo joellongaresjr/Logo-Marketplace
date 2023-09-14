@@ -101,5 +101,6 @@ query getStores {
     _id
     name
     location
+    shopImageUrl
   }
 }`

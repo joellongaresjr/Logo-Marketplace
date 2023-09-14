@@ -4,12 +4,12 @@ const stores = [
   {
     name: "Bayani Delhi",
     location: "Long Beach",
-    shopImageUrl: "/assets/images/BayaniDelhi.png" 
+    shopImageUrl: "store1"
   },
   {
     name: "Sunset Shack",
     location: "Daly City",
-    shopImageUrl: "/assets/images/SunsetShack.png" 
+    shopImageUrl: "store2"
   },
 ];
 

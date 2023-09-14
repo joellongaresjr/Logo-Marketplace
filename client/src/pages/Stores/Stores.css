@@ -1,34 +1,36 @@
 .store-container {
-  font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.store-container h2 {
   text-align: center;
-  color: #333;
-  margin-bottom: 20px;
 }
 
-.store-container ul {
-  list-style-type: none;
-  padding: 0;
+.store-grid {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next row if needed */
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Add some spacing between cards */
 }
 
-.store-container li {
-  border-bottom: 1px solid #eaeaea;
-  padding: 10px 0;
+.store-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  box-shadow: 3px 3px 3px #888888;
+  border-radius: 3px;
 }
 
-.store-container h3,
-.store-container h4 {
-  margin: 5px 0;
+.store-card img {
+  max-width: 100px; /* Adjust the maximum width of the store icons */
+  height: auto;
 }
 
-.store-container h4 {
-  color: #666;
+.store-card h3 {
+  margin: 10px 0; /* Add some margin to the store name */
+}
+
+.store-card h4 {
+  margin: 10px 0;
 }
