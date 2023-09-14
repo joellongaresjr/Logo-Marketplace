@@ -1,0 +1,34 @@
+.store-container {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.store-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.store-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.store-container li {
+  border-bottom: 1px solid #eaeaea;
+  padding: 10px 0;
+}
+
+.store-container h3,
+.store-container h4 {
+  margin: 5px 0;
+}
+
+.store-container h4 {
+  color: #666;
+}

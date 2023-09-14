@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { QUERY_STORES } from "../../utils/queries";
 import { useParams } from "react-router-dom";
+import "./stores.css";
 
 const Stores = () => {
   const { id } = useParams();
