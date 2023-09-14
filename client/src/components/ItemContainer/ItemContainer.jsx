@@ -56,7 +56,13 @@ const ItemContainer = (props) => {
           <Card.Text className="item-title">{props.name}</Card.Text>
         </Link>
         <Card.Text>{dollarString}</Card.Text>
-        <button onClick={addToCart} className="add-to-cart">
+        <button
+          onClick={addToCart}
+          className="add-to-cart"
+          {...(props.showIntro
+            ? { "data-step": "9", "data-intro": "Click this to add to cart!" }
+            : {})}
+        >
           Add to Cart
         </button>
       </Card.Body>

@@ -58,17 +58,26 @@ const Cart = () => {
           <FaTimes style={{ cursor: "pointer" }} />
         </div>
         <div>
-          <h2>Your Cart</h2>
+          <h2 data-step="10" data-intro="This is your shopping cart!">
+            Your Cart
+          </h2>
         </div>
 
-        <div className="cart-items">
+        <div
+          className="cart-items"
+          data-step="11"
+          data-intro="These are the items in your cart."
+        >
           {cart.length ? (
             <>
               {cart.map((item) => (
                 <CartItem key={item._id} item={item} />
               ))}
               {Auth.loggedIn() ? (
-                <div>
+                <div
+                  data-step="12"
+                  data-intro="Click here to checkout and complete your purchase!"
+                >
                   <Link
                     to="/confirmation"
                     type="button"
@@ -86,7 +95,10 @@ const Cart = () => {
               )}
             </>
           ) : (
-            <div>
+            <div
+              data-step="13"
+              data-intro="You can proceed to checkout from here."
+            >
               <Link to="/confirmation" className="centered-text">
                 Proceed to Checkout
               </Link>

@@ -1,5 +1,7 @@
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import introJs from 'intro.js';
+import 'intro.js/introjs.css';
 
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
