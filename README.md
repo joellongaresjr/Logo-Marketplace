@@ -47,7 +47,7 @@ This is general purpose e-commerence website that hosts a variety of different p
 
 # Models
 
-- Admin
+- Admin (Not Used yet)
 
 ![Snippet of admin model](./assets/images/AdminModel.png)
 
@@ -87,6 +87,7 @@ Here is video demonstration on how to sign up and purchase an item.
 
 1. How to use Stripe to make an easy checkout page.
 2. How to effectively use React-Redux
+3. How to send emails to users after confirming purchases
 
 ## Author Info
 
