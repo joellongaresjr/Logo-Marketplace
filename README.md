@@ -14,6 +14,8 @@
 | React       | [![React](https://img.shields.io/badge/React-✓-blue)](https://react.dev)                                                   | [React](https://react.dev)                                     |
 | Stripe      | [![Stripe](https://img.shields.io/badge/Stripe-✓-lightgrey)](https://www.npmjs.com/package/stripe)                         | [npm](https://www.npmjs.com/package/stripe)                    |
 | JWT         | [![JWT](https://img.shields.io/badge/JWT-✓-black)](https://jwt.io/introduction)                                            | [JWT](https://jwt.io/introduction)                             |
+| Axios       | [![Axios](https://img.shields.io/badge/Axios-✓-purple)](https://axios-http.com/docs/intro)                                 | [Axios](https://axios-http.com/docs/intro)                     |
+| IntroJs     | [![IntroJs](https://img.shields.io/badge/IntroJs-✓-darkblue)](https://introjs.com/)                                        | [IntroJs](https://introjs.com/)                                |
 
 # Landing Page
 
@@ -79,13 +81,12 @@ On the page you may login or sign up through the nav links. Once Logged in you c
 [Link to Site](https://logo-marketplace-f9aad311ca28.herokuapp.com/)
 
 Here is video demonstration on how to sign up and purchase an item.
-[Link to Video]()
+[Link to Video](https://www.youtube.com/watch?v=2sAOR4DWM20)
 
 ## Learning Points
 
 1. How to use Stripe to make an easy checkout page.
 2. How to effectively use React-Redux
-3. 
 
 ## Author Info
 
