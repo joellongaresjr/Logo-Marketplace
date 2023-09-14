@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { QUERY_STORES } from "../../utils/queries";
 import { useParams } from "react-router-dom";
-import './Stores.css';
-import store1 from '../../assets/images/BayaniDelhi.png';
-import store2 from '../../assets/images/SunsetShack.png';
+import "./Stores.css";
+import store1 from "../../assets/images/BayaniDelhi.png";
+import store2 from "../../assets/images/SunsetShack.png";
 
 const Stores = () => {
   const { id } = useParams();
@@ -33,7 +33,8 @@ const Stores = () => {
           ))}
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Stores;

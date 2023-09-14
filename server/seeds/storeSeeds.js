@@ -28,4 +28,4 @@ const storeSeeds = async (storeDataAraay) => {
   }
 };
 
-module.exports = { storeSeeds, stores } ;
+module.exports = { storeSeeds, stores };
