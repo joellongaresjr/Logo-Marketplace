@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
 import emailjs from "@emailjs/browser";
 import Auth from "../../utils/auth";
-import { useQuery } from "@apollo/client";
-import { QUERY_USER } from "../../utils/queries";
 
 import "./SuccessStyles.css";
 

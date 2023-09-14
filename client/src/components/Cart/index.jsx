@@ -1,14 +1,12 @@
-import { useEffect } from "react";
 import { QUERY_CHECKOUT } from "../../utils/queries";
+import { Link } from "react-router-dom";
 import CartItem from "../CartItem/index";
 import Auth from "../../utils/auth";
-import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
+import { TOGGLE_CART } from "../../utils/actions";
+import { FaTimes } from "react-icons/fa";
 import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
-import { idbPromise } from "../../utils/helpers";
-import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
 
@@ -97,10 +95,8 @@ const Cart = () => {
           )}
         </div>
       </div>
-    </div>
-  );
+    );
   }
 };
-
 
 export default Cart;

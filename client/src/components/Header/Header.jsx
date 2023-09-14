@@ -1,7 +1,7 @@
 import "./HeaderStyles.css";
 import Auth from "../../utils/auth";
 import { useEffect, useState } from "react";
-import { Link, useLocation, redirect } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
 import { useNavigate } from 'react-router-dom';
@@ -64,7 +64,6 @@ const Header = () => {
       </div>
       <ul className={burgerClick ? "nav-menu active" : "nav-menu"}>
       <li><a className="nav-item"
-            href="javascript:void(0);"
             onClick={() => introJs().setOption('showProgress', true).start()}
             data-step="1"
             data-intro="Click here to start the tutorial demo!"

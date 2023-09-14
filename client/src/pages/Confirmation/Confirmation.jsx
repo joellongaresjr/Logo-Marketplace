@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { useQuery } from "@apollo/client";
 import { QUERY_CHECKOUT } from "../../utils/queries";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLazyQuery } from "@apollo/client";
@@ -14,7 +13,7 @@ import Auth from "../../utils/auth";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
-import { FaAddressBook, FaCity, FaFontAwesome, FaUser } from "react-icons/fa";
+import { FaAddressBook, FaCity, FaUser } from "react-icons/fa";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
@@ -22,9 +21,6 @@ const Confirmation = () => {
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
   const [shippingInfo, setShippingInfo] = useState({
     full_name: "",
     email: "",
