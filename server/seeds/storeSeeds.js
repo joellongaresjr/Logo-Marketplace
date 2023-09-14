@@ -24,8 +24,8 @@ const storeSeeds = async (storeDataAraay) => {
 
     console.log("Stores saved successfully");
   } catch (err) {
-    console.log("No Seeds bitch");
+    console.log("No Seeds");
   }
 };
 
-module.exports = { storeSeeds, stores } ;
+module.exports = { storeSeeds, stores };
