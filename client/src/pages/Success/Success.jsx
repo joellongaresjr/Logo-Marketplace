@@ -1,76 +1,151 @@
-import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useMutation } from '@apollo/client';
-import { ADD_ORDER } from './../../utils/mutations';
-import { idbPromise } from '../../utils/helpers';
-import Auth from '../../utils/auth';
-import './SuccessStyles.css';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { idbPromise } from "../../utils/helpers";
+import emailjs from "@emailjs/browser";
+import Auth from "../../utils/auth";
+import { useQuery } from "@apollo/client";
+import { QUERY_USER } from "../../utils/queries";
+
+import "./SuccessStyles.css";
 
 const Success = () => {
-  const { id } = useParams(); 
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem("id_token");
   const decodedToken = Auth.getProfile(token);
-  const cart = useSelector((state) => state.cart);
+  const globalCart = useSelector((state) => state.cart);
+  const storedCart = idbPromise("cart", "get");
+  const [formComplete, setFormComplete] = useState(false);
+  const [formState, setFormState] = useState({
+    user_name: "",
+    user_email: "",
+    message: "",
+  });
 
-  const [addOrderMutation] = useMutation(ADD_ORDER);
+  console.log(decodedToken);
 
-  
+  const [cart, setCart] = useState([]);
+  let products = [];
 
   useEffect(() => {
-    async function saveOrder() {
-      const cart = await idbPromise('cart', 'get');
+    async function getCart() {
+      const idbcart = await idbPromise("cart", "get");
+      idbcart.map((item) => {
+        if (item.name) {
+          products.push(item);
+        }
+      });
+      setCart(products);
+      products.map((item) => {
+        idbPromise("cart", "delete", item);
+      });
+      const stringEmail = JSON.stringify(decodedToken.data.email);
+      const stringName = JSON.stringify(decodedToken.data.username);
 
-      console.log(cart);
-      const products = cart.map((item) => item._id);
-      console.log(products);
 
-      if (products.length) {
-        const { data } = await addOrderMutation({ variables: { products } });
-        const productData = data.addOrder.products;
+      console.log(stringEmail);
+      console.log(stringName);
 
-        productData.forEach((item) => {
-          idbPromise('cart', 'delete', item);
-        });
-        console.log(addOrderMutation);
-      }
+
+      setFormState({
+        ...formState,
+        user_email: stringEmail,
+        user_name: stringName
+      });
+
     }
- 
-    saveOrder();
-  }, [addOrderMutation]);
+    getCart();
+  }, []);
+
+  console.log("this is the stored cart", storedCart);
+  console.log("this is the global", globalCart);
+  console.log("this is the local", cart);
+
+  const createMessage = () => {
+    const cartItems = cart;
+    const cartInfo = [];
+    cartItems.forEach((item, index) => {
+      cartInfo.push(
+        `${index + 1}. ${item.name} - Price: $${item.price}, Quantity: ${item.purchaseQuantity
+        }\n`
+      );
+    });
+    const message = `
+    Thank you for your purchase!
+
+    ${cartInfo}
+
+    If you have any questions or concerns, please feel free to contact us.`;
+
+    setFormState({ ...formState, message: message });
+    return message;
+   };
+
+  const sendInvoice = () => {
+    const cartItems = cart;
+    const cartInfo = [];
+    cartItems.forEach((item, index) => {
+      cartInfo.push(
+        `${index + 1}. ${item.name} - Price: $${item.price}, Quantity: ${item.purchaseQuantity
+        }\n`
+      );
+    });
+    const message = `
+    Thank you for your purchase!
+
+    ${cartInfo}
+
+    If you have any questions or concerns, please feel free to contact us.`;
+
+    setFormState({ ...formState, message: message });
+    console.log(formState)
+    emailjs
+      .sendForm(
+        "service_9v3d86w",
+        "template_d90459p",
+        formState.current,
+        "7Fjxh4cd-qP264EKp"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setFormState({
+            user_name: "",
+            user_email: "",
+            message: "",
+          });
+          setFormSubmitted(true);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
 
   return (
     <div className="success-page">
       <div className="summary">
-    <div className="title">
-      <h2>Thank you for your purchase!</h2>
-      {/* <h3>Your order number is: {id}</h3> */}
-      <h3>You will receive an email confirmation shortly.</h3>
-    </div>
-      <div className="summary-grid">
-      <h3> Order Summary:</h3>
-
-
-      {cart
-      .filter((product) => product._id !== 'shippingInfo')
-      .map((product) => (
-          <div className="ordered-items">
-          <div key={product._id}>
-          <p>{product.name}</p>
-            <img src={product.imgUrl} alt="deez" />
-            
-            <p>Price: ${product.price}</p>
-            <p>Quantity: {product.purchaseQuantity}</p>
-            <Link to={`/products/${product._id}`}>
-            <button className="reorder-btn" type="submit">
-                <a href="/pro">Purchase Again!</a>
-              </button>
-            </Link>
-            <button> </button>
-          </div>
-          </div>
-        ))}
-      </div>
+        <div className="title">
+          <h2>Thank you for your purchase!</h2>
+          <h3>You will receive an email confirmation shortly.</h3>
+        </div>
+        <div className="summary-grid">
+          <h3> Order Summary:</h3>
+          {cart.map((product) => (
+            <div className="ordered-items" key={product._id}>
+              <div>
+                <p>{product.name}</p>
+                <img src={product.imgUrl} alt="deez" />
+                <p>Price: ${product.price}</p>
+                <p>Quantity: {product.purchaseQuantity}</p>
+                <Link to={`/products/${product._id}`}>
+                  <button className="reorder-btn" type="submit">
+                    Purchase Again!
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
