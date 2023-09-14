@@ -43,6 +43,7 @@ export const ADD_ORDER = gql`
       description
       purchaseQuantity
       _id
+      imageUrl
       category {
         name
       }

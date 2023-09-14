@@ -14,7 +14,7 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import Confirmation from "./pages/Confirmation/Confirmation";
 import Stores from "./pages/Stores/Stores";
 import Success from "./pages/Success/Success";
-
+import OrderHistory from "./pages/OrderHistory/OrderHistory";
 import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
 
 const router = createBrowserRouter([
@@ -58,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/success",
         element: <Success />,
+      },
+      {
+        path: "/order-history",
+        element: <OrderHistory />,
       },
     ],
   },
