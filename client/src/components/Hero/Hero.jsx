@@ -1,7 +1,5 @@
 import "./Hero.css";
 
-import { Container } from "react-bootstrap";
-
 const Hero = () => {
   return (
     <div className="jumbotron">

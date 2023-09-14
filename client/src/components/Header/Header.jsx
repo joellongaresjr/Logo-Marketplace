@@ -1,7 +1,7 @@
 import "./HeaderStyles.css";
 import Auth from "../../utils/auth";
 import { useEffect, useState } from "react";
-import { Link, useLocation, redirect } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";

@@ -1,10 +1,7 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../../utils/queries";
 import './OrderHistory.css'
 import { FaAngleDown, FaArrowDown } from "react-icons/fa";
-
 
 const OrderHistory = () => {
   const { data } = useQuery(QUERY_USER);
@@ -13,13 +10,6 @@ const OrderHistory = () => {
 
   if (data) {
     user = data.user;
-    // console.log(user);
-    // console.log(user.username);
-    // console.log(user.orders);
-    // console.log(user.orders);
-    // console.log(user.orders._id);
-    // console.log(user.orders[0].purchaseDate);
-    // console.log(user.orders[0].products);
   }
 
   return (

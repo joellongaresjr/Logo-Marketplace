@@ -6,10 +6,14 @@ import emailjs from "@emailjs/browser";
 import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../../utils/queries";
+import { useMutation } from "@apollo/client";
+import { ADD_ORDER } from "../../utils/mutations";
+
 
 import "./SuccessStyles.css";
 
 const Success = () => {
+  const [addOrder] = useMutation(ADD_ORDER);
   const token = localStorage.getItem("id_token");
   const decodedToken = Auth.getProfile(token);
   const globalCart = useSelector((state) => state.cart);
@@ -24,6 +28,20 @@ const Success = () => {
   console.log(decodedToken);
 
   const { data } = useQuery(QUERY_USER);
+  useEffect(() => {
+    async function saveOrder() {
+      const cart = await idbPromise("cart", "get");
+      const products = cart.map((item) => item._id);
+      console.log(products);
+      if (products.length) {
+        const { data } = await addOrder({ variables: { products } });
+        const productData = data.addOrder.products;
+        console.log(productData);
+      }
+    }
+    saveOrder();
+  }, [addOrder]);
+
 
   const [cart, setCart] = useState([]);
   let products = [];
@@ -83,7 +101,7 @@ const Success = () => {
    };
 
    if (data) {
-    console.log(data.user.email);
+    console.log("t", data.user.email);
     }
   const sendEmail = async () => {
     const shipping = await idbPromise("shipping", "get");
@@ -121,14 +139,11 @@ const Success = () => {
           console.log("FAILED...", error);
         }
       );
-      await idbPromise("shipping", "delete", { _id: "shippingInfo" });
     } else {
       return
     }
   };
-  // if(data) {
-  // console.log(data.user);
-  // }
+
   window.onload = sendEmail();
 
   
