@@ -4,12 +4,12 @@ const stores = [
   {
     name: "Bayani Delhi",
     location: "Long Beach",
-    shopImageUrl: "store1"
+    shopImageUrl: "store1",
   },
   {
     name: "Sunset Shack",
     location: "Daly City",
-    shopImageUrl: "store2"
+    shopImageUrl: "store2",
   },
 ];
 
@@ -22,8 +22,8 @@ const storeSeeds = async (storeDataAraay) => {
 
     console.log("Stores saved successfully");
   } catch (err) {
-    console.log("No Seeds bitch");
+    console.log("No Seeds");
   }
 };
 
-module.exports = { storeSeeds, stores } ;
+module.exports = { storeSeeds, stores };
