@@ -1,16 +1,15 @@
-import { useEffect } from "react";
 import { QUERY_CHECKOUT } from "../../utils/queries";
+import { Link } from "react-router-dom";
 import CartItem from "../CartItem/index";
 import Auth from "../../utils/auth";
-import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
+import { TOGGLE_CART } from "../../utils/actions";
+import { FaTimes } from "react-icons/fa";
 import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
-import { idbPromise } from "../../utils/helpers";
-import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
+
   const cart = useSelector((state) => state.cart);
   const cartOpen = useSelector((state) => state.cartOpen);
   const dispatch = useDispatch();
@@ -21,18 +20,18 @@ const Cart = () => {
   }
   function submitCheckout() {
     const productIds = [];
-
+  
     cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
-      }
+      } 
     });
     getCheckout({
       variables: { products: productIds },
     });
   }
 
-  if (!cartOpen) {
+  if (!cartOpen ) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <a className="nav-item" role="img" aria-label="trash">
@@ -72,14 +71,13 @@ const Cart = () => {
                     to="/confirmation"
                     type="button"
                     onClick={submitCheckout}
-                    className="checkout-btn"
                   >
                     Checkout
                   </Link>
                 </div>
               ) : (
                 <div>
-                  <Link to="/login" className="btn-login centered-text">
+                  <Link to="/login" className="centered-text">
                     LogIn to Checkout
                   </Link>
                 </div>

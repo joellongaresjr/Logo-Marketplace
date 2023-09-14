@@ -144,8 +144,8 @@ const Header = () => {
         )}
         <li>
           <Link
-            to="/orders"
-            className={pathname === "/orders" ? "current-page" : "nav-item"}
+            to="/order-history"
+            className={pathname === "/order-history" ? "current-page" : "nav-item"}
             data-step="5"
             data-intro="Click here to view your Past Orders!"
           >

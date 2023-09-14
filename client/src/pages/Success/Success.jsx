@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
 import emailjs from "@emailjs/browser";
 import Auth from "../../utils/auth";
@@ -22,6 +22,8 @@ const Success = () => {
   });
 
   console.log(decodedToken);
+
+  const { data } = useQuery(QUERY_USER);
 
   const [cart, setCart] = useState([]);
   let products = [];
@@ -80,46 +82,56 @@ const Success = () => {
     return message;
    };
 
-  const sendInvoice = () => {
-    const cartItems = cart;
-    const cartInfo = [];
-    cartItems.forEach((item, index) => {
-      cartInfo.push(
-        `${index + 1}. ${item.name} - Price: $${item.price}, Quantity: ${item.purchaseQuantity
-        }\n`
-      );
-    });
-    const message = `
-    Thank you for your purchase!
+   if (data) {
+    console.log(data.user.email);
+    }
+  const sendEmail = async () => {
+    const shipping = await idbPromise("shipping", "get");
+    const email = data.user.email;
+  
+    console.log(shipping[0]);
 
-    ${cartInfo}
-
-    If you have any questions or concerns, please feel free to contact us.`;
-
-    setFormState({ ...formState, message: message });
-    console.log(formState)
+    if (shipping) {
+    let full_name = shipping[0].full_name;
+    let city = shipping[0].city;
+    let address = shipping[0].address;
+    let state = shipping[0].state;
+    let zip = shipping[0].zip;
+    console.log(full_name);
+    const templateParams = {
+      full_name: full_name,
+      email: email,
+      city: city,
+      address: address,
+      state: state,
+      zip: zip,
+    };
     emailjs
-      .sendForm(
-        "service_9v3d86w",
-        "template_d90459p",
-        formState.current,
-        "7Fjxh4cd-qP264EKp"
+      .send(
+        "service_2znmc3b",
+        "template_lu6xg9c",
+        templateParams,
+        "SSUEEoQVq8ReyXV1r"
       )
       .then(
-        (result) => {
-          console.log(result.text);
-          setFormState({
-            user_name: "",
-            user_email: "",
-            message: "",
-          });
-          setFormSubmitted(true);
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
         },
-        (error) => {
-          console.log(error.text);
+        function (error) {
+          console.log("FAILED...", error);
         }
       );
+      await idbPromise("shipping", "delete", { _id: "shippingInfo" });
+    } else {
+      return
+    }
   };
+  // if(data) {
+  // console.log(data.user);
+  // }
+  window.onload = sendEmail();
+
+  
 
   return (
     <div className="success-page">
