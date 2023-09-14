@@ -15,6 +15,8 @@ const Success = () => {
 
   const [addOrderMutation] = useMutation(ADD_ORDER);
 
+  
+
   useEffect(() => {
     async function saveOrder() {
       const cart = await idbPromise('cart', 'get');
@@ -25,14 +27,13 @@ const Success = () => {
 
       if (products.length) {
         const { data } = await addOrderMutation({ variables: { products } });
+        const productData = data.addOrder.products;
 
-        // productData.forEach((item) => {
-        //   idbPromise('cart', 'delete', item);
-        // });
-        console.log(addOrder)
+        productData.forEach((item) => {
+          idbPromise('cart', 'delete', item);
+        });
+        console.log(addOrderMutation);
       }
-
-  
     }
  
     saveOrder();
@@ -48,7 +49,11 @@ const Success = () => {
     </div>
       <div className="summary-grid">
       <h3> Order Summary:</h3>
-        {cart.map((product) => (
+
+
+      {cart
+      .filter((product) => product._id !== 'shippingInfo')
+      .map((product) => (
           <div className="ordered-items">
           <div key={product._id}>
           <p>{product.name}</p>

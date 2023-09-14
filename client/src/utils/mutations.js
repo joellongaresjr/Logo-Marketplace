@@ -40,9 +40,10 @@ export const ADD_ORDER = gql`
     products {
       name
       price
-      stockQuantity
       description
+      purchaseQuantity
       _id
+      imageUrl
       category {
         name
       }
