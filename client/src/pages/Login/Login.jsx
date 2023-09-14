@@ -3,11 +3,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
+import { useDispatch } from "react-redux";
+import { SAVE_USER } from "../../utils/actions";
 import Auth from "../../utils/auth";
 
 const Login = (props) => {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login, { error }] = useMutation(LOGIN_USER);
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -15,8 +18,14 @@ const Login = (props) => {
       const mutationResponse = await login({
         variables: { email: formState.email, password: formState.password },
       });
+
       const token = mutationResponse.data.login.token;
-      console.log(mutationResponse);
+      const userId = mutationResponse.data.login.user._id;
+      console.log(userId)
+      dispatch({
+        type: SAVE_USER,
+        payload: userId,
+      });
       Auth.login(token);
     } catch (e) {
       console.log(e);

@@ -8,6 +8,7 @@ import {
   SET_CATEGORIES,
   CLEAR_CART,
   TOGGLE_CART,
+  SAVE_USER,
 } from "./actions";
 
 // initial state of the store
@@ -18,6 +19,8 @@ const initialState = {
   categories: [],
   currentCategory: "",
   stores: [],
+  user: [],
+  currencyRates: [],
 };
 
 // export the reducer function
@@ -85,10 +88,17 @@ export const reducer = (state = initialState, action) => {
       };
 
     case SET_CATEGORIES:
-      return { 
-        ...state, 
-        categories: action.payload };
+      return {
+        ...state,
+        categories: action.payload,
+      };
 
+    case SAVE_USER:
+      console.log("SAVE_USER action dispatched with payload:", action.payload);
+      return {
+        ...state,
+        user: { _id: action.payload },
+      };
     default:
       return state;
   }

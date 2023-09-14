@@ -1,0 +1,113 @@
+
+.order-history {
+    display: flex;
+    justify-content: center;
+}
+
+.order-history-container {
+    width: 70%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    
+    box-shadow: 0 0 10px #888888;
+    margin-top: 3%;
+}
+.order-history-title{
+    margin-top: 5%;
+}
+.order-history-item{
+    margin-top: 5%;
+    box-shadow: 3px 3px 3px #888888;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+.order-history-container p{
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+.order-history-grid {
+    margin-top: 5%;;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    padding-top: 0%;
+}
+
+.order-details{
+    width: 500px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    /* border: 1px solid black; */
+    /* box-shadow: 3px 3px 3px #888888;
+    border-radius: 3px; */
+}
+
+.product-details-grid{
+    display: flex;
+    justify-content: space-evenly;
+    width: 500px;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    /* border: 1px solid black; */
+    /* box-shadow: 3px 3px 3px #888888;
+    border-radius: 3px; */
+  
+}
+.order-products-item{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    margin-top: 5%;
+
+}
+
+.order-product-image img{
+height: 50px;
+width: 50px;
+margin-right: 5%;
+border-radius: 3px;
+}
+
+.order-product-image{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    text-align: center;
+
+}
+
+.order-product-image p{
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+.order-product-price {
+ font-size: 13px;
+ display: flex;
+ justify-content: end;
+ width: 40%;
+ right: 0;
+ 
+}
+
+.order-product-price p{
+    font-weight: 900;
+}
+

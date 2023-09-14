@@ -1,5 +1,7 @@
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import introJs from 'intro.js';
+import 'intro.js/introjs.css';
 
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -13,9 +15,9 @@ import SearchedProducts from "./pages/SearchedProducts/SearchedProducts.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import Confirmation from "./pages/Confirmation/Confirmation";
 import Stores from "./pages/Stores/Stores";
-
+import Success from "./pages/Success/Success";
+import OrderHistory from "./pages/OrderHistory/OrderHistory";
 import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,6 +55,14 @@ const router = createBrowserRouter([
       {
         path: "/products/category/:id",
         element: <CategoryProducts />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
+      },
+      {
+        path: "/order-history",
+        element: <OrderHistory />,
       },
     ],
   },

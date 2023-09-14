@@ -1,11 +1,14 @@
-import "../Cart/style.css"
+import "../Cart/style.css";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 import { FaTimes } from "react-icons/fa";
+import { set } from "mongoose";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(item.purchaseQuantity);
 
   const removeFromCart = (item) => {
     dispatch({
@@ -17,7 +20,7 @@ const CartItem = ({ item }) => {
 
   const onChange = (e) => {
     const value = e.target.value;
-    console.log(value);
+    setQuantity(value);
     if (value === "0" || !value) {
       dispatch({
         type: REMOVE_FROM_CART,
@@ -41,7 +44,7 @@ const CartItem = ({ item }) => {
           {item.name}, ${item.price}
         </div>
         <div className="input-container">
-          <p>Qty:</p>
+          <p>Quantity:</p>
           <input
             className="form-input"
             type="number"
@@ -50,6 +53,7 @@ const CartItem = ({ item }) => {
             onChange={onChange}
           />
           <FaTimes
+            className="trash-icon"
             onClick={() => removeFromCart(item)}
             role="img"
             aria-label="trash"

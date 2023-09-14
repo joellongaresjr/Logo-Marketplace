@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { QUERY_CHECKOUT } from "../../utils/queries";
+import { Link } from "react-router-dom";
 import CartItem from "../CartItem/index";
 import Auth from "../../utils/auth";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
@@ -8,41 +8,31 @@ import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
-import { Link } from "react-router-dom";
 
 const Cart = () => {
+
   const cart = useSelector((state) => state.cart);
   const cartOpen = useSelector((state) => state.cartOpen);
   const dispatch = useDispatch();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-
-  useEffect(() => {
-    async function getCart() {
-      const cart = await idbPromise("cart", "get");
-      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
-    }
-    if (!cart.length) {
-      getCart();
-    }
-  }, [cart.length, dispatch]);
 
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
   function submitCheckout() {
     const productIds = [];
-
+  
     cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
-      }
+      } 
     });
     getCheckout({
       variables: { products: productIds },
     });
   }
 
-  if (!cartOpen) {
+  if (!cartOpen ) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <a className="nav-item" role="img" aria-label="trash">
@@ -99,3 +89,4 @@ const Cart = () => {
 };
 
 export default Cart;
+

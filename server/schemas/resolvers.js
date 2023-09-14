@@ -47,6 +47,7 @@ const resolvers = {
       return Store.findOne({ _id: id });
     },
     checkout: async (parent, args, context) => {
+      console.log(context.user)
       const url = new URL(context.headers.referer).origin;
 
       const order = new Order({ products: args.products });
@@ -131,6 +132,7 @@ const resolvers = {
   },
 
   Mutation: {
+
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
@@ -169,17 +171,6 @@ const resolvers = {
       }
       const token = signToken(user);
       return { token, user };
-    },
-    addOrder: async (parent, { products }, context) => {
-      if (context.user) {
-        const order = await Order({ products });
-        await User.findByIdAndUpdate(context.user._id, {
-          $push: { orders: order },
-        });
-        console.log("order added");
-        return order;
-      }
-      throw AuthenticationError;
     },
     addProduct: async (
       parent,
@@ -260,7 +251,21 @@ const resolvers = {
     removeStore: async (parent, { _id }, context) => {
       const store = await findOneAndDelete({ _id });
     },
-  },
-};
+    addOrder: async (parent, { products }, context) => {
+      if(context.user) {
+        const order = await Order({ products }); 
+         
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { orders: order },
+        });
+
+        console.log("order added");
+        console.log(order);
+        return order;
+      }
+      throw AuthenticationError;
+    },
+  }
+}
 
 module.exports = resolvers;

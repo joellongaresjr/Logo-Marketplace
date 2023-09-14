@@ -30,6 +30,7 @@ const typeDefs = `
     category: Category
     store: Store
     stockQuantity: Int
+    purchaseQuantity: Int
     imageUrl: String
     featured: Boolean
     created_at: String
@@ -52,18 +53,37 @@ const typeDefs = `
     session: ID
   }
 
+  input ProductInput {
+    name: String!
+    price: Float!
+    quantity: Int!
+  }
+
+  input OrderInput {
+    customerName: String!
+    products: [ProductInput!]!
+  }
+
 
   type Store {
     _id: ID!
     name: String
     location: String
+    shopImageUrl: String
     products: [Product]
+    description: String
     admin: Admin
   }
 
   input ProductPaginationInput {
     limit: Int!
     offset: Int!
+  }
+
+  input OrderProductInput {
+    name: String
+    price: Float
+    quantity: Int
   }
 
   type Query {
@@ -88,12 +108,12 @@ const typeDefs = `
   }
 
   type Mutation {
+
     addUser(username: String!, email: String!, password: String!, address: String! ): Auth
     updateUser(username: String!, email: String!, password: String!): Auth
     addAdmin(username: String!, email: String!, password: String! ): Auth
     addAdminStore(name: String!, location: String!, admin: ID! ): Auth
     login(email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
     addProduct(name: String!, description: String!, price: Float!, category: ID!, store: ID!, stockQuantity: Int!, imageUrl: String!): Product
     updateProduct(_id: ID!, quantity: Int!): Product
     removeProduct(_id: ID!): Product
@@ -103,6 +123,7 @@ const typeDefs = `
     addStore(name: String!, location: String!, admin: ID! ): Store
     updateStore(_id: ID!, name: String!): Store
     removeStore(_id: ID!): Store
+    addOrder(products: [ID]!): Order
   }
     
   `;
