@@ -2,7 +2,6 @@ import axios from "axios";
 
 export async function convertToPHP(amount) {
   try {
-    const YOUR_API_KEY = "KUNEX9M6Kwogj/J4y7Ru+A==FZ9J1FNl2AdRV6rw"; // Replace with your actual API key
     const response = await axios.get(
       "https://api.api-ninjas.com/v1/convertcurrency",
       {
@@ -12,7 +11,7 @@ export async function convertToPHP(amount) {
           amount: amount,
         },
         headers: {
-          "X-Api-Key": YOUR_API_KEY,
+          "X-Api-Key": process.env.CONVERTER_API_KEY,
         },
       }
     );

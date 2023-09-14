@@ -1,20 +1,46 @@
-// import "./Login.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Signup = (props) => {
-  const [formState, setFormState] = useState({ email: "", password: "" });
+const Signup = () => {
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    username: "",
+    address: "",
+  });
+
   const [addUser, { error }] = useMutation(ADD_USER);
+  const [apolloErrorText, setApolloErrorText] = useState("");
+  const [submitted, setSubmitted] = useState(false); // Track whether the form is submitted
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    setSubmitted(true);
+
+    if (formState.password !== formState.confirmPassword) {
+      setApolloErrorText("Passwords do not match");
+      return;
+    }
+
     try {
-      console.log(formState);
       const mutationResponse = await addUser({
         variables: {
           email: formState.email,
@@ -23,8 +49,6 @@ const Signup = (props) => {
           address: formState.address,
         },
       });
-
-      console.log(mutationResponse);
 
       const token = mutationResponse.data.addUser.token;
 
@@ -35,14 +59,29 @@ const Signup = (props) => {
           payload: data.data,
         });
       });
+      navigate("/");
     } catch (e) {
-      console.log(e);
+      if (e.graphQLErrors && e.graphQLErrors.length > 0) {
+        const errorMessages = e.graphQLErrors.map((error) => error.message);
+        console.log(errorMessages);
+
+        let apolloErrorText = "An error occurred while signing up. Please try again.";
+
+        errorMessages.forEach((msg) => {
+          if (msg.includes("E11000 duplicate key error")) {
+            if (msg.includes("email")) {
+              apolloErrorText = `An account with the email ${formState.email} already exists. Please use a different email address.`;
+            } else if (msg.includes("username")) {
+              apolloErrorText = `The username "${formState.username}" is already taken. Please choose a different username.`;
+            }
+          }
+        });
+
+        setApolloErrorText(apolloErrorText);
+      }
     }
   };
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormState({ ...formState, [name]: value });
-  };
+
   return (
     <section className="form-section">
       <div className="form-container">
@@ -90,23 +129,20 @@ const Signup = (props) => {
             />
           </div>
           <div className="">
-            <label htmlFor="pwd">Confirm Password</label>
+            <label htmlFor="confirmPwd">Confirm Password</label>
             <input
               placeholder="Confirm Password"
-              name="password"
+              name="confirmPassword"
               type="password"
               id="confirmPwd"
               onChange={handleChange}
             />
           </div>
-
-          {error ? (
+          {apolloErrorText && (
             <div>
-              <p className="error-text">
-                The provided credentials are incorrect
-              </p>
+              <p className="error-text">{apolloErrorText}</p>
             </div>
-          ) : null}
+          )}
           <div className="">
             <button type="submit">Submit</button>
           </div>

@@ -107,7 +107,6 @@ const Header = () => {
             Stores
           </Link>
         </li>
-
         {Auth.loggedIn() ? (
           <li>
             <Link
