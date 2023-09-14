@@ -1,4 +1,4 @@
-import "../Cart/style.css"
+import "../Cart/style.css";
 import { useDispatch } from "react-redux";
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
@@ -41,7 +41,7 @@ const CartItem = ({ item }) => {
           {item.name}, ${item.price}
         </div>
         <div className="input-container">
-          <p>Qty:</p>
+          <p>Quantity:</p>
           <input
             className="form-input"
             type="number"
@@ -50,6 +50,7 @@ const CartItem = ({ item }) => {
             onChange={onChange}
           />
           <FaTimes
+            className="trash-icon"
             onClick={() => removeFromCart(item)}
             role="img"
             aria-label="trash"

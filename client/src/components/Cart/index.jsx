@@ -82,13 +82,14 @@ const Cart = () => {
                     to="/confirmation"
                     type="button"
                     onClick={submitCheckout}
+                    className="checkout-btn"
                   >
                     Checkout
                   </Link>
                 </div>
               ) : (
                 <div>
-                  <Link to="/login" className="centered-text">
+                  <Link to="/login" className="btn-login centered-text">
                     LogIn to Checkout
                   </Link>
                 </div>

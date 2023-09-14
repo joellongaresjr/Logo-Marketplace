@@ -112,3 +112,72 @@ h3 {
   align-items: center;
   justify-content: center;
 }
+
+.btn-login {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #388e3c;
+}
+
+.btn-login:hover {
+  background-color: #45a049;
+}
+
+.btn-login:active {
+  transform: scale(0.97);
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.flex-row:last-child {
+  border-bottom: none;
+}
+
+.flex-row div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.flex-row div > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-container p {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.trash-icon {
+  margin-left: 0px;
+  color: #d32f2f;
+  transition: color 0.3s ease;
+}
+
+.trash-icon:hover {
+  color: #f44336;
+}
