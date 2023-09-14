@@ -22,7 +22,7 @@ const Stores = () => {
         {stores.map((store) => (
           <div key={store._id} className="store-card">
             <img
-              src={Math.random() < 0.5 ? store1 : store2}
+              src={store.shopImageUrl === "store1" ? store1 : store2}
               alt={store.name}
               className="store-icon"
             />
