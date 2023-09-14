@@ -69,6 +69,7 @@ export function idbPromise(storeName, method, object) {
           };
           break;
         case "delete":
+          console.log("deleted");
           store.delete(object._id);
           break;
         default:

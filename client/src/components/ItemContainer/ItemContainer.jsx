@@ -29,16 +29,16 @@ const ItemContainer = (props) => {
         _id: props._id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
-      idbPromise("cart", "put", {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
+      // idbPromise("cart", "put", {
+      //   ...itemInCart,
+      //   purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+      // });
     } else {
       dispatch({
         type: ADD_TO_CART,
         product: { ...props, purchaseQuantity: 1 },
       });
-      idbPromise("cart", "put", { ...props, purchaseQuantity: 1 });
+      // idbPromise("cart", "put", { ...props, purchaseQuantity: 1 });
     }
   };
 

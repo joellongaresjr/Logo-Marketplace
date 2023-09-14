@@ -99,13 +99,6 @@ export const reducer = (state = initialState, action) => {
         ...state,
         user: { _id: action.payload },
       };
-
-    case "SET_CURRENCY_RATES":
-      return {
-        ...state,
-        currencyRates: action.payload,
-      };
-
     default:
       return state;
   }

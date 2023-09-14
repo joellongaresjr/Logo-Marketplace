@@ -16,16 +16,6 @@ const Cart = () => {
   const dispatch = useDispatch();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
-  useEffect(() => {
-    async function getCart() {
-      const cart = await idbPromise("cart", "get");
-      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
-    }
-    if (!cart.length) {
-      getCart();
-    }
-  }, [cart.length, dispatch]);
-
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
