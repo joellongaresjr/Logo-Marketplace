@@ -53,17 +53,6 @@ const typeDefs = `
     session: ID
   }
 
-  input ProductInput {
-    name: String!
-    price: Float!
-    quantity: Int!
-  }
-
-  input OrderInput {
-    customerName: String!
-    products: [ProductInput!]!
-  }
-
 
   type Store {
     _id: ID!
@@ -80,49 +69,27 @@ const typeDefs = `
     offset: Int!
   }
 
-  input OrderProductInput {
-    name: String
-    price: Float
-    quantity: Int
-  }
 
   type Query {
     user: User
-    admin: Admin
     users: [User]
     checkout(products: [ID]!): Checkout
-    admins: [Admin]
-    order(_id: ID!): Order
-    orders: [Order]
     productsByCategory(category: ID): [Product]
     getProduct(_id: ID!): Product
     getProducts(limit: Int!, offset: Int!): [Product]
     getProductsFuzzy(query: String!): [Product]
     getFeaturedProducts: [Product]
-    getCategory(id: ID!): Category
     getCategories: [Category]
     getStore(id: ID!): Store
     getStores: [Store]!
     getProductsByCategory(_id: ID!): [Product]
-    getOrder(_id: ID!): Order
   }
 
   type Mutation {
-
     addUser(username: String!, email: String!, password: String!, address: String! ): Auth
-    updateUser(username: String!, email: String!, password: String!): Auth
-    addAdmin(username: String!, email: String!, password: String! ): Auth
-    addAdminStore(name: String!, location: String!, admin: ID! ): Auth
     login(email: String!, password: String!): Auth
-    addProduct(name: String!, description: String!, price: Float!, category: ID!, store: ID!, stockQuantity: Int!, imageUrl: String!): Product
     updateProduct(_id: ID!, quantity: Int!): Product
-    removeProduct(_id: ID!): Product
-    addCategory(name: String!, description: String!): Category
-    updateCategory(_id: ID!, name: String!): Category
-    removeCategory(_id: ID!): Category
     addStore(name: String!, location: String!, admin: ID! ): Store
-    updateStore(_id: ID!, name: String!): Store
-    removeStore(_id: ID!): Store
     addOrder(products: [ID]!): Order
   }
     

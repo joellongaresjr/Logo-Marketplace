@@ -126,7 +126,7 @@ const Success = () => {
     };
     emailjs
       .send(
-        "service_2znmc3b",
+        // "service_2znmc3b",
         "template_lu6xg9c",
         templateParams,
         "SSUEEoQVq8ReyXV1r"
