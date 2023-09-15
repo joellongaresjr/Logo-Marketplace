@@ -5,7 +5,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToPHP } from "../../utils/helpers";
+import { convertToPHP, idbPromise } from "../../utils/helpers";
 
 const ItemContainer = (props) => {
   const [convertedAmount, setConvertedAmount] = useState(null);
@@ -21,10 +21,15 @@ const ItemContainer = (props) => {
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === props._id);
+
     if (itemInCart) {
       dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: props._id,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+      });
+      idbPromise("cart", "put", {
+        ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
     } else {
@@ -32,6 +37,7 @@ const ItemContainer = (props) => {
         type: ADD_TO_CART,
         product: { ...props, purchaseQuantity: 1 },
       });
+      idbPromise("cart", "put", { ...props, purchaseQuantity: 1 });
     }
   };
 

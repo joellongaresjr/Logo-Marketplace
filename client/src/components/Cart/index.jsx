@@ -8,6 +8,7 @@ import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
+import { useEffect } from "react";
 
 const Cart = () => {
 
@@ -19,6 +20,18 @@ const Cart = () => {
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
+
+  useEffect(() => {
+    async function getCart() {
+      const idbcart = await idbPromise("cart", "get");
+      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...idbcart] });
+
+    }
+    if (!cart.length) {
+      getCart();
+    }
+  }, [cart.length, dispatch]);
+
   function submitCheckout() {
     const productIds = [];
   

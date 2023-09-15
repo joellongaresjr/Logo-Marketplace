@@ -152,7 +152,7 @@ const Header = () => {
           </Link>
         </li>
 
-        {window.location.pathname !== "/confirmation" ? (
+        {window.location.pathname !== "/confirmation" && window.location.pathname !== "/success"  ? (
           <li
             data-step="6"
             data-intro="Click here to view your cart items and proceed to checkout!"

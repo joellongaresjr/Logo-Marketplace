@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { QUERY_CHECKOUT } from "../../utils/queries";
-import { useMutation } from "@apollo/client";
-import { ADD_ORDER } from "../../utils/mutations";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +14,7 @@ import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
 import { FaAddressBook, FaCity, FaUser } from "react-icons/fa";
+import { convertToPHP } from "../../utils/helpers";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
@@ -32,8 +31,26 @@ const Confirmation = () => {
     address: "",
     _id: "shippingInfo",
   });
+  const [isPHP, setIsPHP] = useState(false);
 
-  const form = useRef();
+const toggleCurrencyFormat = () => {
+  setIsPHP(!isPHP);
+};
+
+  let formatting_options = {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  };
+
+
+
+  let dollarString = new Intl.NumberFormat("en-US", formatting_options).format(
+    cart.price
+    
+  );
+
+    console.log(cart.price);
 
   useEffect(() => {
     idbPromise("shipping", "delete", { _id: "shippingInfo" });
@@ -63,9 +80,11 @@ const Confirmation = () => {
     cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
-
-    return sum.toFixed(2);
+  
+    const totalAmount = isPHP ? convertToPHP(sum) : sum.toFixed(2);
+    return isPHP ? `PHP ${totalAmount}` : `$${totalAmount}`;
   }
+  
 
   function totalItems() {
     let total = 0;
@@ -127,7 +146,7 @@ const Confirmation = () => {
       idbPromise("cart", "put", { ...item, purchaseQuantity: updatedQuantity });
     }
   };
-
+  console.log(cart);
   return (
     <div className="confirmation-page">
       <div className="confirmation">
@@ -181,11 +200,14 @@ const Confirmation = () => {
               ) : (
                 <h3>Nothing in your cart yet!</h3>
               )}
-
+                {cart.length ? (
               <div className="confirmation-total">
-                <h3>Total: ${calculateTotal()}</h3>
+                <h3 onClick={toggleCurrencyFormat}>Total: ${calculateTotal()}</h3>
                 <h3>Total Items: {totalItems()}</h3>
               </div>
+              ) : (
+                <div></div>
+              ) }
             </div>
           </div>
           <form onSubmit={submitCheckout}>
@@ -277,13 +299,18 @@ const Confirmation = () => {
               </div>
             </div>
 
-            {Auth.loggedIn() ? (
+            {(Auth.loggedIn()) ? (
+              cart.length ? (
               <button className="confirmation-btn" type="submit">
                 Confirm
               </button>
+              ) : (
+                <span>(add items to cart to check out)</span>
+              )
             ) : (
               <span>(log in to check out)</span>
-            )}
+            ) 
+            }
           </form>
         </div>
       </div>
