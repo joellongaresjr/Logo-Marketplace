@@ -3,7 +3,7 @@ import { QUERY_CHECKOUT } from "../../utils/queries";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
-import { idbPromise } from "../../utils/helpers";
+import {  idbPromise } from "../../utils/helpers";
 import {
   ADD_MULTIPLE_TO_CART,
   REMOVE_FROM_CART,
@@ -14,7 +14,7 @@ import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
 import { FaAddressBook, FaCity, FaUser } from "react-icons/fa";
-import { convertToPHP } from "../../utils/helpers";
+
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
@@ -31,26 +31,7 @@ const Confirmation = () => {
     address: "",
     _id: "shippingInfo",
   });
-  const [isPHP, setIsPHP] = useState(false);
-
-const toggleCurrencyFormat = () => {
-  setIsPHP(!isPHP);
-};
-
-  let formatting_options = {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-  };
-
-
-
-  let dollarString = new Intl.NumberFormat("en-US", formatting_options).format(
-    cart.price
-    
-  );
-
-    console.log(cart.price);
+  const [amount, convertItemCurrency] = useState(false);
 
   useEffect(() => {
     idbPromise("shipping", "delete", { _id: "shippingInfo" });
@@ -76,15 +57,22 @@ const toggleCurrencyFormat = () => {
   }, [cart.length, dispatch]);
 
   function calculateTotal() {
+    if (amount === false) {
     let sum = 0;
     cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
-  
-    const totalAmount = isPHP ? convertToPHP(sum) : sum.toFixed(2);
-    return isPHP ? `PHP ${totalAmount}` : `$${totalAmount}`;
+    return sum.toFixed(2);
+  } else {
+    let sum = 0;
+    cart.forEach((item) => {
+      sum += item.convertedAmount * item.purchaseQuantity;
+
+    });
+    return sum.toFixed(2);
   }
-  
+    
+  }
 
   function totalItems() {
     let total = 0;
@@ -94,6 +82,15 @@ const toggleCurrencyFormat = () => {
 
     return total;
   }
+  const convertPrices = () => {
+    if (amount === false) {
+      convertItemCurrency(true);
+    } else {
+      convertItemCurrency(false);
+    }
+  }
+
+  console.log(amount);
 
   function submitCheckout(event) {
     event.preventDefault();
@@ -184,7 +181,13 @@ const toggleCurrencyFormat = () => {
                         />
                         <div>
                           <div className="price">
+                            {amount ? ( true ? (
+                              <p>₱{item.convertedAmount}</p>
+                            ) : (
                             <p>${item.price}</p>
+                            )) : (
+                              <p>${item.price}</p>
+                            )}
                           </div>
                         </div>
                         <div className="remove-item">
@@ -201,8 +204,12 @@ const toggleCurrencyFormat = () => {
                 <h3>Nothing in your cart yet!</h3>
               )}
                 {cart.length ? (
+
               <div className="confirmation-total">
-                <h3 onClick={toggleCurrencyFormat}>Total: ${calculateTotal()}</h3>
+              <button className="confirmation-btn" onClick={convertPrices}>
+                    Convert to PHP
+                  </button>
+                <h3>Total: ${calculateTotal()}</h3>
                 <h3>Total Items: {totalItems()}</h3>
               </div>
               ) : (

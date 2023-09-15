@@ -18,26 +18,48 @@ const ItemContainer = (props) => {
 
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  
 
-  const addToCart = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === props._id);
+  const addToCart = async () => {
+ 
+    try {
+      
+      const newAmountFormatted = await convertToPHP(props.price);
+      const newAmountFormat = await newAmountFormatted.replace(/[₱,]/g, "");
+      
+      const newAmount = await parseFloat(newAmountFormat);
+      console.log(newAmount);
+      
 
-    if (itemInCart) {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: props._id,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-      idbPromise("cart", "put", {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-    } else {
-      dispatch({
-        type: ADD_TO_CART,
-        product: { ...props, purchaseQuantity: 1 },
-      });
-      idbPromise("cart", "put", { ...props, purchaseQuantity: 1 });
+      const itemInCart = cart.find((cartItem) => cartItem._id === props._id);
+
+
+      if (itemInCart) {
+        dispatch({
+          type: UPDATE_CART_QUANTITY,
+          _id: props._id,
+          convertedAmount: newAmount,
+          purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+        });
+        idbPromise("cart", "put", {
+          ...itemInCart,
+          convertedAmount: newAmount,
+          purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+        });
+      } else {
+        dispatch({
+          type: ADD_TO_CART,
+          product: { ...props, convertedAmount: newAmount, purchaseQuantity: 1 },
+        });
+        idbPromise("cart", "put", {
+          ...props,
+          convertedAmount: newAmount,
+          purchaseQuantity: 1,
+
+        });
+      }
+    } catch (error) {
+      console.error("Error converting to PHP:", error);
     }
   };
 
