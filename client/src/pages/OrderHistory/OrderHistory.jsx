@@ -95,7 +95,7 @@ const OrderHistory = () => {
                                       value={convertPrice(price)}
                                      >
   
-                                       ₱{price}
+                                       ${price}
                                      </span>
                                   </p>
                                 )}
