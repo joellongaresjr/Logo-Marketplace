@@ -42,14 +42,27 @@ const resolvers = {
     // checkout that links the user to stripe checkout and creates an order to render on that page 
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
+      console.log("here");
 
       const order = new Order({ products: args.products });
 
       const { products } = await order.populate("products");
 
+      const currency = args.currency.toUpperCase();
+
+      const convertedAmounts = args.convertedAmounts;
+      console.log(convertedAmounts);
+
+      console.log(currency);
+      console.log(products.length);
+
       const line_items = [];
       // loop over products and create line items for stripe session
       for (let i = 0; i < products.length; i++) {
+        if (currency !== "USD") {
+          products[i].price = convertedAmounts[i];
+        } 
+        console.log(products[i].price);
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
@@ -59,7 +72,7 @@ const resolvers = {
         const price = await stripe.prices.create({
           product: product.id,
           unit_amount: products[i].price * 100,
-          currency: "usd", 
+          currency: currency,
         });
 
         line_items.push({

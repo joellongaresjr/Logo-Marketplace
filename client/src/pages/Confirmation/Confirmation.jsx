@@ -14,6 +14,10 @@ import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
 import { FaAddressBook, FaCity, FaUser } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import Divider from "../../components/Divider/Divider";
+
 
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
@@ -90,18 +94,28 @@ const Confirmation = () => {
     }
   }
 
-  console.log(amount);
+ 
 
-  function submitCheckout(event) {
+  const currency = amount ? "PHP" : "USD";
+ 
+
+  const submitCheckout = async (event) => {
     event.preventDefault();
     const productIds = [];
+    const convertedAmounts = [];
+    await cart.forEach((item) => {
+      for (let i = 0; i < item.purchaseQuantity; i++) {
+        convertedAmounts.push(item.convertedAmount);
+      }
+    });
+    console.log(convertedAmounts);
 
     idbPromise("shipping", "put", {
       ...shippingInfo,
     });
 
     
-    cart.forEach((item) => {
+   await cart.forEach((item) => {
       idbPromise("cart", "put", { ...item});
       console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
@@ -110,8 +124,11 @@ const Confirmation = () => {
 
     });
     getCheckout({
-      variables: { products: productIds },
-    });
+      variables: { products: productIds, currency: currency, convertedAmounts: convertedAmounts }
+      
+    }); 
+    
+    
   }
 
   const removeFromCart = (item) => {
@@ -143,13 +160,14 @@ const Confirmation = () => {
       idbPromise("cart", "put", { ...item, purchaseQuantity: updatedQuantity });
     }
   };
-  console.log(cart);
+ 
   return (
     <div className="confirmation-page">
       <div className="confirmation">
         <div className="confirmation-items">
           <div className="order-items">
             <h2>Order Confirmation</h2>
+            <Divider iconClass={faCheckCircle} />
             <div className="confirmation-container">
               {cart.length ? (
                 <>
@@ -181,13 +199,11 @@ const Confirmation = () => {
                         />
                         <div>
                           <div className="price">
-                            {amount ? ( true ? (
+                            {((amount )? (
                               <p>₱{item.convertedAmount}</p>
                             ) : (
                             <p>${item.price}</p>
-                            )) : (
-                              <p>${item.price}</p>
-                            )}
+                            ) )}
                           </div>
                         </div>
                         <div className="remove-item">
@@ -207,9 +223,18 @@ const Confirmation = () => {
 
               <div className="confirmation-total">
               <button className="confirmation-btn" onClick={convertPrices}>
-                    Convert to PHP
+                  {(amount) ? (
+                    <a>Convert to USD</a>
+                  ) : (
+                    <a>Convert to PHP</a>
+                  )}
+
                   </button>
+                  {(amount) ? (
+                    <h3>Total: ₱{calculateTotal()}</h3>
+                  ) : (
                 <h3>Total: ${calculateTotal()}</h3>
+                  )}
                 <h3>Total Items: {totalItems()}</h3>
               </div>
               ) : (
@@ -221,6 +246,7 @@ const Confirmation = () => {
             <div className="confirm-info">
               <div className="confirm-info-container">
                 <h2>Billing Info</h2>
+                <Divider iconClass={faBook} />
                 <div className="co-logo">
                   <FaUser className={FaUser} />
                   <label className="name">Name</label>

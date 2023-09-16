@@ -73,7 +73,7 @@ const typeDefs = `
   type Query {
     user: User
     users: [User]
-    checkout(products: [ID]!): Checkout
+    checkout(products: [ID]!, currency: String!, convertedAmounts: [Float]!): Checkout
     productsByCategory(category: ID): [Product]
     getProduct(_id: ID!): Product
     getProducts(limit: Int!, offset: Int!): [Product]

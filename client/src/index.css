@@ -27,7 +27,7 @@ ul, ol {
 
 main {
   min-height: 100vh;
-  background-color: #f8f8f8;
+  background-color: whitesmoke;
 }
 
 @media screen and (max-width: 1000px) {
