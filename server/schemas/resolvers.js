@@ -1,13 +1,14 @@
-const { get } = require("mongoose");
 const { Product, Category, Store, User, Order, Admin } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const resolvers = {
   Query: {
+    // get individual product by id
     getProduct: async (parent, { _id }) => {
       return Product.findOne({ _id });
     },
+    // get all products
     getProducts: async (parent, { limit, offset }) => {
       const paginatedProducts = await Product.find({ featured: true })
         .limit(limit)
@@ -16,6 +17,7 @@ const resolvers = {
         .exec();
       return paginatedProducts;
     },
+    // get all products by search query (fuzzy search) which is a string that is a partial match of a word or phrase
     getProductsFuzzy: async (_, { query }) => {
       try {
         const result = await Product.find({
@@ -26,53 +28,58 @@ const resolvers = {
         console.log(err);
       }
     },
-    getFeaturedProducts: async () => {
-      return Product.find({ featured: true }).populate("category");
-    },
-    getCategory: async (parent, { id }) => {
-      return Category.findOne({ _id: id });
-    },
+    // get all products by category
     getCategories: async () => {
       const categories = await Category.find();
       return categories;
     },
+    // get all products by category
     getProductsByCategory: async (parent, _id) => {
       console.log(_id);
       const result = await Product.find({ category: _id }).populate("category");
-      console.log(result);
       return result;
     },
-
-    getStore: async (parent, { id }) => {
-      return Store.findOne({ _id: id });
-    },
+    // checkout that links the user to stripe checkout and creates an order to render on that page 
     checkout: async (parent, args, context) => {
-      console.log(context.user)
       const url = new URL(context.headers.referer).origin;
+      console.log("here");
 
       const order = new Order({ products: args.products });
 
       const { products } = await order.populate("products");
 
-      const line_items = [];
+      const currency = args.currency;
 
+      const convertedAmounts = args.convertedAmounts;
+  
+      const line_items = [];
+      // loop over products and create line items for stripe session
       for (let i = 0; i < products.length; i++) {
+        if (currency !== "USD") {
+          products[i].price = convertedAmounts[i];
+        }
+
+        
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
         });
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
-          currency: "usd", 
-        });
+
+
+          const price = await stripe.prices.create({
+            product: product.id,
+            unit_amount:(products[i].price * 100.00).toFixed(0),
+            currency: currency,
+          });
 
         line_items.push({
           price: price.id,
           quantity: 1,
         });
+
       }
+      // create checkout session
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items,
@@ -80,14 +87,19 @@ const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
+
       return { session: session.id };
     },
-
+    // get all stores (future feature)
     getStores: async () => {
       const stores = await Store.find().populate("products");
       return stores;
     },
-
+    // get individual store by id (future feature)
+    getStore: async (parent, { id }) => {
+      return Store.findOne({ _id: id });
+    },
+    // get all an individual user's orders with populated products
     user: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate({
@@ -97,42 +109,17 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
+    // get all users and order products to check if they are stored in the db
     users: async () => {
       return User.find().populate({
         path: "orders.products",
         populate: "category",
       });
     },
-    admin: async (parent, args, context) => {
-      if (context.admin) {
-        return Admin.findOne({ _id: context.admin._id }).populate({
-          path: "orders.products",
-          populate: "category",
-        });
-      }
-      throw AuthenticationError;
-    },
-    admins: async () => {
-      return Admin.find().populate("store");
-    },
-    orders: async () => {
-      return Order.find().populate("products");
-    },
-
-    order: async (parent, { _id }, context) => {
-      if (context.user) {
-        const user = await User.findOne({ _id: context.user._id }).populate({
-          path: "orders.products",
-          populate: "category",
-        });
-        return user.orders.id(_id);
-      }
-      throw AuthenticationError;
-    },
   },
 
   Mutation: {
-
+    // add a user to the db and create a token for them
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
@@ -140,31 +127,13 @@ const resolvers = {
       console.log("user added");
       return { token, user };
     },
-    addAdmin: async (parent, args) => {
-      console.log(args.store);
-      const admin = await Admin.create(args);
-
-      const token = signToken(admin);
-
-      await Store.findByIdAndUpdate(args.store, {
-        $addToSet: { admin: admin._id },
-      });
-      console.log("tokens created");
-
-      console.log("admin added");
-      return { token, admin };
-    },
-
-    updateUser: async (parent, { username, email, password }) => {
-      const user = await User.update({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
-    },
+    // login a user and create a token for them
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
         throw AuthenticationError;
       }
+      // check if password is correct
       const correctPw = await user.isCorrectPassword(password);
       if (!correctPw) {
         throw AuthenticationError;
@@ -172,37 +141,9 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addProduct: async (
-      parent,
-      { name, description, price, category, store, stockQuantity, imageUrl },
-      context
-    ) => {
-      const newProduct = await Product.create({
-        name,
-        description,
-        price,
-        category,
-        store,
-        stockQuantity,
-        imageUrl,
-      });
-
-      await Category.findByIdAndUpdate(category, {
-        $addToSet: { products: newProduct },
-      });
-
-      await Store.findByIdAndUpdate(store, {
-        $addToSet: { products: newProduct },
-      });
-
-      return newProduct;
-    },
+    // add a store to the db and add the admin to the store (future feature)
     addStore: async (parent, args) => {
       const store = await Store.create(args);
-
-      console.log(args.admin);
-      console.log(store._id);
-
       await Store.findByIdAndUpdate(store._id, {
         $addToSet: { admin: args.admin },
       });
@@ -213,7 +154,7 @@ const resolvers = {
 
       return store;
     },
-
+    // update a product's stock quantity
     updateProduct: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
       return Product.findOneAndUpdate(
@@ -222,45 +163,15 @@ const resolvers = {
         { new: true }
       );
     },
-    removeProduct: async (parent, { _id }, context) => {
-      const product = await findOneAndDelete({ _id });
-    },
-    addCategory: async (parent, { name, description }) => {
-      return Category.create({ name, description });
-    },
-    updateCategory: async (parent, { _id, name }) => {
-      const decrement = Math.abs(quantity) * -1;
-      return Category.findOneAndUpdate(
-        { _id },
-        { $inc: { stockQuantity: decrement } },
-        { new: true }
-      );
-    },
-    removeCategory: async (parent, { _id }, context) => {
-      const category = await findOneAndDelete({ _id });
-    },
-
-    updateStore: async (parent, { _id, name }) => {
-      const decrement = Math.abs(quantity) * -1;
-      return Store.findOneAndUpdate(
-        { _id },
-        { $inc: { stockQuantity: decrement } },
-        { new: true }
-      );
-    },
-    removeStore: async (parent, { _id }, context) => {
-      const store = await findOneAndDelete({ _id });
-    },
+    // add an order to the db and add it to the user's orders
     addOrder: async (parent, { products }, context) => {
       if(context.user) {
         const order = await Order({ products }); 
-         
+         // update the user's orders by adding the order to the orders array
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
-
         console.log("order added");
-        console.log(order);
         return order;
       }
       throw AuthenticationError;

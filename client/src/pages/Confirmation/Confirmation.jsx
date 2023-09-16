@@ -1,11 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { QUERY_CHECKOUT } from "../../utils/queries";
-import { useMutation } from "@apollo/client";
-import { ADD_ORDER } from "../../utils/mutations";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
-import { idbPromise } from "../../utils/helpers";
+import {  idbPromise } from "../../utils/helpers";
 import {
   ADD_MULTIPLE_TO_CART,
   REMOVE_FROM_CART,
@@ -16,6 +14,11 @@ import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import "./Confirmation.css";
 import { Link } from "react-router-dom";
 import { FaAddressBook, FaCity, FaUser } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import Divider from "../../components/Divider/Divider";
+
+
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
@@ -32,8 +35,7 @@ const Confirmation = () => {
     address: "",
     _id: "shippingInfo",
   });
-
-  const form = useRef();
+  const [amount, convertItemCurrency] = useState(false);
 
   useEffect(() => {
     idbPromise("shipping", "delete", { _id: "shippingInfo" });
@@ -41,7 +43,6 @@ const Confirmation = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
@@ -59,12 +60,21 @@ const Confirmation = () => {
   }, [cart.length, dispatch]);
 
   function calculateTotal() {
+    if (amount === false) {
     let sum = 0;
     cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
-
     return sum.toFixed(2);
+  } else {
+    let sum = 0;
+    cart.forEach((item) => {
+      sum += item.convertedAmount * item.purchaseQuantity;
+
+    });
+    return sum.toFixed(2);
+  }
+    
   }
 
   function totalItems() {
@@ -75,17 +85,36 @@ const Confirmation = () => {
 
     return total;
   }
+  const convertPrices = () => {
+    if (amount === false) {
+      convertItemCurrency(true);
+    } else {
+      convertItemCurrency(false);
+    }
+  }
 
-  function submitCheckout(event) {
+ 
+
+  const currency = amount ? "PHP" : "USD";
+ 
+
+  const submitCheckout = async (event) => {
     event.preventDefault();
     const productIds = [];
+    const convertedAmounts = [];
+    await cart.forEach((item) => {
+      for (let i = 0; i < item.purchaseQuantity; i++) {
+        convertedAmounts.push(item.convertedAmount);
+      }
+    });
+    console.log(convertedAmounts);
 
     idbPromise("shipping", "put", {
       ...shippingInfo,
     });
 
     
-    cart.forEach((item) => {
+   await cart.forEach((item) => {
       idbPromise("cart", "put", { ...item});
       console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
@@ -94,8 +123,11 @@ const Confirmation = () => {
 
     });
     getCheckout({
-      variables: { products: productIds },
-    });
+      variables: { products: productIds, currency: currency, convertedAmounts: convertedAmounts }
+      
+    }); 
+    
+    
   }
 
   const removeFromCart = (item) => {
@@ -127,13 +159,16 @@ const Confirmation = () => {
       idbPromise("cart", "put", { ...item, purchaseQuantity: updatedQuantity });
     }
   };
-
+ 
   return (
     <div className="confirmation-page">
       <div className="confirmation">
         <div className="confirmation-items">
           <div className="order-items">
+            <div className="order-header">
             <h2>Order Confirmation</h2>
+            </div> 
+            <Divider iconClass={faCheckCircle} />
             <div className="confirmation-container">
               {cart.length ? (
                 <>
@@ -165,7 +200,11 @@ const Confirmation = () => {
                         />
                         <div>
                           <div className="price">
+                            {((amount )? (
+                              <p>₱{item.convertedAmount}</p>
+                            ) : (
                             <p>${item.price}</p>
+                            ) )}
                           </div>
                         </div>
                         <div className="remove-item">
@@ -181,17 +220,36 @@ const Confirmation = () => {
               ) : (
                 <h3>Nothing in your cart yet!</h3>
               )}
+                {cart.length ? (
 
               <div className="confirmation-total">
+              <button className="confirmation-btn" onClick={convertPrices}>
+                  {(amount) ? (
+                    <a>Convert to USD</a>
+                  ) : (
+                    <a>Convert to PHP</a>
+                  )}
+
+                  </button>
+                  {(amount) ? (
+                    <h3>Total: ₱{calculateTotal()}</h3>
+                  ) : (
                 <h3>Total: ${calculateTotal()}</h3>
+                  )}
                 <h3>Total Items: {totalItems()}</h3>
               </div>
+              ) : (
+                <div></div>
+              ) }
             </div>
           </div>
           <form onSubmit={submitCheckout}>
             <div className="confirm-info">
               <div className="confirm-info-container">
+                <div className="billing-header">
                 <h2>Billing Info</h2>
+                </div>
+                <Divider iconClass={faBook} />
                 <div className="co-logo">
                   <FaUser className={FaUser} />
                   <label className="name">Name</label>
@@ -277,13 +335,18 @@ const Confirmation = () => {
               </div>
             </div>
 
-            {Auth.loggedIn() ? (
+            {(Auth.loggedIn()) ? (
+              cart.length ? (
               <button className="confirmation-btn" type="submit">
                 Confirm
               </button>
+              ) : (
+                <span>(add items to cart to check out)</span>
+              )
             ) : (
               <span>(log in to check out)</span>
-            )}
+            ) 
+            }
           </form>
         </div>
       </div>

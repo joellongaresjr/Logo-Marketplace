@@ -8,6 +8,7 @@ import "./style.css";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { idbPromise } from "../../utils/helpers";
+import { useEffect } from "react";
 
 const Cart = () => {
 
@@ -19,6 +20,18 @@ const Cart = () => {
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
+
+  useEffect(() => {
+    async function getCart() {
+      const idbcart = await idbPromise("cart", "get");
+      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...idbcart] });
+
+    }
+    if (!cart.length) {
+      getCart();
+    }
+  }, [cart.length, dispatch]);
+
   function submitCheckout() {
     const productIds = [];
   
@@ -44,13 +57,15 @@ const Cart = () => {
   if (window.location.pathname !== "/confirmation") {
     return (
       <div className="cart">
+        <div className="cart-header">
         <div className="close " onClick={toggleCart}>
           <FaTimes style={{ cursor: "pointer" }} />
         </div>
-        <div>
+        <div className="cart-title">
           <h2>Your Cart</h2>
         </div>
-
+        </div>
+        <div className="cart-items-wrapper">
         <div className="cart-items">
           {cart.length ? (
             <>
@@ -58,30 +73,31 @@ const Cart = () => {
                 <CartItem key={item._id} item={item} />
               ))}
               {Auth.loggedIn() ? (
-                <div>
+                <div className="centered-checkout">
                   <Link
                     to="/confirmation"
                     type="button"
                     onClick={submitCheckout}
                   >
-                    Checkout
+                    <p>Checkout</p>
                   </Link>
                 </div>
               ) : (
-                <div>
-                  <Link to="/login" className="centered-text">
-                    LogIn to Checkout
+                <div className="centered-checkout">
+                  <Link to="/login">
+                    <p>LogIn to Checkout</p>
                   </Link>
                 </div>
               )}
             </>
           ) : (
-            <div>
-              <Link to="/confirmation" className="centered-text">
-                Proceed to Checkout
+            <div className="centered-checkout">
+              <Link to="/confirmation" >
+               <p> Checkout</p>
               </Link>
             </div>
           )}
+        </div>
         </div>
       </div>
     );

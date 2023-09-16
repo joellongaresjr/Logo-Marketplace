@@ -64,12 +64,13 @@ export const QUERY_PRODUCTS_PAGINATED = gql`
 `;
 
 export const QUERY_CHECKOUT = gql`
-  query getCheckout($products: [ID]!) {
-    checkout(products: $products) {
+  query getCheckout($products: [ID]!, $currency: String!, $convertedAmounts: [Float]!) {
+    checkout(products: $products, currency: $currency, convertedAmounts: $convertedAmounts) {
       session
     }
   }
 `;
+
 
 export const QUERY_CATEGORIES = gql`
   query getCategories {

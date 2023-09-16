@@ -40,11 +40,14 @@ const CartItem = ({ item }) => {
   return (
     <div className="flex-row">
       <div>
-        <div>
-          {item.name}, ${item.price}
+        <div className="cart-item-title">
+          <p>{item.name}</p>
+          <p>${item.price}</p>
         </div>
         <div className="input-container">
+          <div>
           <p>Quantity:</p>
+          </div>
           <input
             className="form-input"
             type="number"

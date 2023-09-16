@@ -157,17 +157,19 @@ const Header = () => {
           </Link>
         </li>
 
-        {window.location.pathname !== "/confirmation" ? (
+        {window.location.pathname !== "/confirmation" && window.location.pathname !== "/success"  ? (
           <li
             data-step="6"
             data-intro="Click here to view your cart items and proceed to checkout!"
           >
-            <Cart />
+           <Cart />
           </li>
+          
         ) : (
           <></>
         )}
       </ul>
+
       <div className="burger" onClick={burgerToggle}>
         {burgerClick ? (
           <FaTimes size={25} style={{ color: "#3a2e39" }} />
