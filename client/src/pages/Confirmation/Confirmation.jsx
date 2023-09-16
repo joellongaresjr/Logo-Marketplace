@@ -43,7 +43,6 @@ const Confirmation = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
@@ -166,7 +165,9 @@ const Confirmation = () => {
       <div className="confirmation">
         <div className="confirmation-items">
           <div className="order-items">
+            <div className="order-header">
             <h2>Order Confirmation</h2>
+            </div> 
             <Divider iconClass={faCheckCircle} />
             <div className="confirmation-container">
               {cart.length ? (
@@ -245,7 +246,9 @@ const Confirmation = () => {
           <form onSubmit={submitCheckout}>
             <div className="confirm-info">
               <div className="confirm-info-container">
+                <div className="billing-header">
                 <h2>Billing Info</h2>
+                </div>
                 <Divider iconClass={faBook} />
                 <div className="co-logo">
                   <FaUser className={FaUser} />

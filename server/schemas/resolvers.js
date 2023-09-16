@@ -48,37 +48,36 @@ const resolvers = {
 
       const { products } = await order.populate("products");
 
-      const currency = args.currency.toUpperCase();
+      const currency = args.currency;
 
       const convertedAmounts = args.convertedAmounts;
-      console.log(convertedAmounts);
-
-      console.log(currency);
-      console.log(products.length);
-
+  
       const line_items = [];
       // loop over products and create line items for stripe session
       for (let i = 0; i < products.length; i++) {
         if (currency !== "USD") {
           products[i].price = convertedAmounts[i];
-        } 
-        console.log(products[i].price);
+        }
+
+        
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
         });
-        // create price for stripe session using the product id and price, with listed currency
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
-          currency: currency,
-        });
+
+
+          const price = await stripe.prices.create({
+            product: product.id,
+            unit_amount:(products[i].price * 100.00).toFixed(0),
+            currency: currency,
+          });
 
         line_items.push({
           price: price.id,
           quantity: 1,
         });
+
       }
       // create checkout session
       const session = await stripe.checkout.sessions.create({
@@ -88,6 +87,7 @@ const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
+
       return { session: session.id };
     },
     // get all stores (future feature)

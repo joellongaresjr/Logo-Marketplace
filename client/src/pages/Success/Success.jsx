@@ -14,18 +14,8 @@ import "./SuccessStyles.css";
 
 const Success = () => {
   const [addOrder] = useMutation(ADD_ORDER);
-  const token = localStorage.getItem("id_token");
-  const decodedToken = Auth.getProfile(token);
-  const globalCart = useSelector((state) => state.cart);
-  const storedCart = idbPromise("cart", "get");
-  const [formComplete, setFormComplete] = useState(false);
-  const [formState, setFormState] = useState({
-    user_name: "",
-    user_email: "",
-    message: "",
-  });
+  const [emailSent, setEmailSent] = useState(false);
 
-  console.log(decodedToken);
 
   const { data } = useQuery(QUERY_USER);
   useEffect(() => {
@@ -58,94 +48,55 @@ const Success = () => {
       products.map((item) => {
         idbPromise("cart", "delete", item);
       });
-      const stringEmail = JSON.stringify(decodedToken.data.email);
-      const stringName = JSON.stringify(decodedToken.data.username);
-
-
-      console.log(stringEmail);
-      console.log(stringName);
-
-
-      setFormState({
-        ...formState,
-        user_email: stringEmail,
-        user_name: stringName
-      });
 
     }
     getCart();
   }, []);
 
-  console.log("this is the stored cart", storedCart);
-  console.log("this is the global", globalCart);
-  console.log("this is the local", cart);
 
-  const createMessage = () => {
-    const cartItems = cart;
-    const cartInfo = [];
-    cartItems.forEach((item, index) => {
-      cartInfo.push(
-        `${index + 1}. ${item.name} - Price: $${item.price}, Quantity: ${item.purchaseQuantity
-        }\n`
-      );
-    });
-    const message = `
-    Thank you for your purchase!
-
-    ${cartInfo}
-
-    If you have any questions or concerns, please feel free to contact us.`;
-
-    setFormState({ ...formState, message: message });
-    return message;
-   };
-
-   if (data) {
-    console.log("t", data.user.email);
+  useEffect(() => {
+    // Check if the email has not been sent and the user data is available
+    if (!emailSent && data && data.user) {
+      sendEmail();
+      setEmailSent(true); // Set the emailSent state to true after sending the email
     }
+  }, [data, emailSent]);
+
   const sendEmail = async () => {
-    const shipping = await idbPromise("shipping", "get");
+    const shipping = await idbPromise('shipping', 'get');
     const email = data.user.email;
-  
+
     console.log(shipping[0]);
 
     if (shipping) {
-    let full_name = shipping[0].full_name;
-    let city = shipping[0].city;
-    let address = shipping[0].address;
-    let state = shipping[0].state;
-    let zip = shipping[0].zip;
-    console.log(full_name);
-    const templateParams = {
-      full_name: full_name,
-      email: email,
-      city: city,
-      address: address,
-      state: state,
-      zip: zip,
-    };
-    emailjs
-      .send(
-        // "service_2znmc3b",
-        "template_lu6xg9c",
-        templateParams,
-        "SSUEEoQVq8ReyXV1r"
-      )
-      .then(
-        function (response) {
-          console.log("SUCCESS!", response.status, response.text);
-        },
-        function (error) {
-          console.log("FAILED...", error);
-        }
-      );
+      let full_name = shipping[0].full_name;
+      let city = shipping[0].city;
+      let address = shipping[0].address;
+      let state = shipping[0].state;
+      let zip = shipping[0].zip;
+      console.log(full_name);
+      const templateParams = {
+        full_name: full_name,
+        email: email,
+        city: city,
+        address: address,
+        state: state,
+        zip: zip,
+      };
+      emailjs
+        .send('service_funkr13', 'template_vp05pxq', templateParams, 'H0FuvJUtxgbWKiidH')
+        .then(
+          function (response) {
+            console.log('SUCCESS!', response.status, response.text);
+          },
+          function (error) {
+            console.log('FAILED...', error);
+          }
+        );
     } else {
-      return
+      return;
     }
   };
-
-  window.onload = sendEmail();
-
   
 
   return (
