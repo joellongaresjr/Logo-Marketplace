@@ -93,7 +93,7 @@ const Success = () => {
         .send('service_funkr13', 
         'template_vp05pxq', 
         templateParams, 
-        // 'H0FuvJUtxgbWKiidH'
+        'H0FuvJUtxgbWKiidH'
         )
         .then(
           function (response) {

@@ -4,6 +4,7 @@ import "./OrderHistory.css";
 import { FaAngleDown, FaArrowDown } from "react-icons/fa";
 import { convertToPHP } from "../../utils/helpers";
 import { useEffect, useState } from "react";
+import OrderDetails from "../../components/OrderDetails/OrderDetails";
 import "animate.css";
 
 const OrderHistory = () => {
@@ -74,6 +75,7 @@ const OrderHistory = () => {
                     </div>
                     <div className="order-total">
                       {/* <h3>Order Total: </h3> */}
+
                     </div>
                     <div className="product-details">
                       <div className="product-details-grid">
