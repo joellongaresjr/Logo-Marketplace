@@ -6,6 +6,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS_PAGINATED } from "./../../utils/queries";
 import introJs from "intro.js";
 import "intro.js/introjs.css";
+import "animate.css"
 
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(1);

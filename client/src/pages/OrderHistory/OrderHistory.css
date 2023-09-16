@@ -1,4 +1,8 @@
-
+.wait-screen{
+    display: flex;
+    justify-content: center;
+    animation: pulse 1s infinite;
+}
 .order-history {
     display: flex;
     justify-content: center;

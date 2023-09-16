@@ -141,7 +141,8 @@ const Header = () => {
             </li>
           </>
         )}
-        <li>
+        {(Auth.loggedIn()) ? (
+          <li>
           <Link
             to="/order-history"
             className={pathname === "/order-history" ? "current-page" : "nav-item"}
@@ -150,8 +151,12 @@ const Header = () => {
           >
             Orders
           </Link>
-        </li>
+          </li>
+        ) : (
+          <></>
+        )
 
+        }
         {window.location.pathname !== "/confirmation" && window.location.pathname !== "/success"  ? (
           <li
             data-step="6"

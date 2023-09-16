@@ -164,13 +164,19 @@ const resolvers = {
       );
     },
     // add an order to the db and add it to the user's orders
-    addOrder: async (parent, { products }, context) => {
+    addOrder: async (parent, { products, currency }, context) => {
       if(context.user) {
-        const order = await Order({ products }); 
+
+        const order = await Order({ products, currency }); 
+        console.log(order);
          // update the user's orders by adding the order to the orders array
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
+        await Order.findByIdAndUpdate(order._id, {
+          $set: { currency: currency },
+        });
+
         console.log("order added");
         return order;
       }

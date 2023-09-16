@@ -1,3 +1,6 @@
+.nav-title{
+  animation: slideInLeft 1s;
+}
 .item-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

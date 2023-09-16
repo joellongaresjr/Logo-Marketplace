@@ -4,6 +4,10 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  currency: {
+    type: String,
+    default: "USD",
+  },
   products: [
     {
       type: Schema.Types.ObjectId,

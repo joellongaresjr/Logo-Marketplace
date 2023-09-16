@@ -22,9 +22,10 @@ const Success = () => {
     async function saveOrder() {
       const cart = await idbPromise("cart", "get");
       const products = cart.map((item) => item._id);
-      console.log(products);
+      console.log(cart);
       if (products.length) {
-        const { data } = await addOrder({ variables: { products } });
+        console.log(products.currency);
+        const { data } = await addOrder({ variables: { products, currency: cart[0].currency } });
         const productData = data.addOrder.products;
         console.log(productData);
       }
@@ -54,11 +55,16 @@ const Success = () => {
   }, []);
 
 
+
+
+
+
+
   useEffect(() => {
     // Check if the email has not been sent and the user data is available
     if (!emailSent && data && data.user) {
       sendEmail();
-      setEmailSent(true); // Set the emailSent state to true after sending the email
+      setEmailSent(true); 
     }
   }, [data, emailSent]);
 
@@ -84,7 +90,11 @@ const Success = () => {
         zip: zip,
       };
       emailjs
-        .send('service_funkr13', 'template_vp05pxq', templateParams, 'H0FuvJUtxgbWKiidH')
+        .send('service_funkr13', 
+        'template_vp05pxq', 
+        templateParams, 
+        // 'H0FuvJUtxgbWKiidH'
+        )
         .then(
           function (response) {
             console.log('SUCCESS!', response.status, response.text);
@@ -107,13 +117,19 @@ const Success = () => {
           <h3>You will receive an email confirmation shortly.</h3>
         </div>
         <div className="summary-grid">
-          <h3> Order Summary:</h3>
+          {(cart.length === 0) ? (
+            <></> ) : (
+              <h3> Order Summary:</h3>
+          )}
           {cart.map((product) => (
             <div className="ordered-items" key={product._id}>
               <div>
                 <p>{product.name}</p>
                 <img src={product.imgUrl} alt="deez" />
-                <p>Price: ${product.price}</p>
+                {product.currency === "USD" ? (
+                   <p>Price: ${product.price}</p> ) : (
+                    <p>Price: ₱{product.convertedAmount}</p>
+                )}
                 <p>Quantity: {product.purchaseQuantity}</p>
                 <Link to={`/products/${product._id}`}>
                   <button className="reorder-btn" type="submit">
