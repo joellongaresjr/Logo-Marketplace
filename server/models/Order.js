@@ -8,6 +8,12 @@ const orderSchema = new Schema({
     type: String,
     default: "USD",
   },
+  purchaseQuantities: [
+    {
+      type: Number,
+      default: [1,2,3],
+    },
+  ],
   products: [
     {
       type: Schema.Types.ObjectId,

@@ -34,14 +34,13 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_ORDER = gql`
-  mutation addOrder($products: [ID]!, $currency: String!) {
-    addOrder(products: $products, currency: $currency) {
+  mutation addOrder($products: [ID]!, $currency: String!, $purchaseQuantities: [Int]!) {
+    addOrder(products: $products, currency: $currency, purchaseQuantities: $purchaseQuantities) {
     purchaseDate
     products {
       name
       price
       description
-      purchaseQuantity
       _id
       imageUrl
       category {

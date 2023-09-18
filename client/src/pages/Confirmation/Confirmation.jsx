@@ -131,6 +131,11 @@ const Confirmation = () => {
     
   }
   console.log(cart)
+  useEffect(() => {
+    const productQuantities = cart.map((item) => item.purchaseQuantity);
+    console.log(productQuantities);
+  },[]);
+
   const removeFromCart = (item) => {
     dispatch({
       type: REMOVE_FROM_CART,

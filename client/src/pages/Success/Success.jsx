@@ -21,13 +21,19 @@ const Success = () => {
   useEffect(() => {
     async function saveOrder() {
       const cart = await idbPromise("cart", "get");
-      const products = cart.map((item) => item._id);
+      const products = await cart.map((item) => item._id);
+      const purchaseQuantities = await cart.map((item) => item.purchaseQuantity);
+      console.log(purchaseQuantities);
+      console.log(products);
+      console.log(cart[0].currency);
       console.log(cart);
       if (products.length) {
         console.log(products.currency);
-        const { data } = await addOrder({ variables: { products, currency: cart[0].currency } });
+        const { data } = await addOrder({ variables: { products, currency: cart[0].currency, purchaseQuantities } });
         const productData = data.addOrder.products;
         console.log(productData);
+        console.log(addOrder)
+
       }
     }
     saveOrder();
@@ -91,7 +97,7 @@ const Success = () => {
       };
       emailjs
         .send('service_funkr13', 
-        'template_vp05pxq', 
+        // 'template_vp05pxq', 
         templateParams, 
         'H0FuvJUtxgbWKiidH'
         )

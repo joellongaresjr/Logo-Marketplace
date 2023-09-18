@@ -42,7 +42,6 @@ const resolvers = {
     // checkout that links the user to stripe checkout and creates an order to render on that page 
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      console.log("here");
 
       const order = new Order({ products: args.products });
 
@@ -164,24 +163,40 @@ const resolvers = {
       );
     },
     // add an order to the db and add it to the user's orders
-    addOrder: async (parent, { products, currency }, context) => {
+    addOrder: async (parent, { products, currency, purchaseQuantities }, context) => {
       if(context.user) {
+        try {
+          console.log("here check");
 
-        const order = await Order({ products, currency }); 
+        const order = await Order({ products, currency, purchaseQuantities}); 
         console.log(order);
          // update the user's orders by adding the order to the orders array
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
         await Order.findByIdAndUpdate(order._id, {
-          $set: { currency: currency },
+          $set: { currency: currency, purchaseQuantities: purchaseQuantities },
         });
 
         console.log("order added");
         return order;
+        } catch (err) {
+          console.log(err);
+        }
       }
       throw AuthenticationError;
     },
+    // add example order with args being products currency and purchaseQuantities
+    addExampleOrder: async (parent, { products, currency, purchaseQuantities }) => {
+      try {
+        const order = await Order({ products, currency, purchaseQuantities}); 
+        console.log(order);
+        return order;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
   }
 }
 

@@ -21,6 +21,7 @@ const typeDefs = `
     purchaseDate: String
     currency: String
     products: [Product]
+    purchaseQuantities: [Int]
   }
 
   type Product {
@@ -95,7 +96,8 @@ const typeDefs = `
     login(email: String!, password: String!): Auth
     updateProduct(_id: ID!, quantity: Int!): Product
     addStore(name: String!, location: String!, admin: ID! ): Store
-    addOrder(products: [ID]!, currency: String!): Order
+    addOrder(products: [ID]!, currency: String!, purchaseQuantities: [Int]): Order
+    addExampleOrder(products: [ID]!, currency: String!, purchaseQuantities: [Int]): Order
   }
     
   `;
