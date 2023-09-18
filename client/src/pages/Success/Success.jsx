@@ -97,7 +97,7 @@ const Success = () => {
       };
       emailjs
         .send('service_funkr13', 
-        // 'template_vp05pxq', 
+        'template_vp05pxq', 
         templateParams, 
         'H0FuvJUtxgbWKiidH'
         )
