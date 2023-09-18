@@ -19,7 +19,9 @@ const typeDefs = `
   type Order {
     _id: ID!
     purchaseDate: String
+    currency: String
     products: [Product]
+    purchaseQuantities: [Int]
   }
 
   type Product {
@@ -69,6 +71,10 @@ const typeDefs = `
     offset: Int!
   }
 
+  input Currency {
+    currency: String!
+  }
+
 
   type Query {
     user: User
@@ -90,7 +96,8 @@ const typeDefs = `
     login(email: String!, password: String!): Auth
     updateProduct(_id: ID!, quantity: Int!): Product
     addStore(name: String!, location: String!, admin: ID! ): Store
-    addOrder(products: [ID]!): Order
+    addOrder(products: [ID]!, currency: String!, purchaseQuantities: [Int]): Order
+    addExampleOrder(products: [ID]!, currency: String!, purchaseQuantities: [Int]): Order
   }
     
   `;

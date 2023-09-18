@@ -19,7 +19,6 @@ import { faBook, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Divider from "../../components/Divider/Divider";
 
 
-
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Confirmation = () => {
@@ -49,10 +48,12 @@ const Confirmation = () => {
     }
   }, [data]);
 
+
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise("cart", "get");
       dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+      console.log(cart[0].price);
     }
     if (!cart.length) {
       getCart();
@@ -115,7 +116,7 @@ const Confirmation = () => {
 
     
    await cart.forEach((item) => {
-      idbPromise("cart", "put", { ...item});
+      idbPromise("cart", "put", { ...item, currency: currency});
       console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
@@ -126,9 +127,14 @@ const Confirmation = () => {
       variables: { products: productIds, currency: currency, convertedAmounts: convertedAmounts }
       
     }); 
-    
+   
     
   }
+  console.log(cart)
+  useEffect(() => {
+    const productQuantities = cart.map((item) => item.purchaseQuantity);
+    console.log(productQuantities);
+  },[]);
 
   const removeFromCart = (item) => {
     dispatch({
