@@ -73,7 +73,7 @@ const ItemContainer = (props) => {
         setConvertedAmount(newAmountFormatted);
       })
       .catch((error) => {
-        console.error("Error converting to PHP:", error);
+        console.log("Error converting to PHP:", error);
       });
   }, [props.price]);
 
