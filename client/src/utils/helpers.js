@@ -11,7 +11,7 @@ export async function convertToPHP(amount) {
           amount: amount,
         },
         headers: {
-          "X-Api-Key": "fFz5kx1CaoIgXfBX6l85aw==LnzEYG1P7rwZzt5g"
+          "X-Api-Key": process.env.CONVERTER_API_KEY, 
         },
       }
     );

@@ -17,7 +17,7 @@ const productSeeds = async (amount) => {
         category:
           allCategories[Math.floor(Math.random() * allCategories.length)],
         store: allStores[Math.floor(Math.random() * allStores.length)],
-        featured: Math.random() < 0.75,
+        featured: Math.random() < 0.25,
       };
       products.push(product);
     }

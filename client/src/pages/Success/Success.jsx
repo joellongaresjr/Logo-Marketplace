@@ -94,10 +94,10 @@ const Success = () => {
       };
       emailjs
         .send(
-          "service_funkr13",
-          "template_vp05pxq",
+          "service_k0ks3ut",
+          "template_6ckq6mq",
           templateParams,
-          "H0FuvJUtxgbWKiidH"
+          "N3mHfVNf18GcN3ghP"
         )
         .then(
           function (response) {
