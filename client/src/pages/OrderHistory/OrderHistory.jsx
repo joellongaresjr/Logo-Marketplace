@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { useEffect } from "react";
 import { QUERY_USER } from "../../utils/queries";
 import "./OrderHistory.css";
 import { FaAngleDown, FaArrowDown } from "react-icons/fa";
@@ -7,23 +8,22 @@ import { Link } from "react-router-dom";
 import "animate.css";
 
 const OrderHistory = () => {
-
-  const { data, loading } = useQuery(QUERY_USER);
-  let user;
-
-
-
+  const { data, loading, refetch } = useQuery(QUERY_USER);
+  
+  useEffect(() => {
+    refetch();
+  }, [])
+  
   if (loading) {
     return <h1 className="wait-screen">Loading...</h1>;
   }
-
+  
+  let user;
   if (data) {
     user = data.user;
     console.log(user);
     console.log(user.orders);
-    
   }
-
 
   return (
     <>
@@ -52,29 +52,30 @@ const OrderHistory = () => {
                       <h5>Order Details</h5>
                       <FaAngleDown />
                     </div>
-                    <div className="order-total">
-                    </div>
+                    <div className="order-total"></div>
                     <div className="product-details">
                       <div className="product-details-grid">
                         {order.products.map(
-
                           ({ _id, imageUrl, name, price }, index) => (
                             <div key={index} className="order-products-item">
                               <div className="order-product-image">
                                 <Link to={`/products/${_id}`}>
-                                <img src={imageUrl} alt="product" />
+                                  <img src={imageUrl} alt="product" />
                                 </Link>
                                 <div className="order-product-name">
-                                <p>{name} x {order.purchaseQuantities[index]}
-                                </p>
+                                  <p>
+                                    {name} x {order.purchaseQuantities[index]}
+                                  </p>
                                 </div>
                               </div>
-                                <OrderDetails
-                                  price={price}
-                                  currency={order.currency}
-                                  purchaseQuantities={order.purchaseQuantities[index]}
-                                  ></OrderDetails>
-                              </div>
+                              <OrderDetails
+                                price={price}
+                                currency={order.currency}
+                                purchaseQuantities={
+                                  order.purchaseQuantities[index]
+                                }
+                              ></OrderDetails>
+                            </div>
                           )
                         )}
                       </div>
