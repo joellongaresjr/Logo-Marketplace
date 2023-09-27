@@ -1,11 +1,13 @@
 import "./HeaderStyles.css";
 import Auth from "../../utils/auth";
 import { useEffect, useState } from "react";
+import {useDispatch, useSelector} from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { QUERY_PRODUCTS_FUZZY } from "../../utils/queries";
+import { TOGGLE_CART } from "../../utils/actions";
 import logo from "../../assets/images/logo.svg";
 import Cart from "../Cart";
 import Category from "../Category/Category";
@@ -15,12 +17,17 @@ import "intro.js/introjs.css";
 const Header = () => {
   const [burgerClick, setBurgerClick] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const cartOpen = useSelector((state) => state.cartOpen);
   const [fuzzyMatch, setFuzzyMatch] = useState([]);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const burgerToggle = () => {
     setBurgerClick(!burgerClick);
+    if (cartOpen) {
+      dispatch({ type: TOGGLE_CART });
+    }
   };
 
   useEffect(() => {

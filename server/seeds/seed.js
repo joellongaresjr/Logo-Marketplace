@@ -7,9 +7,9 @@ const productSeeds = require("./productSeeds");
 const { storeSeeds, stores } = require("./storeSeeds");
 
 //Change these values to change the amount of data seeded
-const productAmount = 200;
+const productAmount = 5000;
 const categoryAmount = 10;
-const userAmount = 2;
+const userAmount = 10;
 const dbCollections = [Category, Store, User, Product, Admin, Order];
 
 const resetCollections = async (collections) => {

@@ -17,6 +17,7 @@ const initialState = {
   cart: [],
   cartOpen: false,
   categories: [],
+  burgerClick: false,
   currentCategory: "",
   stores: [],
   user: [],
